@@ -4,26 +4,32 @@ import logo from './assets/logoRemotab.png';
 import theme from "./styles/theme";
 import { makeStyles } from "@material-ui/core"
 import { ThemeProvider } from '@material-ui/core/styles';
-import { ToggleButton  } from 'ui-neumorphism';
+import { ToggleButton } from 'ui-neumorphism';
+import 'ui-neumorphism/dist/index.css'
+
 import HomePage from './components/HomePage';
+import Form from './components/Form'
+import { light } from '@material-ui/core/styles/createPalette';
 
 const useStyles = makeStyles(theme => ({
  
   myBackground: {
-   // background: "#F7F7FF",
-    height:"100%",
-    flex: " 1 1 auto"
+    background: "#F7F7FF",
+    minHeight: "100vh"
   },
-  neumorphismNameAdmin: {
+  toggleButtonNameAdmin: {
     position: "absolute",
     top: "20px",
-    right: "100px",
-    width:"200px",
-    borderRadius: "47px",
-    boxShadow: "inset 14px 14px 40px #0A2463 , inset -14px -14px 40px #F7F7FF",
+    right: "80px",
+    width: "150px"
   },
   logo: {
-    width: "200px",
+    width: "250px",
+  },
+  myNav: {
+    display: "flex",
+    justifyContent: "center",
+    //marginBottom: "200px"
   }
 }))
 
@@ -33,17 +39,17 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.myBackground}>
-        <div style={{display: "flex", justifyContent:"center"}}>
+        <div className={classes.myNav}>
           <img src={logo} alt="logo" className={classes.logo}/>
           <ToggleButton
-            value={1}
-            color='var(--primary)'
-
+            //color="#0A2463 "
+            bordered={true}
+            className={classes.toggleButtonNameAdmin}
           >
             Nom admin
           </ToggleButton>
         </div>
-        <HomePage/>
+        <Form />
       </div>
     </ThemeProvider>);
 }
