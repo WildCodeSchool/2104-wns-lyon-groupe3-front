@@ -4,12 +4,14 @@ import logo from './assets/logoRemotab.png';
 import theme from "./styles/theme";
 import { makeStyles } from "@material-ui/core"
 import { ThemeProvider } from '@material-ui/core/styles';
-import { ToggleButton } from 'ui-neumorphism';
+import {  ToggleButton } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css'
 
 import HomePage from './components/HomePage';
 import Form from './components/Form'
 import { light } from '@material-ui/core/styles/createPalette';
+//import {  BrowserRouter as Router, Route,Switch } from 'react-router-dom';
+import StudentPage from './pages/StudentForm';
 
 const useStyles = makeStyles(theme => ({
  
@@ -38,19 +40,26 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.myBackground}>
-        <div className={classes.myNav}>
-          <img src={logo} alt="logo" className={classes.logo}/>
-          <ToggleButton
-            //color="#0A2463 "
-            bordered={true}
-            className={classes.toggleButtonNameAdmin}
-          >
-            Nom admin
-          </ToggleButton>
+      {/* <Router> */}
+        <div className={classes.myBackground}>
+          <div className={classes.myNav}>
+            <img src={logo} alt="logo" className={classes.logo}/>
+            <ToggleButton
+              //color="#0A2463 "
+              bordered={true}
+              className={classes.toggleButtonNameAdmin}
+            >
+              Nom admin
+            </ToggleButton>
+          </div>
+          <StudentPage />
         </div>
-        <Form />
-      </div>
+        {/* <Switch>
+         <Route path="/studentForm" component={StudentPage}/>
+        </Switch> */}
+        
+{/*        
+      </Router> */}
     </ThemeProvider>);
 }
 
