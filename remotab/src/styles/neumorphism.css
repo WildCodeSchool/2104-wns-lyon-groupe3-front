@@ -1,3 +1,11 @@
-.prof-cards{
-    display: inline-flex;
+.toggleButtonNameAdmin {
+    position: absolute;
+    top :20px;
+    right: 80px;
+    width: 150px;
+    height: 50px;
+    border-radius: 8px;
+    border-color: transparent;
+    background: #F7F7FF;
+    box-shadow: inset 8px 8px 8px #c3c3c9, inset -8px -8px 8px #ffffff;
 }

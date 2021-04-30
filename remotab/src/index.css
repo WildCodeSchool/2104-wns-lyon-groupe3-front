@@ -5,9 +5,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  min-height: 100vh;
+  background-color: #F7F7FF;
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Our fonts
+font-family: 'Alef', sans-serif;
+font-family: 'Cabin', sans-serif;
+font-family: 'Source Sans Pro', sans-serif; */

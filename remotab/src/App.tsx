@@ -6,6 +6,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import ProfessorForm from './components/ProfessorForm';
 import HomePage from './components/HomePage';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { Palette } from '@material-ui/icons';
+
 
 function App(){
   return (
@@ -15,10 +18,11 @@ function App(){
         <Route exact path='/'>
             <HomePage />
           </Route>   
-          <Route path='/professorform' component={ProfessorForm} />
+          <Route path='/professorform' component={ProfessorForm}/>
       </Switch>
       </Router>
-    </ThemeProvider>);
+    </ThemeProvider>
+    );
 }
 
 export default App;
