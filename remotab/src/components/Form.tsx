@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from "@material-ui/core"
-import { Body2, Button, Card, CardAction, CardContent, Fab, H5, ToggleButton} from 'ui-neumorphism'
+import { Badge, Body2, Button, Card, CardAction, CardContent, Fab, H5, ToggleButton} from 'ui-neumorphism'
 import 'ui-neumorphism/dist/index.css'
 
 const useStyles = makeStyles(theme => ({
@@ -44,18 +44,22 @@ const useStyles = makeStyles(theme => ({
         justifyContent: "center"
     },
     myH5Principal: {
-        color: theme.palette.primary.dark,
-        //marginBottom: "10px"
+        color: theme.palette.primary.light,
+        fontSize: "25px"
     },
     myBody2Principal: {
-        color: theme.palette.primary.light,
-        fontSize: "20px",
+        color: theme.palette.primary.dark,
+        fontSize: "18px",
         textAlign: "center"
     },
     myButtonPrincipal: {
-        color: theme.palette.primary.main,
-        background: theme.palette.primary.light,
-        width: "100px"
+        color: theme.palette.primary.light,
+        background: theme.palette.primary.main,
+        width: "150px",
+        height: "60px"
+    },
+    myBadgePrincipal: {
+        color: theme.palette.secondary.light
     }
   }))
   
@@ -113,10 +117,22 @@ function FormView(){
                 </CardAction>
               </Card>
               <Card className={classes.myCardPrincipal}>
-                <CardContent className={classes.myCardContentPrincipal}>
-                    <H5 className={classes.myH5Principal}>
-                        GESTION DES MESSAGES
-                    </H5>
+                  <CardContent className={classes.myCardContentPrincipal}>
+                      <Badge
+                          bgColor='var(--error)'
+                          color='var(--white)'
+                          content={0}
+                          bordered
+                          overlap
+                          borderColor='var(--error)'
+                          
+                      //    className={classes.myBadgePrincipal}
+                      >
+                        <H5 className={classes.myH5Principal}>
+                            GESTION DES MESSAGES
+                        </H5>                         
+                      </Badge>
+
                     <Body2 className={classes.myBody2Principal}>
                         Communication par message avec l'ensemble de la vie social de l'école, ainsi que des professeurs
                     </Body2>

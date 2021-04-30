@@ -4,12 +4,12 @@ import logo from './assets/logoRemotab.png';
 import theme from "./styles/theme";
 import { makeStyles } from "@material-ui/core"
 import { ThemeProvider } from '@material-ui/core/styles';
-import {  ToggleButton } from 'ui-neumorphism';
+import { ToggleButton } from 'ui-neumorphism';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import 'ui-neumorphism/dist/index.css'
 
-import HomePage from './components/HomePage';
 import Form from './components/Form'
-import { light } from '@material-ui/core/styles/createPalette';
+import './styles/neumorphism.css'
 //import {  BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import StudentPage from './pages/StudentForm';
 
@@ -32,6 +32,24 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     //marginBottom: "200px"
+  },
+  exitButton: {
+    fontSize: "30px",
+    color: theme.palette.secondary.light
+  },
+  myDivExitButton: {
+    top: "20px",
+    left: "80px",
+    height: "50px",
+    width: "160px",
+    display: "flex",
+    position: "absolute",
+    justifyContent: "space-evenly",
+    alignItems: "center"
+  },
+  mySpan: {
+    fontStyle: "italic",
+    color: "#0A2463"
   }
 }))
 
@@ -41,19 +59,27 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* <Router> */}
-        <div className={classes.myBackground}>
-          <div className={classes.myNav}>
-            <img src={logo} alt="logo" className={classes.logo}/>
-            <ToggleButton
-              //color="#0A2463 "
-              bordered={true}
-              className={classes.toggleButtonNameAdmin}
-            >
-              Nom admin
-            </ToggleButton>
+      <div className={classes.myBackground}>
+        <div className={classes.myNav}>
+          <div className={classes.myDivExitButton}>
+            <span className={classes.mySpan}>Se déconnecter</span>
+            <ExitToAppIcon  className={classes.exitButton}/>
           </div>
-          <StudentPage />
+            
+          <img src={logo} alt="logo" className={classes.logo}/>
+          <button
+            //color="#0A2463 "
+            //bordered={true}
+            className="toggleButtonNameAdmin"
+          >
+          <span className={classes.mySpan}>Nom admin</span>
+          </button>
+        
         </div>
+        <Form />
+      </div>
+
+
         {/* <Switch>
          <Route path="/studentForm" component={StudentPage}/>
         </Switch> */}
