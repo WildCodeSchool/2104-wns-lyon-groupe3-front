@@ -22,7 +22,9 @@
     "jsx": "react-jsx",
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "downlevelIteration": true,   
   },
   "include": [
     "src"
