@@ -23,10 +23,38 @@
 
 .myAddStudentForm {
     width: 890px;
-    height: 400px;
+    height: 430px;
     border-radius: 10px;
     background: #8AA4C2;
     box-shadow:  8px 8px 16px #788fa9,  -8px -8px 16px #9cb9db;
     display: flex;
     flex-direction: column;
+}
+
+.inputField{
+    width: 250px;
+    height: 50px;
+    border-radius: 8px;
+    border-color: transparent;
+    background: #F7F7FF;
+    box-shadow: inset 8px 8px 8px #c3c3c9, inset -8px -8px 8px #ffffff;
+}
+
+.validButton{
+    border-radius: 7px;
+    background: #ffffff;
+    box-shadow:  100px 100px 200px #ededed,
+             -100px -100px 200px #ffffff;
+    width: 130px;
+    height: 40px;
+}
+.validButton:hover{
+    border-color: #FE5F55;
+    box-shadow: 2px 2px 5px var(--light-bg-dark-shadow),
+    -2px -2px 5px #FE5F55;
+    cursor: pointer;
+}
+.validButton:focus{
+    box-shadow: inset -2px -2px 5px var(--light-bg-light-shadow),
+    inset 2px 2px 5px var(--light-bg-dark-shadow);
 }

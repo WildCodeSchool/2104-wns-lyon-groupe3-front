@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from "@material-ui/core"
-import { Avatar, Badge, Body2, Button, Card, Subtitle2, CardContent, Fab, H5, Tab, TabItem, TabItems, Tabs, TextArea, ToggleButton} from 'ui-neumorphism'
+import { Avatar, Badge, Card, Subtitle2, CardContent,  H5, TextArea} from 'ui-neumorphism'
 import 'ui-neumorphism/dist/index.css'
 import AddStudent from '../components/AddStudent'
 import '../styles/neumorphism.css'
@@ -31,8 +31,8 @@ const useStyles = makeStyles(theme => ({
     myCardPrincipalStudent: {
         background: theme.palette.primary.dark,
         position:"relative",
-        height: "81vh",
-        width: "128vh",
+        height: "85vh",
+        width: "138vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around"
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
         textAlign: "center",
         minHeight: "70vh",
         placeItems: "center",
-        marginTop: "40px"
+        marginTop: "15px"
     },
     myCardContentPrincipal: {
         background: theme.palette.primary.main,
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",
-      height: "-webkit-fill-available",
+      height: "inherit",
       alignSelf: "center"
     },
     myCardActionPrincipal: {
@@ -86,8 +86,8 @@ const useStyles = makeStyles(theme => ({
   mySearchItem: {
     position: "absolute",
     /* left: 0; */
-    right: "50px",
-    top: "30px",
+    right: "30px",
+    top: "12px",
     color: theme.palette.secondary.light
   },
   profCards: {
@@ -96,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     //padding: 40,
     //margin: 20,
     border: "1px solid #F7F7FF",
-    borderRadius: 20
+    borderRadius: 10
   },
   card: {
       width: 120,
@@ -116,6 +116,12 @@ const useStyles = makeStyles(theme => ({
      // width: 60,
       marginRight: 10
   },
+  mySearchBlock: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    height: "40px",
+    position: "relative"
+  }
 }))
   
 
@@ -133,9 +139,9 @@ function StudentPage(){
           </Card>
           <Card className={classes.myCardPrincipalStudent}>
             <div className={classes.myCardContentPrincipalStudent}>
-              <div style={{display:"flex", flexDirection:"row-reverse", height: "40px"}}>
+              <div className={classes.mySearchBlock} >
                 <TextArea
-                  placeholder="Je rechercher"
+                  placeholder="Je recherche"
                 />
                 <Search className={classes.mySearchItem}/>
               </div>

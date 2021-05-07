@@ -4,11 +4,9 @@ import logo from './assets/logoRemotab.png';
 import theme from "./styles/theme";
 import { makeStyles } from "@material-ui/core"
 import { ThemeProvider } from '@material-ui/core/styles';
-import { ToggleButton } from 'ui-neumorphism';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import 'ui-neumorphism/dist/index.css'
 
-import Form from './components/Form'
 import './styles/neumorphism.css'
 //import {  BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import StudentPage from './pages/StudentForm';
@@ -35,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   exitButton: {
     fontSize: "30px",
-    color: theme.palette.secondary.light
+    color: "#FE5F55"
   },
   myDivExitButton: {
     top: "20px",
@@ -76,7 +74,7 @@ function App() {
           </button>
         
         </div>
-        <Form />
+        <StudentPage />
       </div>
 
 
