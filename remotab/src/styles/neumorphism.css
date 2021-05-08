@@ -23,7 +23,7 @@
 
 .myAddStudentForm {
     width: 890px;
-    height: 430px;
+    height: 400px;
     border-radius: 10px;
     background: #8AA4C2;
     box-shadow:  8px 8px 16px #788fa9,  -8px -8px 16px #9cb9db;
@@ -57,4 +57,37 @@
 .validButton:focus{
     box-shadow: inset -2px -2px 5px var(--light-bg-light-shadow),
     inset 2px 2px 5px var(--light-bg-dark-shadow);
+}
+
+.moreDetailsButton{
+    border-radius: 2px;
+    background: linear-gradient(315deg, #f4fbff, #cdd4dd);
+    box-shadow:  -1px -1px 3px #e2e9f3,
+                 1px 1px 3px #e6edf7;
+    width: 50px;
+    font-size: 12px;
+    font-style: italic;
+    color: #0A2463;
+    margin-top: 5px;
+}
+.moreDetailsButton:hover{
+    border-color: #577399;
+    box-shadow: 2px 2px 5px var(--light-bg-dark-shadow),
+    -2px -2px 5px #577399;
+    cursor: pointer;
+}
+.moreDetailsButton:focus{
+    box-shadow: inset -2px -2px 5px #577399,
+    inset 2px 2px 5px #577399;
+}
+
+.inputCustom{
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    border-color: transparent;
+    border-width: 0;
+    background: #e4ebf5;
+    box-shadow: inset -2px -2px 5px #ffffff, inset 2px 2px 5px #bec8e4;
+    text-align: center;
 }
