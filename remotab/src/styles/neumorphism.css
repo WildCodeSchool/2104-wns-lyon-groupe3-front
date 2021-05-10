@@ -22,6 +22,7 @@
 }
 
 .myAddStudentForm {
+    position: relative;
     width: 890px;
     height: 400px;
     border-radius: 10px;
@@ -29,6 +30,28 @@
     box-shadow:  8px 8px 16px #788fa9,  -8px -8px 16px #9cb9db;
     display: flex;
     flex-direction: column;
+}
+
+.cancelButton{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: red;
+    
+}
+.cancelButton:hover{
+    cursor: pointer;
+    border-color: red;
+
+    box-shadow:  2px 2px 4px #d20005,
+    -2px -2px 4px #ff0007;
+    border-radius: 10px;
+}
+.cancelButton:focus{
+    border-radius: 129px;
+    background: #f70006;
+    box-shadow: inset 8px 8px 16px #d20005,
+            inset -8px -8px 16px #ff0007;
 }
 
 .inputField{

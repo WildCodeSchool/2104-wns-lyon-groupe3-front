@@ -7,8 +7,14 @@ import {
     DialogContentText,
     DialogActions
 } from "@material-ui/core"
+import CancelIcon from '@material-ui/icons/Cancel'
 import '../styles/neumorphism.css'
-import { Button, TextField } from 'ui-neumorphism'
+import { Avatar, Button, TextField } from 'ui-neumorphism'
+
+import { cloneDeep } from "lodash"
+
+import defaultImage from '../assets/defaultImage.png'
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto'
 
 
 const useStyles = makeStyles(theme => ({
@@ -78,6 +84,50 @@ const useStyles = makeStyles(theme => ({
         left: "12px",
         bottom: "4px",
         fontSize: "12px"
+    },
+    dialogContent: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around",
+        height: "500px"
+    },
+    categoryInfo: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around"
+    },
+    titleContent: {
+        color: "#0A2463",
+        marginBottom: "10px"
+    },
+    divInfo: {
+        display: "flex",
+        flexDirection: "column"
+    },
+    profilEleve: {
+       // width: "100px"
+    },
+    changeProfil: {
+        position: "absolute",
+        top: "5px",
+        left:"5px"
+    },
+    addProfil: {
+        position:"absolute",
+        top: "35px",
+        right: "-7px",
+        color: "red",
+
+        "&:hover": {
+            cursor: "pointer"
+        }
+    },
+    addProfilInput: {
+        position:"absolute",
+        top: "35px",
+        left: 0,
+
+
     }
 }))
 
@@ -132,29 +182,70 @@ type FormValues = {
 type dataProps = {
     newData: any,
     flag: boolean,
-    setFlag: any
+    setFlag: any,
+    errorFirstNameStudent: boolean,
+    setErrorFirstNameStudent: any
+    errorLastNameStudent:boolean,
+    setErrorLastNameStudent:any,
+    errorClassStudent:boolean,
+    setErrorClassStudent:any,
+    errorNameParent:boolean,
+    setErrorNameParent:any,
+    errorNumberParent:boolean,
+    setErrorNumberParent:any,
+    errorEmailParent:boolean,
+    setErrorEmailParent:any,
+    errorStreet:boolean,
+    setErrorStreet:any,
+    errorPostalCode:boolean,
+    setErrorPostalCode:any,
+    errorTown:boolean,
+    setErrorTown: any,
+    fileSelected:any,
+    setFileSelected:any
 }
 
-function AddStudent({newData, flag, setFlag}:dataProps) {
+function AddStudent({
+    newData,
+    flag,
+    setFlag,
+    errorFirstNameStudent,
+    setErrorFirstNameStudent,
+    errorLastNameStudent,
+    setErrorLastNameStudent,
+    errorClassStudent,
+    setErrorClassStudent,
+    errorNameParent,
+    setErrorNameParent,
+    errorNumberParent,
+    setErrorNumberParent,
+    errorEmailParent,
+    setErrorEmailParent,
+    errorStreet,
+    setErrorStreet,
+    errorPostalCode,
+    setErrorPostalCode,
+    errorTown,
+    setErrorTown,
+    fileSelected,
+    setFileSelected
+}: dataProps) {
     const classes = useStyles()
     //const { formState: { errors }, register } = useForm<FormValues>()
     //const [state, dispatch] = React.useReducer(reducer, initialString)
     const [open, setOpen] = React.useState(false)
 
-    const [errorFirstNameStudent, setErrorFirstNameStudent] = React.useState(false)
-    const [errorLastNameStudent, setErrorLastNameStudent] = React.useState(false)
-    const [errorClassStudent, setErrorClassStudent] = React.useState(false)
-    const [errorNameParent, setErrorNameParent] = React.useState(false)
-    const [errorNumberParent, setErrorNumberParent] = React.useState(false)
-    const [errorEmailParent, setErrorEmailParent] = React.useState(false)
-    const [errorStreet, setErrorStreet] = React.useState(false)
-    const [errorPostalCode, setErrorPostalCode] = React.useState(false)
-    const [errorTown, setErrorTown] = React.useState(false)
-
     const [firstNameStudent, setFirstNameStudent] = React.useState("")
+    const [lastNameStudent, setLastNameStudent] = React.useState("")
+    const [classStudent, setClassStudent] = React.useState("")
+    const [nameParent, setNameParent] = React.useState("")
+    const [numberParent, setNumberParent] = React.useState("")
+    const [emailParent, setEmailParent] = React.useState("")
+    const [street, setStreet] = React.useState("")
+    const [postalCode, setPostalCode] = React.useState("")
+    const [town, setTown] = React.useState("")
 
-    console.log(firstNameStudent)
-    console.log(flag)
+    const recipe = fileSelected || ""
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -177,7 +268,15 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
             town: {value: string}
         }
 
-        console.log(target.firstNameStudent.value)
+        setFirstNameStudent(target.firstNameStudent.value)
+        setLastNameStudent(target.lastNameStudent.value)
+        setClassStudent(target.classStudent.value)
+        setNameParent(target.nameParent.value)
+        setNumberParent(target.numberParent.value)
+        setEmailParent(target.emailParent.value)
+        setStreet(target.street.value)
+        setPostalCode(target.postalCode.value)
+        setTown(target.town.value)
 
         if (target.firstNameStudent.value.length === 0) {
             hasError = true
@@ -245,10 +344,97 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
         if (hasError === false) {
             setOpen(true)
         }
+
+ 
+    }
+
+    const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.persist()
+
+        const fileList = e.target.files;
+    
+        if (fileList) {
+            console.log("la fileList :", fileList)
+            setFileSelected(fileList[0])
+
+            console.log("fileSelected:", fileSelected)
+        }
+        
+        if (fileSelected) {
+            const formData = new FormData();
+            formData.append("image", fileSelected, fileSelected.name);
+        }
     }
     
     return (
         <div className="myAddStudentForm">
+            {
+                flag ?
+                    <div className={classes.changeProfil}>
+                        <Avatar
+                            src={
+                                fileSelected ?
+                                    URL.createObjectURL(recipe)
+                                    :
+                                    newData.map((img: any) => img.image)
+                            }
+                            className={classes.profilEleve}
+                            size={50}
+                        />
+                        <label htmlFor="imageProfil">
+                            <input
+                                //style={{background: "black", height: 20, width: 20}}
+                                type="file"
+                                accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                                hidden
+                                onChange={handleChangeImage}
+                                name="imageProfil"
+                                id="imageProfil"
+                                className={classes.addProfilInput}
+                            />
+                            <AddAPhotoIcon
+                                fontSize="small"
+                                className={classes.addProfil}
+                            />
+                        </label>
+
+                    </div>
+                    :
+                    <div className={classes.changeProfil}>
+                        {
+                            recipe instanceof File ?
+                                <Avatar
+                                    src={URL.createObjectURL(recipe)}
+                                    className={classes.profilEleve}
+                                    size={50}
+                                />
+                                :
+                                <Avatar
+                                    src={defaultImage}
+                                    className={classes.profilEleve}
+                                    size={50}
+                                />
+                        }
+
+                        <label htmlFor="imageProfil">
+                            <input
+                                //style={{background: "black", height: 20, width: 20}}
+                                type="file"
+                                accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                                hidden
+                                onChange={handleChangeImage}
+                                name="imageProfil"
+                                id="imageProfil"
+                                className={classes.addProfilInput}
+                            />
+                            <AddAPhotoIcon
+                                fontSize="small"
+                                className={classes.addProfil}
+                            />
+                        </label>
+                    </div>
+            }
+            
             <div className={classes.addProf}>
                 {
                     flag ?
@@ -258,6 +444,13 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                 }
                 
             </div>
+            {
+                flag &&
+                <CancelIcon
+                    className="cancelButton"
+                    onClick={()=>setFlag(false)}
+                />
+            }
             <div>
                 {
                     newData.map((dataElement:any) => 
@@ -273,7 +466,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                             <input
                                                 name="firstNameStudent"
                                                 id="firstNameStudent"
-                                                value={dataElement.firstNameStudent}
+                                                placeholder={dataElement.firstNameStudent}
                                                 className="inputCustom"
                                             />
                                             :
@@ -281,7 +474,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                                 name="firstNameStudent"
                                                 id="firstNameStudent"
                                                 placeholder="Entrez un prénom"
-                                                value=""
+                                                //value=""
                                                 className="inputCustom"
                                             />
                                     }
@@ -296,7 +489,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                             <input
                                                 name="lastNameStudent"
                                                 id="lastNameStudent"
-                                                value={dataElement.lastNameStudent}
+                                                placeholder={dataElement.lastNameStudent}
                                                 className="inputCustom"
                                             />
                                             :
@@ -318,7 +511,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                             <input
                                                 name="classStudent"
                                                 id="classStudent"
-                                                value={dataElement.classStudent}
+                                                placeholder={dataElement.classStudent}
                                                 className="inputCustom"
                                             />
                                             :
@@ -344,7 +537,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                                 <input
                                                     name="nameParent"
                                                     id="nameParent"
-                                                    value={dataElement.nameParent}
+                                                    placeholder={dataElement.nameParent}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -366,7 +559,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                                 <input
                                                     name="numberParent"
                                                     id="numberParent"
-                                                    value={dataElement.numberParent}
+                                                    placeholder={dataElement.numberParent}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -388,7 +581,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                                 <input
                                                     name="emailParent"
                                                     id="emailParent"
-                                                    value={dataElement.emailParent}
+                                                    placeholder={dataElement.emailParent}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -412,7 +605,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                                 <input
                                                     name="street"
                                                     id="street"
-                                                    value={dataElement.street}
+                                                    placeholder={dataElement.street}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -434,7 +627,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                                 <input
                                                     name="postalCode"
                                                     id="postalCode"
-                                                    value={dataElement.postalCode}
+                                                    placeholder={dataElement.postalCode}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -456,7 +649,7 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                                                 <input
                                                     name="town"
                                                     id="town"
-                                                    value={dataElement.town}
+                                                    placeholder={dataElement.town}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -478,14 +671,6 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                             {
                                 flag ?
                                     <div className={classes.addButtonDetails} >
-                                        <Button
-                                            bgColor='#FE5F55'
-                                            color='#F7F7FF'
-                                            style={{height:"25px",margin:"5px"}}
-                                            onClick={()=>setFlag(false)}
-                                        >
-                                            Ajouter un nouvel élève
-                                        </Button>
                                         <Button
                                             bgColor='#FE5F55'
                                             color='#F7F7FF'
@@ -521,11 +706,51 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Confirmez votre choix"}
+                    {"Toutes les informations sont correctes ?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                    Toutes les informations sont correctes ?
+                        <div className={classes.dialogContent} >
+                            {
+                                recipe instanceof File ?
+                                    <Avatar
+                                        src={URL.createObjectURL(recipe)}
+                                        size={120}
+                                        style={{alignSelf:"center"}}
+                                    />
+                                    :
+                                    <Avatar
+                                        src={defaultImage}
+                                        size={120}
+                                        style={{alignSelf:"center"}}
+                                    />
+                            }
+                            
+                            <div className={classes.categoryInfo} >
+                                <h3 className={classes.titleContent} >Elève</h3>
+                                <div className={classes.divInfo} >
+                                    <span>Prénom de l'élève : <strong>{firstNameStudent}</strong></span>
+                                    <span>Nom de l'élève : <strong>{lastNameStudent}</strong></span>
+                                    <span>Classe de l'élève : <strong>{classStudent}</strong></span>                                   
+                                </div>
+                            </div>
+                            <div className={classes.categoryInfo} >
+                                <h3 className={classes.titleContent} >Représentant</h3>
+                                <div className={classes.divInfo} >
+                                    <span>Nom du représentant : <strong>{nameParent}</strong></span>
+                                    <span>Numéro de téléphone : <strong>{numberParent}</strong></span>
+                                    <span>Adresse mail du représentant : <strong>{emailParent}</strong></span>
+                                </div>
+                            </div>
+                            <div className={classes.categoryInfo}>
+                                <h3 className={classes.titleContent} >Adresse</h3>
+                                <div className={classes.divInfo}>
+                                    <span>Rue : <strong>{street}</strong></span>
+                                    <span>Code postal : <strong>{postalCode}</strong></span>
+                                    <span>Ville : <strong>{ town}</strong></span>
+                                </div>
+                            </div>
+                        </div>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions
@@ -540,8 +765,9 @@ function AddStudent({newData, flag, setFlag}:dataProps) {
                     </button>
                     <button
                         onClick={() => {
-                        setOpen(false)
-                        alert("envoyé")
+                            setOpen(false)
+                            setFlag(false)
+                            alert("envoyé")
                         }}
                         color="secondary"
                         className="validButton"

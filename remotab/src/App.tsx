@@ -10,6 +10,7 @@ import 'ui-neumorphism/dist/index.css'
 import './styles/neumorphism.css'
 //import {  BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import StudentPage from './pages/StudentForm';
+import Form from './components/Form'
 
 const useStyles = makeStyles(theme => ({
  
@@ -74,7 +75,7 @@ function App() {
           </button>
         
         </div>
-        <StudentPage />
+        <Form />
       </div>
 
 

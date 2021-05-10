@@ -88,8 +88,9 @@ const useStyles = makeStyles(theme => ({
   mySearchItem: {
     position: "absolute",
     /* left: 0; */
-    right: "30px",
-    top: "12px",
+    right: "10px",
+    top: "15px",
+    fontSize:"22px",
     color: theme.palette.secondary.light
   },
   profCards: {
@@ -107,6 +108,16 @@ const useStyles = makeStyles(theme => ({
   card: {
       width: 120,
       margin: 15
+  },
+  cardEmpty: {
+    width: 320,
+    margin: 15,
+  },
+  cardEmptyDiv: {
+    margin: 10,
+    width: "-webkit-fill-available",
+    display: "flex",
+    justifyContent: "center"
   },
   cardContent: {
       display: "inline-flex",
@@ -255,14 +266,37 @@ function StudentPage(){
   const classes = useStyles()
   const [newData, setNewData] = React.useState([{}])
   const [dataResult, setDataResult] = React.useState(data)
-  const [flag, setFlag] = React.useState(false)
+  const [flag, setFlag] = React.useState<boolean>(false)
   const [searchData, setSearchData] = React.useState<string>("")
+  const [emptyData, setEmptyData] = React.useState<boolean>(false)
+
+  const [errorFirstNameStudent, setErrorFirstNameStudent] = React.useState<boolean>(false)
+  const [errorLastNameStudent, setErrorLastNameStudent] = React.useState<boolean>(false)
+  const [errorClassStudent, setErrorClassStudent] = React.useState<boolean>(false)
+  const [errorNameParent, setErrorNameParent] = React.useState<boolean>(false)
+  const [errorNumberParent, setErrorNumberParent] = React.useState<boolean>(false)
+  const [errorEmailParent, setErrorEmailParent] = React.useState<boolean>(false)
+  const [errorStreet, setErrorStreet] = React.useState<boolean>(false)
+  const [errorPostalCode, setErrorPostalCode] = React.useState<boolean>(false)
+  const [errorTown, setErrorTown] = React.useState<boolean>(false)
+
+  
+  const [fileSelected, setFileSelected] = React.useState<File>()
 
   const handleCard = (idElement:any) => {
     const filtered = data.filter(e => e.id === idElement)
     setFlag(true)
     setNewData(filtered)
-
+    setErrorFirstNameStudent(false)
+    setErrorLastNameStudent(false)
+    setErrorClassStudent(false)
+    setErrorNameParent(false)
+    setErrorNumberParent(false)
+    setErrorEmailParent(false)
+    setErrorStreet(false)
+    setErrorPostalCode(false)
+    setErrorTown(false)
+    setFileSelected(undefined)
   }
 
   const handleSearch = (event: any): void => {
@@ -276,11 +310,14 @@ function StudentPage(){
       console.log(searchFiltered.length)
       if (searchFiltered.length === 0) {
         setDataResult(searchFiltered)
+        setEmptyData(true)
       } else {
         setDataResult(searchFiltered)
+        setEmptyData(false)
       }
     }else {
       setDataResult(data)
+      setEmptyData(false)
     }
 
   }
@@ -301,35 +338,44 @@ function StudentPage(){
                   name="searchData"
                   onChange={handleSearch}
                   value={searchData}
-                  placeholder="Je recherche"
+                  placeholder="Je recherche par classe"
                 />
                 <Search className={classes.mySearchItem}/>
               </div>
               <div className={classes.profCards}>
                 <div className={classes.studentCards} >
                   {
-                    dataResult.map((dataElement) =>
-                      <Card
-                        className={classes.card}
-                      >
-                        <CardContent className={classes.cardContent}>
-                          <Avatar src={dataElement.image} alt="professor-avatar" className={classes.image} />
-                          <div className={classes.cardDescription}>
-                            <Subtitle2 secondary className={classes.title} >
-                              {dataElement.lastNameStudent}
-                            </Subtitle2>                      
-                            <Subtitle1 secondary className={classes.title} >
-                              {dataElement.classStudent}
-                            </Subtitle1>
-                            <button
-                              onClick={() => handleCard(dataElement.id)}
-                              className="moreDetailsButton"
-                            >Détails</button>
-                          </div>
+                    emptyData ?
+                      <div className={classes.cardEmptyDiv}>
+                        <Card className={classes.cardEmpty}>
+                          <CardContent className={classes.cardContent}>
+                            <Subtitle2 secondary className={classes.title}>Aucun résultat ne correspond à la recherche</Subtitle2>
+                          </CardContent>
+                        </Card>
+                      </div> 
+                      :
+                      dataResult.map((dataElement) =>
+                        <Card
+                          className={classes.card}
+                        >
+                          <CardContent className={classes.cardContent}>
+                            <Avatar src={dataElement.image} alt="professor-avatar" className={classes.image} />
+                            <div className={classes.cardDescription}>
+                              <Subtitle2 secondary className={classes.title} >
+                                {dataElement.lastNameStudent}
+                              </Subtitle2>                      
+                              <Subtitle1 secondary className={classes.title} >
+                                {dataElement.classStudent}
+                              </Subtitle1>
+                              <button
+                                onClick={() => handleCard(dataElement.id)}
+                                className="moreDetailsButton"
+                              >Détails</button>
+                            </div>
 
-                        </CardContent>
-                      </Card>
-                    )
+                          </CardContent>
+                        </Card>
+                      )
                   }
 
                 </div>
@@ -339,6 +385,26 @@ function StudentPage(){
                   newData={newData}
                   flag={flag}
                   setFlag={setFlag}
+                  errorFirstNameStudent={errorFirstNameStudent}
+                  setErrorFirstNameStudent={setErrorFirstNameStudent}
+                  errorLastNameStudent={errorLastNameStudent}
+                  setErrorLastNameStudent={setErrorLastNameStudent}
+                  errorClassStudent={errorClassStudent}
+                  setErrorClassStudent={setErrorClassStudent}
+                  errorNameParent={errorNameParent}
+                  setErrorNameParent={setErrorNameParent}
+                  errorNumberParent={errorNumberParent}
+                  setErrorNumberParent={setErrorNumberParent}
+                  errorEmailParent={errorEmailParent}
+                  setErrorEmailParent={setErrorEmailParent}
+                  errorStreet={errorStreet}
+                  setErrorStreet={setErrorStreet}
+                  errorPostalCode={errorPostalCode}
+                  setErrorPostalCode={setErrorPostalCode}
+                  errorTown={errorTown}
+                  setErrorTown={setErrorTown}
+                  fileSelected={fileSelected}
+                  setFileSelected={setFileSelected}
                 />
               </div>
             </div>
