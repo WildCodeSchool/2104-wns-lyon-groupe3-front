@@ -11,10 +11,11 @@ import CancelIcon from '@material-ui/icons/Cancel'
 import '../styles/neumorphism.css'
 import { Avatar, Button, TextField } from 'ui-neumorphism'
 
-import { cloneDeep } from "lodash"
 
 import defaultImage from '../assets/defaultImage.png'
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto'
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/client'
 
 
 const useStyles = makeStyles(theme => ({
@@ -134,7 +135,7 @@ const useStyles = makeStyles(theme => ({
 type FormValues = {
     firstNameStudent: string,
     lastNameStudent: string,
-    classStudent: string,
+    class: Number,
 
     nameParent: string,
     numberParent: number,
@@ -179,6 +180,8 @@ type FormValues = {
 //     }
 //   }
 
+//const CREATE
+
 type dataProps = {
     newData: any,
     flag: boolean,
@@ -202,8 +205,31 @@ type dataProps = {
     errorTown:boolean,
     setErrorTown: any,
     fileSelected:any,
-    setFileSelected:any
+    setFileSelected: any,
+    refetch:any
 }
+
+const CREATE_USER = gql`
+
+mutation CreateUser($input: InputUser!){
+    createUser(inputUser: $input){
+      id
+      firstNameStudent
+      lastNameStudent
+      classStudent
+      photoProfil
+      nameParent
+      numberParent
+      emailParent
+      Adress{
+        id
+        street
+        postalCode
+        town
+      }
+    }
+  }
+`;
 
 function AddStudent({
     newData,
@@ -228,7 +254,8 @@ function AddStudent({
     errorTown,
     setErrorTown,
     fileSelected,
-    setFileSelected
+    setFileSelected,
+    refetch
 }: dataProps) {
     const classes = useStyles()
     //const { formState: { errors }, register } = useForm<FormValues>()
@@ -237,7 +264,7 @@ function AddStudent({
 
     const [firstNameStudent, setFirstNameStudent] = React.useState("")
     const [lastNameStudent, setLastNameStudent] = React.useState("")
-    const [classStudent, setClassStudent] = React.useState("")
+    const [classStu, setClassStu] = React.useState<Number>()
     const [nameParent, setNameParent] = React.useState("")
     const [numberParent, setNumberParent] = React.useState("")
     const [emailParent, setEmailParent] = React.useState("")
@@ -245,7 +272,8 @@ function AddStudent({
     const [postalCode, setPostalCode] = React.useState("")
     const [town, setTown] = React.useState("")
 
-    const recipe = fileSelected || ""
+    const profil = fileSelected || ""
+    const [createUser, {data}] = useMutation(CREATE_USER)
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -257,7 +285,7 @@ function AddStudent({
 
             firstNameStudent: {value: string},
             lastNameStudent: {value: string},
-            classStudent: {value: string},
+            classStu: {value: Number},
         
             nameParent: {value: string},
             numberParent: {value: string},
@@ -270,7 +298,7 @@ function AddStudent({
 
         setFirstNameStudent(target.firstNameStudent.value)
         setLastNameStudent(target.lastNameStudent.value)
-        setClassStudent(target.classStudent.value)
+        setClassStu(target.classStu.value)
         setNameParent(target.nameParent.value)
         setNumberParent(target.numberParent.value)
         setEmailParent(target.emailParent.value)
@@ -292,7 +320,7 @@ function AddStudent({
             setErrorLastNameStudent(false)
         }
 
-        if (target.classStudent.value.length === 0)  {
+        if ((Number(target.classStu.value) === 0) || isNaN(Number(target.classStu.value)))  {
             hasError = true
             setErrorClassStudent(true)
         } else {
@@ -344,8 +372,6 @@ function AddStudent({
         if (hasError === false) {
             setOpen(true)
         }
-
- 
     }
 
     const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -365,6 +391,38 @@ function AddStudent({
             formData.append("image", fileSelected, fileSelected.name);
         }
     }
+
+    const handleSend = async() => {
+        setOpen(false)
+        setFlag(false)
+       // alert("envoyé")
+        const photoProfil = URL.createObjectURL(profil)
+        const classStudent = Number(classStu)
+        
+        const result = await createUser(
+            {
+                variables: {
+                    input: {
+                        firstNameStudent,
+                        lastNameStudent,
+                        classStudent,
+                        photoProfil,
+                        nameParent,
+                        numberParent,
+                        emailParent,
+                        Adress: {
+                            street,
+                            postalCode,
+                            town,
+                        }
+                    }
+
+                }
+            }
+        );
+        refetch()
+        console.log( result)
+    }
     
     return (
         <div className="myAddStudentForm">
@@ -374,9 +432,9 @@ function AddStudent({
                         <Avatar
                             src={
                                 fileSelected ?
-                                    URL.createObjectURL(recipe)
+                                    URL.createObjectURL(profil)
                                     :
-                                    newData.map((img: any) => img.image)
+                                    newData.map((img: any) => img.photoProfil)
                             }
                             className={classes.profilEleve}
                             size={50}
@@ -402,9 +460,9 @@ function AddStudent({
                     :
                     <div className={classes.changeProfil}>
                         {
-                            recipe instanceof File ?
+                            profil instanceof File ?
                                 <Avatar
-                                    src={URL.createObjectURL(recipe)}
+                                    src={URL.createObjectURL(profil)}
                                     className={classes.profilEleve}
                                     size={50}
                                 />
@@ -505,19 +563,19 @@ function AddStudent({
                                     </span>
                                 </div>
                                 <div className={classes.addBlockInfo}>
-                                    <label htmlFor="classStudent"  >Classe</label>
+                                    <label htmlFor="class"  >Classe</label>
                                     {
                                         flag ?
                                             <input
-                                                name="classStudent"
-                                                id="classStudent"
+                                                name="classStu"
+                                                id="classStu"
                                                 placeholder={dataElement.classStudent}
                                                 className="inputCustom"
                                             />
                                             :
                                             <input
-                                                name="classStudent"
-                                                id="classStudent"
+                                                name="classStu"
+                                                id="classStu"
                                                 placeholder="Entrez la classe"
                                                 className="inputCustom"
                                             />
@@ -605,7 +663,7 @@ function AddStudent({
                                                 <input
                                                     name="street"
                                                     id="street"
-                                                    placeholder={dataElement.street}
+                                                    placeholder={dataElement.Adress.street}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -627,7 +685,7 @@ function AddStudent({
                                                 <input
                                                     name="postalCode"
                                                     id="postalCode"
-                                                    placeholder={dataElement.postalCode}
+                                                    placeholder={dataElement.Adress.postalCode}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -649,7 +707,7 @@ function AddStudent({
                                                 <input
                                                     name="town"
                                                     id="town"
-                                                    placeholder={dataElement.town}
+                                                    placeholder={dataElement.Adress.town}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -712,9 +770,9 @@ function AddStudent({
                     <DialogContentText id="alert-dialog-description">
                         <div className={classes.dialogContent} >
                             {
-                                recipe instanceof File ?
+                                profil instanceof File ?
                                     <Avatar
-                                        src={URL.createObjectURL(recipe)}
+                                        src={URL.createObjectURL(profil)}
                                         size={120}
                                         style={{alignSelf:"center"}}
                                     />
@@ -731,7 +789,7 @@ function AddStudent({
                                 <div className={classes.divInfo} >
                                     <span>Prénom de l'élève : <strong>{firstNameStudent}</strong></span>
                                     <span>Nom de l'élève : <strong>{lastNameStudent}</strong></span>
-                                    <span>Classe de l'élève : <strong>{classStudent}</strong></span>                                   
+                                    <span>Classe de l'élève : <strong>{classStu}</strong></span>                                   
                                 </div>
                             </div>
                             <div className={classes.categoryInfo} >
@@ -764,11 +822,7 @@ function AddStudent({
                         Non
                     </button>
                     <button
-                        onClick={() => {
-                            setOpen(false)
-                            setFlag(false)
-                            alert("envoyé")
-                        }}
+                        onClick={handleSend}
                         color="secondary"
                         className="validButton"
                         style={{color:"#FE5F55"}}

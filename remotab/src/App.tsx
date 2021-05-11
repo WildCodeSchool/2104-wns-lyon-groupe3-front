@@ -11,6 +11,7 @@ import './styles/neumorphism.css'
 //import {  BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import StudentPage from './pages/StudentForm';
 import Form from './components/Form'
+import gql from 'graphql-tag';
 
 const useStyles = makeStyles(theme => ({
  
@@ -55,6 +56,7 @@ const useStyles = makeStyles(theme => ({
 function App() {
   const classes = useStyles()
 
+
   return (
     <ThemeProvider theme={theme}>
       {/* <Router> */}
@@ -75,7 +77,7 @@ function App() {
           </button>
         
         </div>
-        <Form />
+        <StudentPage />
       </div>
 
 

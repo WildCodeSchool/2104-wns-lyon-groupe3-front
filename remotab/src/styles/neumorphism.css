@@ -47,12 +47,6 @@
     -2px -2px 4px #ff0007;
     border-radius: 10px;
 }
-.cancelButton:focus{
-    border-radius: 129px;
-    background: #f70006;
-    box-shadow: inset 8px 8px 16px #d20005,
-            inset -8px -8px 16px #ff0007;
-}
 
 .inputField{
     width: 250px;
@@ -92,6 +86,7 @@
     font-style: italic;
     color: #0A2463;
     margin-top: 5px;
+    align-self: center;
 }
 .moreDetailsButton:hover{
     border-color: #577399;
