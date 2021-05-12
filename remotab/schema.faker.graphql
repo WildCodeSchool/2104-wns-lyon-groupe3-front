@@ -51,10 +51,11 @@ input InputUser {
 
 type Mutation {
   createUser(inputUser: InputUser): User
+  deleteUser(id: String): Boolean
 }
 
 type Query {
-  allUsers: [User] @listLength(min:3, max:10)
+  allUsers: [User] @listLength(min:2, max:10)
 }
 
 

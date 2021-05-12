@@ -17,6 +17,9 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/client'
 
+import {ALL_USERS} from "../pages/StudentForm"
+import Buttons from './Buttons'
+
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -273,7 +276,11 @@ function AddStudent({
     const [town, setTown] = React.useState("")
 
     const profil = fileSelected || ""
-    const [createUser, {data}] = useMutation(CREATE_USER)
+    const [createUser, { data }] = useMutation(CREATE_USER, {
+        refetchQueries: [
+            {query: ALL_USERS}
+        ]
+    })
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -396,7 +403,7 @@ function AddStudent({
         setOpen(false)
         setFlag(false)
        // alert("envoyé")
-        const photoProfil = URL.createObjectURL(profil)
+        const photoProfil = profil instanceof URL ? URL.createObjectURL(profil) : defaultImage
         const classStudent = Number(classStu)
         
         const result = await createUser(
@@ -420,7 +427,6 @@ function AddStudent({
                 }
             }
         );
-        refetch()
         console.log( result)
     }
     
@@ -436,6 +442,7 @@ function AddStudent({
                                     :
                                     newData.map((img: any) => img.photoProfil)
                             }
+                            alt="profil-avatar"
                             className={classes.profilEleve}
                             size={50}
                         />
@@ -463,12 +470,14 @@ function AddStudent({
                             profil instanceof File ?
                                 <Avatar
                                     src={URL.createObjectURL(profil)}
+                                    alt="profil-avatar"
                                     className={classes.profilEleve}
                                     size={50}
                                 />
                                 :
                                 <Avatar
                                     src={defaultImage}
+                                    alt="profil-avatar"
                                     className={classes.profilEleve}
                                     size={50}
                                 />
@@ -729,20 +738,7 @@ function AddStudent({
                             {
                                 flag ?
                                     <div className={classes.addButtonDetails} >
-                                        <Button
-                                            bgColor='#FE5F55'
-                                            color='#F7F7FF'
-                                            style={{height:"25px",margin:"5px"}}
-                                        >
-                                            Enrégistrer les modifications
-                                        </Button>
-                                        <Button
-                                            bgColor='#FE5F55'
-                                            color='#F7F7FF'
-                                            style={{height:"25px",margin:"5px"}}
-                                        >
-                                            Supprimer l'élève
-                                        </Button>
+                                        <Buttons dataElement={ dataElement.id}/>
                                     </div>
                                     :
                                     <div className={classes.addButton} >

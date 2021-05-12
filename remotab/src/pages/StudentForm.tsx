@@ -11,6 +11,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import defaultImage from '../assets/defaultImage.png'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client'
+import Loading from '../components/Loading'
 
 const useStyles = makeStyles(theme => ({
  
@@ -263,39 +264,60 @@ const useStyles = makeStyles(theme => ({
 //    }
 //  }
 
+export const ALL_USERS = gql`
+query GetAllUsers{
+  allUsers{
+    id
+    firstNameStudent
+    lastNameStudent
+    classStudent
+    photoProfil
+    nameParent
+    numberParent
+    emailParent
+    Adress{
+      id
+      street
+      postalCode
+      town
+    }
+  }
+}`;
+
+const initialData = {
+  "allUsers": [
+    {
+      "id": "",
+      "firstNameStudent": "",
+      "lastNameStudent": "",
+      "classStudent": "",
+      "photoProfil": defaultImage,
+      "nameParent": "",
+      "numberParent":"",
+      "emailParent":"",
+      "Adress":{
+        "id":"",
+        "street":"",
+        "postalCode":"",
+        "town":""
+      }
+    }
+  ]
+}
+
 function StudentPage() {
   const classes = useStyles()
 
-  const ALL_USERS = gql`
-  query GetAllWilders{
-    allUsers{
-      id
-      firstNameStudent
-      lastNameStudent
-      classStudent
-      photoProfil
-      nameParent
-      numberParent
-      emailParent
-      Adress{
-        id
-        street
-        postalCode
-        town
-      }
-    }
-  }`
-    ;
+
 
   const [newData, setNewData] = React.useState([{}])
   const { loading, error, data, refetch} = useQuery(ALL_USERS);
   
-  const [dataResult, setDataResult] = React.useState(data)
+  const [dataResult, setDataResult] = React.useState(initialData)
   const [flag, setFlag] = React.useState<boolean>(false)
-  //const [searchData, setSearchData] = React.useState<string>("")
-  const [searchData, setSearchData] = React.useState<Number>()
-  const [emptyData, setEmptyData] = React.useState<boolean>(false)
-
+  const [searchData, setSearchData] = React.useState()
+  const [emptySearchData, setEmptySearchData] = React.useState<boolean>(false)
+  
   const [errorFirstNameStudent, setErrorFirstNameStudent] = React.useState<boolean>(false)
   const [errorLastNameStudent, setErrorLastNameStudent] = React.useState<boolean>(false)
   const [errorClassStudent, setErrorClassStudent] = React.useState<boolean>(false)
@@ -306,8 +328,9 @@ function StudentPage() {
   const [errorPostalCode, setErrorPostalCode] = React.useState<boolean>(false)
   const [errorTown, setErrorTown] = React.useState<boolean>(false)
 
-  
   const [fileSelected, setFileSelected] = React.useState<File>()
+
+  const [loadingTest, setLoadingTest] = React.useState<boolean>(true)
 
   const handleCard = (idElement:any) => {
     const filtered = data.allUsers.filter((e:any) => e.id === idElement)
@@ -324,76 +347,119 @@ function StudentPage() {
     setErrorTown(false)
     setFileSelected(undefined)
   }
-
+  //setDataResult(data)
   const handleSearch = (event: any): void => {
-    const mySearchItem = Number(event.value)
+    const mySearchItem = event.value
     setSearchData(mySearchItem)
 
-    if (Number.isInteger(mySearchItem)) {
-      const searchFiltered = data.allUsers.filter((element: any) => element.classStudent === mySearchItem)
+    if (mySearchItem) {
+      if (data !== undefined) {
+        const searchFiltered = data.allUsers.filter((element: any) => element.classStudent === Number(mySearchItem))
         //return element.classStudent.toLowerCase().indexOf(mySearchItem.toLowerCase()) >= 0
         //console.log(mySearchItem)
         
-      console.log(searchFiltered)
-      if (searchFiltered.length === 0) {
-        //setDataResult(searchFiltered)
-        console.log("mes data2: ",dataResult)
-        setEmptyData(true)
-      } else {
-        setDataResult(searchFiltered)
-        setEmptyData(false)
+        if (searchFiltered.length === 0) {
+          //setDataResult(searchFiltered)
+          console.log("mes data2: ",dataResult)
+          setEmptySearchData(true)
+        } else {
+          setDataResult({allUsers: searchFiltered})
+          setEmptySearchData(false)
+        }
       }
-    }
 
+    } else {
+      setDataResult(data)
+      setEmptySearchData(false)
+      
+    }
   }
 
-  if (loading)
-    return <p>Loading ...</p>
+  
+  //dataResult && console.log(dataResult.map((e: any) => e.classStudent))
+  
+  // if (loadingTest) 
+  //   return (
+  //     <Loading setLoadingTest={setLoadingTest} />
+  //   )
+  
+  if (loading) {
+    return (
+      <Loading
+        // setDataResult={setDataResult}
+        // data={data}
+        // dataResult={dataResult}
+      />
+    )
+  }
+
   
   if (error)
     return <p>Error ...</p>
-
+  
+  
   return (
     data &&
-    <div className={classes.myBodyCard}>   
-      <Card className={classes.myCardPrincipal}>
-        <CardContent className={classes.myCardContentPrincipal}>
-            <H5 className={classes.myH5Principal}>
-                GESTION DES PROFESSEURS
-            </H5>
-        </CardContent>
-      </Card>
-      <Card className={classes.myCardPrincipalStudent}>
-        <div className={classes.myCardContentPrincipalStudent}>
-          <div className={classes.mySearchBlock} >
-            <TextArea
-              name="searchData"
-              onChange={handleSearch}
-              //value={searchData}
-              placeholder="Je recherche par classe"
-            />
-            <Search className={classes.mySearchItem}/>
-          </div>
-          <div className={classes.profCards}>
-            <div className={classes.studentCards} >
-              {
-                emptyData ?
-                  <div className={classes.cardEmptyDiv}>
-                    <Card className={classes.cardEmpty}>
-                      <CardContent className={classes.cardContent}>
-                        <Subtitle2 secondary className={classes.title}>Aucun résultat ne correspond à la recherche</Subtitle2>
-                      </CardContent>
-                    </Card>
-                  </div> 
+      <div className={classes.myBodyCard}>   
+        <Card className={classes.myCardPrincipal}>
+          <CardContent className={classes.myCardContentPrincipal}>
+              <H5 className={classes.myH5Principal}>
+                  GESTION DES PROFESSEURS
+              </H5>
+          </CardContent>
+        </Card>
+        <Card className={classes.myCardPrincipalStudent}>
+          <div className={classes.myCardContentPrincipalStudent}>
+            <div className={classes.mySearchBlock} >
+              <TextArea
+                name="searchData"
+                onChange={handleSearch}
+                value={searchData}
+                placeholder="Je recherche par classe"
+              />
+              <Search className={classes.mySearchItem}/>
+            </div>
+            <div className={classes.profCards}>
+              <div className={classes.studentCards} >
+                {
+                  emptySearchData ?
+                    <div className={classes.cardEmptyDiv}>
+                      <Card className={classes.cardEmpty}>
+                        <CardContent className={classes.cardContent}>
+                          <Subtitle2 secondary className={classes.title}>Aucun résultat ne correspond à la recherche</Subtitle2>
+                        </CardContent>
+                      </Card>
+                    </div>
                   :
-                  dataResult.allUsers.map((dataElement:any) =>
-                    <Card  className={classes.card} >
+                  searchData ?
+                    dataResult.allUsers.map((dataElement: any) =>
+                      <Card className={classes.card} >
+                        <CardContent className={classes.cardContent}>
+                          <Avatar src={dataElement.photoProfil} alt="professor-avatar" className={classes.image} />
+                          <div className={classes.cardDescription}>
+                            <Subtitle2 secondary className={classes.title} >
+                              {dataElement.lastNameStudent}
+                            </Subtitle2>
+                            <Subtitle1 secondary className={classes.title} >
+                              {dataElement.classStudent}
+                            </Subtitle1>
+                            <button
+                              onClick={() => handleCard(dataElement.id)}
+                              className="moreDetailsButton"
+                            >Détails</button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )
+                    :
+                    data.allUsers.map((dataElement: any) =>
+                    <Card className={classes.card} >
                       <CardContent className={classes.cardContent}>
                         <Avatar src={dataElement.photoProfil} alt="professor-avatar" className={classes.image} />
                         <div className={classes.cardDescription}>
                           <Subtitle2 secondary className={classes.title} >
                             {dataElement.lastNameStudent}
-                          </Subtitle2>                      
+                          </Subtitle2>
                           <Subtitle1 secondary className={classes.title} >
                             {dataElement.classStudent}
                           </Subtitle1>
@@ -405,69 +471,66 @@ function StudentPage() {
                       </CardContent>
                     </Card>
                   )
-              }           
+                }
+              </div>
+            </div>
+            <div>
+              <AddStudent
+                newData={newData}
+                flag={flag}
+                setFlag={setFlag}
+                errorFirstNameStudent={errorFirstNameStudent}
+                setErrorFirstNameStudent={setErrorFirstNameStudent}
+                errorLastNameStudent={errorLastNameStudent}
+                setErrorLastNameStudent={setErrorLastNameStudent}
+                errorClassStudent={errorClassStudent}
+                setErrorClassStudent={setErrorClassStudent}
+                errorNameParent={errorNameParent}
+                setErrorNameParent={setErrorNameParent}
+                errorNumberParent={errorNumberParent}
+                setErrorNumberParent={setErrorNumberParent}
+                errorEmailParent={errorEmailParent}
+                setErrorEmailParent={setErrorEmailParent}
+                errorStreet={errorStreet}
+                setErrorStreet={setErrorStreet}
+                errorPostalCode={errorPostalCode}
+                setErrorPostalCode={setErrorPostalCode}
+                errorTown={errorTown}
+                setErrorTown={setErrorTown}
+                fileSelected={fileSelected}
+                setFileSelected={setFileSelected}
+                refetch={refetch}
+              />
             </div>
           </div>
-          <div>
-            <AddStudent
-              newData={newData}
-              flag={flag}
-              setFlag={setFlag}
-              errorFirstNameStudent={errorFirstNameStudent}
-              setErrorFirstNameStudent={setErrorFirstNameStudent}
-              errorLastNameStudent={errorLastNameStudent}
-              setErrorLastNameStudent={setErrorLastNameStudent}
-              errorClassStudent={errorClassStudent}
-              setErrorClassStudent={setErrorClassStudent}
-              errorNameParent={errorNameParent}
-              setErrorNameParent={setErrorNameParent}
-              errorNumberParent={errorNumberParent}
-              setErrorNumberParent={setErrorNumberParent}
-              errorEmailParent={errorEmailParent}
-              setErrorEmailParent={setErrorEmailParent}
-              errorStreet={errorStreet}
-              setErrorStreet={setErrorStreet}
-              errorPostalCode={errorPostalCode}
-              setErrorPostalCode={setErrorPostalCode}
-              errorTown={errorTown}
-              setErrorTown={setErrorTown}
-              fileSelected={fileSelected}
-              setFileSelected={setFileSelected}
-              refetch={refetch}
-            />
-          </div>
-        </div>
-      </Card>
-      <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", height:"50vh"}}>
-        <Card className={classes.myCardPrincipal}>
+        </Card>
+        <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", height:"50vh"}}>
+          <Card className={classes.myCardPrincipal}>
+              <CardContent className={classes.myCardContentPrincipal}>
+                  <H5 className={classes.myH5Principal}>
+                      GESTION DES CLASSES
+                  </H5>
+              </CardContent>
+          </Card>
+          <Card className={classes.myCardPrincipal}>
             <CardContent className={classes.myCardContentPrincipal}>
+              <Badge
+                bgColor='transparent'
+                color='var(--error)'
+                content={0}
+                bordered
+                overlap
+                borderColor='transparent'
+              >
                 <H5 className={classes.myH5Principal}>
-                    GESTION DES CLASSES
-                </H5>
+                    GESTION DES MESSAGES
+                </H5>                         
+              </Badge>
             </CardContent>
-        </Card>
-        <Card className={classes.myCardPrincipal}>
-          <CardContent className={classes.myCardContentPrincipal}>
-            <Badge
-              bgColor='transparent'
-              color='var(--error)'
-              content={0}
-              bordered
-              overlap
-              borderColor='transparent'
-                
-            //    className={classes.myBadgePrincipal}
-            >
-              <H5 className={classes.myH5Principal}>
-                  GESTION DES MESSAGES
-              </H5>                         
-            </Badge>
-          </CardContent>
-        </Card>
+          </Card>
+        </div>
       </div>
-    </div>
 )
-
 }
 
 export default StudentPage
