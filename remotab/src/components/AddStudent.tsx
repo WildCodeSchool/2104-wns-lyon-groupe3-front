@@ -19,6 +19,7 @@ import { useMutation } from '@apollo/client'
 
 import {ALL_USERS} from "../pages/StudentForm"
 import Buttons from './Buttons'
+import { useToasts } from 'react-toast-notifications'
 
 
 const useStyles = makeStyles(theme => ({
@@ -275,7 +276,14 @@ function AddStudent({
     const [postalCode, setPostalCode] = React.useState("")
     const [town, setTown] = React.useState("")
 
+    const [deleteButton, setDeleteButton] = React.useState(false)
+    const [addButton, setAddButton] = React.useState(false)
+    const [updateButton, setUpdateButton] = React.useState(false)
+
+    const {addToast} = useToasts()
+
     const profil = fileSelected || ""
+
     const [createUser, { data }] = useMutation(CREATE_USER, {
         refetchQueries: [
             {query: ALL_USERS}
@@ -303,82 +311,87 @@ function AddStudent({
             town: {value: string}
         }
 
-        setFirstNameStudent(target.firstNameStudent.value)
-        setLastNameStudent(target.lastNameStudent.value)
-        setClassStu(target.classStu.value)
-        setNameParent(target.nameParent.value)
-        setNumberParent(target.numberParent.value)
-        setEmailParent(target.emailParent.value)
-        setStreet(target.street.value)
-        setPostalCode(target.postalCode.value)
-        setTown(target.town.value)
+        if (addButton) {
+            setFirstNameStudent(target.firstNameStudent.value)
+            setLastNameStudent(target.lastNameStudent.value)
+            setClassStu(target.classStu.value)
+            setNameParent(target.nameParent.value)
+            setNumberParent(target.numberParent.value)
+            setEmailParent(target.emailParent.value)
+            setStreet(target.street.value)
+            setPostalCode(target.postalCode.value)
+            setTown(target.town.value)
+    
+            if (target.firstNameStudent.value.length === 0) {
+                hasError = true
+                setErrorFirstNameStudent(true)
+            } else {
+                setErrorFirstNameStudent(false)
+            }
+    
+            if (target.lastNameStudent.value.length === 0) {
+                hasError = true
+                setErrorLastNameStudent(true)
+            } else {
+                setErrorLastNameStudent(false)
+            }
+    
+            if ((Number(target.classStu.value) === 0) || isNaN(Number(target.classStu.value)))  {
+                hasError = true
+                setErrorClassStudent(true)
+            } else {
+                setErrorClassStudent(false)
+            }
+    
+            if (target.nameParent.value.length === 0) {
+                hasError = true
+                setErrorNameParent(true)
+            } else {
+                setErrorNameParent(false)
+            }
+    
+            if ((target.emailParent.value.length === 0) || (!regex.test(target.emailParent.value))) {
+                hasError = true
+                setErrorEmailParent(true)
+            } else {
+                setErrorEmailParent(false)
+            }
+    
+            if ((Number(target.numberParent.value) === 0) || isNaN(Number(target.numberParent.value)) || (target.numberParent.value.length !== 10)) {
+                hasError = true
+                setErrorNumberParent(true)
+            } else {
+                setErrorNumberParent(false)
+            }
+    
+            if (target.street.value.length === 0) {
+                hasError = true
+                setErrorStreet(true)
+            } else {
+                setErrorStreet(false)
+            }
+    
+            if (target.town.value.length === 0) {
+                hasError = true
+                setErrorTown(true)
+            } else {
+                setErrorTown(false)
+            }
+    
+            if ((Number(target.postalCode.value) === 0) || isNaN(Number(target.postalCode.value)) || (target.postalCode.value.length !== 5)) {
+                hasError = true
+                setErrorPostalCode(true)
+            } else {
+                setErrorPostalCode(false)
+            }
+    
+            if (hasError === false) {
+                setOpen(true)
+            }
+            
+            setAddButton(false)
+        } 
 
-        if (target.firstNameStudent.value.length === 0) {
-            hasError = true
-            setErrorFirstNameStudent(true)
-        } else {
-            setErrorFirstNameStudent(false)
-        }
-
-        if (target.lastNameStudent.value.length === 0) {
-            hasError = true
-            setErrorLastNameStudent(true)
-        } else {
-            setErrorLastNameStudent(false)
-        }
-
-        if ((Number(target.classStu.value) === 0) || isNaN(Number(target.classStu.value)))  {
-            hasError = true
-            setErrorClassStudent(true)
-        } else {
-            setErrorClassStudent(false)
-        }
-
-        if (target.nameParent.value.length === 0) {
-            hasError = true
-            setErrorNameParent(true)
-        } else {
-            setErrorNameParent(false)
-        }
-
-        if ((target.emailParent.value.length === 0) || (!regex.test(target.emailParent.value))) {
-            hasError = true
-            setErrorEmailParent(true)
-        } else {
-            setErrorEmailParent(false)
-        }
-
-        if ((Number(target.numberParent.value) === 0) || isNaN(Number(target.numberParent.value)) || (target.numberParent.value.length !== 10)) {
-            hasError = true
-            setErrorNumberParent(true)
-        } else {
-            setErrorNumberParent(false)
-        }
-
-        if (target.street.value.length === 0) {
-            hasError = true
-            setErrorStreet(true)
-        } else {
-            setErrorStreet(false)
-        }
-
-        if (target.town.value.length === 0) {
-            hasError = true
-            setErrorTown(true)
-        } else {
-            setErrorTown(false)
-        }
-
-        if ((Number(target.postalCode.value) === 0) || isNaN(Number(target.postalCode.value)) || (target.postalCode.value.length !== 5)) {
-            hasError = true
-            setErrorPostalCode(true)
-        } else {
-            setErrorPostalCode(false)
-        }
-
-        if (hasError === false) {
-            setOpen(true)
-        }
     }
 
     const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -393,10 +406,10 @@ function AddStudent({
             console.log("fileSelected:", fileSelected)
         }
         
-        if (fileSelected) {
-            const formData = new FormData();
-            formData.append("image", fileSelected, fileSelected.name);
-        }
+        // if (fileSelected) {
+        //     const formData = new FormData();
+        //     formData.append("image", fileSelected, fileSelected.name);
+        // }
     }
 
     const handleSend = async() => {
@@ -427,7 +440,22 @@ function AddStudent({
                 }
             }
         );
-        console.log( result)
+
+        setFirstNameStudent("")
+        setLastNameStudent("")
+        setClassStu(undefined)
+        setNameParent("")
+        setNumberParent("")
+        setEmailParent("")
+        setStreet("")
+        setPostalCode("")
+        setTown("")
+        setFileSelected(defaultImage)
+        
+        addToast(`vous avez ajouté l'élève: ${firstNameStudent} ${lastNameStudent}`, {
+            appearance: "info",
+            autoDismiss: true
+        })
     }
     
     return (
@@ -534,6 +562,7 @@ function AddStudent({
                                                 name="firstNameStudent"
                                                 id="firstNameStudent"
                                                 placeholder={dataElement.firstNameStudent}
+                                                onChange={(e)=>setFirstNameStudent(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
                                             :
@@ -541,7 +570,8 @@ function AddStudent({
                                                 name="firstNameStudent"
                                                 id="firstNameStudent"
                                                 placeholder="Entrez un prénom"
-                                                //value=""
+                                                value={lastNameStudent}
+                                                onChange={(e)=>setFirstNameStudent(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
                                     }
@@ -557,13 +587,16 @@ function AddStudent({
                                                 name="lastNameStudent"
                                                 id="lastNameStudent"
                                                 placeholder={dataElement.lastNameStudent}
+                                                onChange={(e)=>setLastNameStudent(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
-                                            :
+                                            : 
                                             <input
                                                 name="lastNameStudent"
                                                 id="lastNameStudent"
                                                 placeholder="Entrez un nom"
+                                                value={lastNameStudent}
+                                                onChange={(e)=>setLastNameStudent(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
                                     }
@@ -579,6 +612,7 @@ function AddStudent({
                                                 name="classStu"
                                                 id="classStu"
                                                 placeholder={dataElement.classStudent}
+                                                onChange={(e)=>setClassStu(Number(e.currentTarget.value))}
                                                 className="inputCustom"
                                             />
                                             :
@@ -586,6 +620,8 @@ function AddStudent({
                                                 name="classStu"
                                                 id="classStu"
                                                 placeholder="Entrez la classe"
+                                                //value={Number(classStu)}
+                                                onChange={(e)=>setClassStu(Number(e.currentTarget.value))}
                                                 className="inputCustom"
                                             />
                                     }
@@ -612,6 +648,8 @@ function AddStudent({
                                                     name="nameParent"
                                                     id="nameParent"
                                                     placeholder="Entrez la nom"
+                                                    value={nameParent}
+                                                    onChange={(e)=>setNameParent(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -634,6 +672,8 @@ function AddStudent({
                                                     name="numberParent"
                                                     id="numberParent"
                                                     placeholder="Entrez un numéro"
+                                                    value={numberParent}
+                                                    onChange={(e)=>setNumberParent(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -656,6 +696,8 @@ function AddStudent({
                                                     name="emailParent"
                                                     id="emailParent"
                                                     placeholder="Entrez une adresse mail"
+                                                    value={emailParent}
+                                                    onChange={(e)=>setEmailParent(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -680,6 +722,8 @@ function AddStudent({
                                                     name="street"
                                                     id="street"
                                                     placeholder="Entrez la rue"
+                                                    value={street}
+                                                    onChange={(e)=>setStreet(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -702,6 +746,8 @@ function AddStudent({
                                                     name="postalCode"
                                                     id="postalCode"
                                                     placeholder="Entrez un code postal"
+                                                    value={postalCode}
+                                                    onChange={(e)=>setPostalCode(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -724,6 +770,8 @@ function AddStudent({
                                                     name="town"
                                                     id="town"
                                                     placeholder="Entrez une ville"
+                                                    value={town}
+                                                    onChange={(e)=>setTown(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -738,11 +786,18 @@ function AddStudent({
                             {
                                 flag ?
                                     <div className={classes.addButtonDetails} >
-                                        <Buttons dataElement={ dataElement.id}/>
+                                        <Buttons
+                                            dataElement={dataElement.id}
+                                            setFlag={setFlag}
+                                        />
                                     </div>
                                     :
                                     <div className={classes.addButton} >
-                                        <Button bgColor='#FE5F55' color='#F7F7FF'>
+                                        <Button
+                                            bgColor='#FE5F55'
+                                            color='#F7F7FF'
+                                            onClick={()=>setAddButton(true)}
+                                        >
                                             Ajouter
                                         </Button>
                                     </div>

@@ -12,6 +12,7 @@ import defaultImage from '../assets/defaultImage.png'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client'
 import Loading from '../components/Loading'
+import { ToastProvider } from 'react-toast-notifications'
 
 const useStyles = makeStyles(theme => ({
  
@@ -417,7 +418,7 @@ function StudentPage() {
                 value={searchData}
                 placeholder="Je recherche par classe"
               />
-              <Search className={classes.mySearchItem}/>
+              <Search className={classes.mySearchItem} />
             </div>
             <div className={classes.profCards}>
               <div className={classes.studentCards} >
@@ -475,32 +476,34 @@ function StudentPage() {
               </div>
             </div>
             <div>
-              <AddStudent
-                newData={newData}
-                flag={flag}
-                setFlag={setFlag}
-                errorFirstNameStudent={errorFirstNameStudent}
-                setErrorFirstNameStudent={setErrorFirstNameStudent}
-                errorLastNameStudent={errorLastNameStudent}
-                setErrorLastNameStudent={setErrorLastNameStudent}
-                errorClassStudent={errorClassStudent}
-                setErrorClassStudent={setErrorClassStudent}
-                errorNameParent={errorNameParent}
-                setErrorNameParent={setErrorNameParent}
-                errorNumberParent={errorNumberParent}
-                setErrorNumberParent={setErrorNumberParent}
-                errorEmailParent={errorEmailParent}
-                setErrorEmailParent={setErrorEmailParent}
-                errorStreet={errorStreet}
-                setErrorStreet={setErrorStreet}
-                errorPostalCode={errorPostalCode}
-                setErrorPostalCode={setErrorPostalCode}
-                errorTown={errorTown}
-                setErrorTown={setErrorTown}
-                fileSelected={fileSelected}
-                setFileSelected={setFileSelected}
-                refetch={refetch}
-              />
+              <ToastProvider>
+                <AddStudent
+                  newData={newData}
+                  flag={flag}
+                  setFlag={setFlag}
+                  errorFirstNameStudent={errorFirstNameStudent}
+                  setErrorFirstNameStudent={setErrorFirstNameStudent}
+                  errorLastNameStudent={errorLastNameStudent}
+                  setErrorLastNameStudent={setErrorLastNameStudent}
+                  errorClassStudent={errorClassStudent}
+                  setErrorClassStudent={setErrorClassStudent}
+                  errorNameParent={errorNameParent}
+                  setErrorNameParent={setErrorNameParent}
+                  errorNumberParent={errorNumberParent}
+                  setErrorNumberParent={setErrorNumberParent}
+                  errorEmailParent={errorEmailParent}
+                  setErrorEmailParent={setErrorEmailParent}
+                  errorStreet={errorStreet}
+                  setErrorStreet={setErrorStreet}
+                  errorPostalCode={errorPostalCode}
+                  setErrorPostalCode={setErrorPostalCode}
+                  errorTown={errorTown}
+                  setErrorTown={setErrorTown}
+                  fileSelected={fileSelected}
+                  setFileSelected={setFileSelected}
+                  refetch={refetch}
+                />
+              </ToastProvider>
             </div>
           </div>
         </Card>

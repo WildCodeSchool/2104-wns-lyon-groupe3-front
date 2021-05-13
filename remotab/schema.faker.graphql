@@ -51,7 +51,7 @@ input InputUser {
 
 type Mutation {
   createUser(inputUser: InputUser): User
-  deleteUser(id: String): Boolean
+  removeUser(id: String): User
 }
 
 type Query {

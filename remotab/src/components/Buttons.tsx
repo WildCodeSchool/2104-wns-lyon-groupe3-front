@@ -5,29 +5,46 @@ import 'ui-neumorphism/dist/index.css'
 
 import { DELETE_USER } from './Queries'
 import { useMutation, useQuery } from '@apollo/client'
+import { useToasts } from 'react-toast-notifications'
 
 const useStyles = makeStyles(theme => ({
  
 }))
   
 type dataProto = {
-    dataElement: String
+    dataElement: String,
+    setFlag: any
 }
 
-function Buttons({dataElement}:dataProto){
+function Buttons({dataElement, setFlag}:dataProto){
     const classes = useStyles()
-    const [deleteUser, { data }] = useMutation(DELETE_USER);
+    const [removeUser, { data}, ] = useMutation(DELETE_USER);
+    const { addToast } = useToasts()
+    
+    const handleSubmitupdate = () => {
+        addToast(`vous avez modifié les informations de l'élève : ${dataElement}`, {
+            appearance: "warning",
+            autoDismiss: true
+        })
+    }
 
-    const handleSubmit = () => {
-        console.log( dataElement)
-        const result = deleteUser({
+    const handleSubmitDelete = () => {
+        console.log(dataElement)
+        //if (deleting) return;
+
+        removeUser({
             variables: {
                 id: dataElement
             }
         });
 
-        alert(`vous avez effacé : ${dataElement}`)
-        console.log(data)
+        if(data)
+            addToast(`vous avez supprimé : ${data.removeUser.firstNameStudent} ${data.removeUser.lastNameStudent}`, {
+                appearance: "error",
+                autoDismiss: true
+            })
+
+        setFlag(false)
     }
 
    // const { dark } = this.props
@@ -36,7 +53,8 @@ function Buttons({dataElement}:dataProto){
             <Button
                 bgColor='#FE5F55'
                 color='#F7F7FF'
-                style={{height:"25px",margin:"5px"}}
+                  style={{ height: "25px", margin: "5px" }}
+                  onClick={handleSubmitupdate}
             >
                 Enrégistrer les modifications
             </Button>
@@ -44,7 +62,7 @@ function Buttons({dataElement}:dataProto){
                 bgColor='#FE5F55'
                 color='#F7F7FF'
                 style={{ height: "25px", margin: "5px" }}
-                onClick={handleSubmit}
+                onClick={handleSubmitDelete}
             >
                 Supprimer l'élève
             </Button>
