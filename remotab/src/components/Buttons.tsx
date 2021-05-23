@@ -7,25 +7,60 @@ import { DELETE_USER } from './Queries'
 import { useMutation, useQuery } from '@apollo/client'
 import { useToasts } from 'react-toast-notifications'
 
+import defaultImage from '../assets/defaultImage.png'
+
 const useStyles = makeStyles(theme => ({
  
 }))
   
 type dataProto = {
     dataElement: String,
-    setFlag: any
+    setFlag: any,
+    setAddButton: any,
+    setUpdateButton: any,
+    setIdUpdate: any,
+    setFirstNameStudent: any,
+    setLastNameStudent: any,
+    //setClassStu(undefined)
+    setNameParent: any,
+    setNumberParent: any,
+    setEmailParent: any,
+    setStreet: any,
+    setPostalCode: any,
+    setTown: any,
+    setFileSelected: any
 }
 
-function Buttons({dataElement, setFlag}:dataProto){
+function Buttons({
+    dataElement,
+    setFlag,
+    setAddButton,
+    setUpdateButton,
+    setIdUpdate,
+
+    setFirstNameStudent,
+    setLastNameStudent,
+    //setClassStu(undefined)
+    setNameParent,
+    setNumberParent,
+    setEmailParent,
+    setStreet,
+    setPostalCode,
+    setTown,
+    setFileSelected,
+
+}: dataProto) {
+
     const classes = useStyles()
     const [removeUser, { data}, ] = useMutation(DELETE_USER);
     const { addToast } = useToasts()
     
     const handleSubmitupdate = () => {
-        addToast(`vous avez modifié les informations de l'élève : ${dataElement}`, {
-            appearance: "warning",
-            autoDismiss: true
-        })
+        setIdUpdate(dataElement)
+        setAddButton(true)
+        setUpdateButton(true)
+
+        //setUpdateButton(false)
     }
 
     const handleSubmitDelete = () => {

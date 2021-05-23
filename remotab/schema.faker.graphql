@@ -52,6 +52,7 @@ input InputUser {
 type Mutation {
   createUser(inputUser: InputUser): User
   removeUser(id: String): User
+  updateUserInfo(id: String): User
 }
 
 type Query {

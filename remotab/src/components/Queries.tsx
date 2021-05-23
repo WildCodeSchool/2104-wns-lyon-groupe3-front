@@ -15,3 +15,24 @@ export const DELETE_USER = gql`
         }
     }
 `
+
+export const UPDATE_USER = gql`
+    mutation UpdateUserInfo($id: String!) {
+        updateUserInfo(id: $id){
+            id
+            firstNameStudent
+            lastNameStudent
+            classStudent
+            photoProfil
+            nameParent
+            numberParent
+            emailParent
+            Adress{
+                id
+                street
+                postalCode
+                town
+            }
+        }
+    }
+`

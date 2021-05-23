@@ -329,6 +329,16 @@ function StudentPage() {
   const [errorPostalCode, setErrorPostalCode] = React.useState<boolean>(false)
   const [errorTown, setErrorTown] = React.useState<boolean>(false)
 
+  const [firstNameStudent, setFirstNameStudent] = React.useState("")
+  const [lastNameStudent, setLastNameStudent] = React.useState("")
+  const [classStu, setClassStu] = React.useState<Number>()
+  const [nameParent, setNameParent] = React.useState("")
+  const [numberParent, setNumberParent] = React.useState("")
+  const [emailParent, setEmailParent] = React.useState("")
+  const [street, setStreet] = React.useState("")
+  const [postalCode, setPostalCode] = React.useState("")
+  const [town, setTown] = React.useState("")
+
   const [fileSelected, setFileSelected] = React.useState<File>()
 
   const [loadingTest, setLoadingTest] = React.useState<boolean>(true)
@@ -347,6 +357,16 @@ function StudentPage() {
     setErrorPostalCode(false)
     setErrorTown(false)
     setFileSelected(undefined)
+
+    setFirstNameStudent("")
+    setLastNameStudent("")
+    //setClassStu(null)
+    setNameParent("")
+    setNumberParent("")
+    setEmailParent("")
+    setStreet("")
+    setPostalCode("")
+    setTown("")
   }
   //setDataResult(data)
   const handleSearch = (event: any): void => {
@@ -481,6 +501,7 @@ function StudentPage() {
                   newData={newData}
                   flag={flag}
                   setFlag={setFlag}
+                
                   errorFirstNameStudent={errorFirstNameStudent}
                   setErrorFirstNameStudent={setErrorFirstNameStudent}
                   errorLastNameStudent={errorLastNameStudent}
@@ -501,7 +522,25 @@ function StudentPage() {
                   setErrorTown={setErrorTown}
                   fileSelected={fileSelected}
                   setFileSelected={setFileSelected}
-                  refetch={refetch}
+                
+                  firstNameStudent={firstNameStudent}
+                  setFirstNameStudent={setFirstNameStudent}
+                  lastNameStudent={lastNameStudent}
+                  setLastNameStudent={setLastNameStudent}
+                  classStu={classStu}
+                  setClassStu={setClassStu}
+                  nameParent={nameParent}
+                  setNameParent={setNameParent}
+                  numberParent={numberParent}
+                  setNumberParent={setNumberParent}
+                  emailParent={emailParent}
+                  setEmailParent={setEmailParent}
+                  street={street}
+                  setStreet={setStreet}
+                  postalCode={postalCode}
+                  setPostalCode={setPostalCode}
+                  town={town}
+                  setTown={setTown}
                 />
               </ToastProvider>
             </div>

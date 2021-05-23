@@ -5,7 +5,7 @@ import {
     DialogTitle,
     DialogContent,
     DialogContentText,
-    DialogActions
+    DialogActions,
 } from "@material-ui/core"
 import CancelIcon from '@material-ui/icons/Cancel'
 import '../styles/neumorphism.css'
@@ -20,7 +20,9 @@ import { useMutation } from '@apollo/client'
 import {ALL_USERS} from "../pages/StudentForm"
 import Buttons from './Buttons'
 import { useToasts } from 'react-toast-notifications'
+import merge from 'ts-deepmerge'
 
+import {UPDATE_USER} from "./Queries"
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -190,6 +192,7 @@ type dataProps = {
     newData: any,
     flag: boolean,
     setFlag: any,
+
     errorFirstNameStudent: boolean,
     setErrorFirstNameStudent: any
     errorLastNameStudent:boolean,
@@ -210,7 +213,25 @@ type dataProps = {
     setErrorTown: any,
     fileSelected:any,
     setFileSelected: any,
-    refetch:any
+    
+    firstNameStudent: string,
+    setFirstNameStudent: any,
+    lastNameStudent: string,
+    setLastNameStudent: any,
+    classStu: any,
+    setClassStu: any,
+    nameParent: string,
+    setNameParent: any,
+    numberParent: string,
+    setNumberParent: any,
+    emailParent: string,
+    setEmailParent: any,
+    street: string,
+    setStreet: any,
+    postalCode: string,
+    setPostalCode: any,
+    town: string,
+    setTown: any
 }
 
 const CREATE_USER = gql`
@@ -239,6 +260,7 @@ function AddStudent({
     newData,
     flag,
     setFlag,
+
     errorFirstNameStudent,
     setErrorFirstNameStudent,
     errorLastNameStudent,
@@ -257,24 +279,36 @@ function AddStudent({
     setErrorPostalCode,
     errorTown,
     setErrorTown,
+
     fileSelected,
     setFileSelected,
-    refetch
+    firstNameStudent,
+    setFirstNameStudent,
+    lastNameStudent,
+    setLastNameStudent,
+    classStu,
+    setClassStu,
+    nameParent,
+    setNameParent,
+    numberParent,
+    setNumberParent,
+    emailParent,
+    setEmailParent,
+    street,
+    setStreet,
+    postalCode,
+    setPostalCode,
+    town,
+    setTown
+
 }: dataProps) {
+
     const classes = useStyles()
     //const { formState: { errors }, register } = useForm<FormValues>()
     //const [state, dispatch] = React.useReducer(reducer, initialString)
     const [open, setOpen] = React.useState(false)
-
-    const [firstNameStudent, setFirstNameStudent] = React.useState("")
-    const [lastNameStudent, setLastNameStudent] = React.useState("")
-    const [classStu, setClassStu] = React.useState<Number>()
-    const [nameParent, setNameParent] = React.useState("")
-    const [numberParent, setNumberParent] = React.useState("")
-    const [emailParent, setEmailParent] = React.useState("")
-    const [street, setStreet] = React.useState("")
-    const [postalCode, setPostalCode] = React.useState("")
-    const [town, setTown] = React.useState("")
+    const [modalUpdate, setModalUpdate] = React.useState(false)
+    const [idUpdate, setIdUpdate] = React.useState("")
 
     const [deleteButton, setDeleteButton] = React.useState(false)
     const [addButton, setAddButton] = React.useState(false)
@@ -284,11 +318,15 @@ function AddStudent({
 
     const profil = fileSelected || ""
 
-    const [createUser, { data }] = useMutation(CREATE_USER, {
-        refetchQueries: [
-            {query: ALL_USERS}
-        ]
-    })
+    const [createUser, { data }] = useMutation(CREATE_USER,
+        // {
+        // refetchQueries: [
+        //     {query: ALL_USERS}
+        // ]
+        // }
+    )
+
+    const [updateUserInfo] = useMutation(UPDATE_USER)
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -384,11 +422,15 @@ function AddStudent({
             } else {
                 setErrorPostalCode(false)
             }
-    
-            if (hasError === false) {
-                setOpen(true)
-            }
             
+            if (hasError === false) {
+                // if (updateButton) {
+                //     setModalUpdate(true)
+                //     setUpdateButton(false)
+                // } else {
+                    setOpen(true)
+                //}  
+            }
             setAddButton(false)
         } 
 
@@ -406,10 +448,10 @@ function AddStudent({
             console.log("fileSelected:", fileSelected)
         }
         
-        // if (fileSelected) {
-        //     const formData = new FormData();
-        //     formData.append("image", fileSelected, fileSelected.name);
-        // }
+        //  if (fileSelected) {
+        //      const formData = new FormData();
+        //      formData.append("image", fileSelected, fileSelected.name);
+        //  }
     }
 
     const handleSend = async() => {
@@ -419,43 +461,74 @@ function AddStudent({
         const photoProfil = profil instanceof URL ? URL.createObjectURL(profil) : defaultImage
         const classStudent = Number(classStu)
         
-        const result = await createUser(
-            {
-                variables: {
-                    input: {
-                        firstNameStudent,
-                        lastNameStudent,
-                        classStudent,
-                        photoProfil,
-                        nameParent,
-                        numberParent,
-                        emailParent,
-                        Adress: {
-                            street,
-                            postalCode,
-                            town,
+
+        if (updateButton) {
+
+            const result = await updateUserInfo(
+                 {
+                     variables: {
+                            id: idUpdate
+                     }
+                 }
+            );
+
+            addToast(`vous avez modifié les informations de l'élève : ${firstNameStudent} ${lastNameStudent}`, {
+                appearance: "warning",
+                autoDismiss: true
+            })
+
+            setFirstNameStudent("")
+            setLastNameStudent("")
+            //setClassStu(undefined)
+            setNameParent("")
+            setNumberParent("")
+            setEmailParent("")
+            setStreet("")
+            setPostalCode("")
+            setTown("")
+            setFileSelected(defaultImage)
+            setUpdateButton(false)
+
+        }else {
+            const result = await createUser(
+                {
+                    variables: {
+                        input: {
+                            firstNameStudent,
+                            lastNameStudent,
+                            classStudent,
+                            photoProfil,
+                            nameParent,
+                            numberParent,
+                            emailParent,
+                            Adress: {
+                                street,
+                                postalCode,
+                                town,
+                            }
                         }
+    
                     }
-
                 }
-            }
-        );
+            );
+                
+            addToast(`vous avez ajouté l'élève: ${firstNameStudent} ${lastNameStudent}`, {
+                appearance: "info",
+                autoDismiss: true
+            })
+    
+            setFirstNameStudent("")
+            setLastNameStudent("")
+            //setClassStu(undefined)
+            setNameParent("")
+            setNumberParent("")
+            setEmailParent("")
+            setStreet("")
+            setPostalCode("")
+            setTown("")
+            setFileSelected(defaultImage)
+        }
 
-        setFirstNameStudent("")
-        setLastNameStudent("")
-        setClassStu(undefined)
-        setNameParent("")
-        setNumberParent("")
-        setEmailParent("")
-        setStreet("")
-        setPostalCode("")
-        setTown("")
-        setFileSelected(defaultImage)
-        
-        addToast(`vous avez ajouté l'élève: ${firstNameStudent} ${lastNameStudent}`, {
-            appearance: "info",
-            autoDismiss: true
-        })
     }
     
     return (
@@ -465,9 +538,7 @@ function AddStudent({
                     <div className={classes.changeProfil}>
                         <Avatar
                             src={
-                                fileSelected ?
-                                    URL.createObjectURL(profil)
-                                    :
+
                                     newData.map((img: any) => img.photoProfil)
                             }
                             alt="profil-avatar"
@@ -561,8 +632,12 @@ function AddStudent({
                                             <input
                                                 name="firstNameStudent"
                                                 id="firstNameStudent"
-                                                placeholder={dataElement.firstNameStudent}
-                                                onChange={(e)=>setFirstNameStudent(e.currentTarget.value)}
+                                                //placeholder={dataElement.firstNameStudent}
+                                                value={firstNameStudent ? firstNameStudent : dataElement.firstNameStudent }
+                                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    e.persist()
+                                                    setFirstNameStudent(e.currentTarget.value)
+                                                }}
                                                 className="inputCustom"
                                             />
                                             :
@@ -586,8 +661,12 @@ function AddStudent({
                                             <input
                                                 name="lastNameStudent"
                                                 id="lastNameStudent"
-                                                placeholder={dataElement.lastNameStudent}
-                                                onChange={(e)=>setLastNameStudent(e.currentTarget.value)}
+                                                //placeholder={dataElement.lastNameStudent}
+                                                value={lastNameStudent ? lastNameStudent : dataElement.lastNameStudent }
+                                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    e.persist()
+                                                    setLastNameStudent(e.currentTarget.value)
+                                                }}
                                                 className="inputCustom"
                                             />
                                             : 
@@ -611,8 +690,12 @@ function AddStudent({
                                             <input
                                                 name="classStu"
                                                 id="classStu"
-                                                placeholder={dataElement.classStudent}
-                                                onChange={(e)=>setClassStu(Number(e.currentTarget.value))}
+                                                //placeholder={dataElement.classStudent}
+                                                value={classStu ? classStu : dataElement.classStudent }
+                                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    e.persist()
+                                                    setClassStu(e.currentTarget.value)
+                                                }}
                                                 className="inputCustom"
                                             />
                                             :
@@ -640,7 +723,12 @@ function AddStudent({
                                                 <input
                                                     name="nameParent"
                                                     id="nameParent"
-                                                    placeholder={dataElement.nameParent}
+                                                    //placeholder={dataElement.nameParent}
+                                                    value={nameParent ? nameParent : dataElement.nameParent}
+                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                        e.persist()
+                                                        setNameParent(e.currentTarget.value)
+                                                    }}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -664,7 +752,12 @@ function AddStudent({
                                                 <input
                                                     name="numberParent"
                                                     id="numberParent"
-                                                    placeholder={dataElement.numberParent}
+                                                    //placeholder={dataElement.numberParent}
+                                                    value={numberParent ? numberParent : dataElement.numberParent}
+                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                        e.persist()
+                                                        setNumberParent(e.currentTarget.value)
+                                                    }}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -688,7 +781,12 @@ function AddStudent({
                                                 <input
                                                     name="emailParent"
                                                     id="emailParent"
-                                                    placeholder={dataElement.emailParent}
+                                                    //placeholder={dataElement.emailParent}
+                                                    value={emailParent ? emailParent : dataElement.emailParent}
+                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                        e.persist()
+                                                        setEmailParent(e.currentTarget.value)
+                                                    }}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -714,7 +812,12 @@ function AddStudent({
                                                 <input
                                                     name="street"
                                                     id="street"
-                                                    placeholder={dataElement.Adress.street}
+                                                   // placeholder={dataElement.Adress.street}
+                                                    value={street ? street : dataElement.Adress.street}
+                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                        e.persist()
+                                                        setStreet(e.currentTarget.value)
+                                                    }}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -738,7 +841,12 @@ function AddStudent({
                                                 <input
                                                     name="postalCode"
                                                     id="postalCode"
-                                                    placeholder={dataElement.Adress.postalCode}
+                                                   // placeholder={dataElement.Adress.postalCode}
+                                                    value={postalCode ? postalCode : dataElement.Adress.postalCode}
+                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                        e.persist()
+                                                        setPostalCode(e.currentTarget.value)
+                                                    }}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -762,7 +870,12 @@ function AddStudent({
                                                 <input
                                                     name="town"
                                                     id="town"
-                                                    placeholder={dataElement.Adress.town}
+                                                    //placeholder={dataElement.Adress.town}
+                                                    value={town ? town : dataElement.Adress.town}
+                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                        e.persist()
+                                                        setTown(e.currentTarget.value)
+                                                    }}
                                                     className="inputCustom"
                                                 />
                                                 :
@@ -780,8 +893,6 @@ function AddStudent({
                                         </span>
                                     </div>
                                 </div>
-
-
                             </div>
                             {
                                 flag ?
@@ -789,6 +900,20 @@ function AddStudent({
                                         <Buttons
                                             dataElement={dataElement.id}
                                             setFlag={setFlag}
+                                            setAddButton={setAddButton}
+                                            setUpdateButton={setUpdateButton}
+
+                                            setFirstNameStudent={setFirstNameStudent}
+                                            setLastNameStudent={setLastNameStudent}
+                                            //setClassStu(undefined)
+                                            setNameParent={setNameParent}
+                                            setNumberParent={setNumberParent}
+                                            setEmailParent={setEmailParent}
+                                            setStreet={setStreet}
+                                            setPostalCode={setPostalCode}
+                                            setTown={setTown}
+                                            setFileSelected={setFileSelected}
+                                            setIdUpdate={setIdUpdate}
                                         />
                                     </div>
                                     :
@@ -796,7 +921,10 @@ function AddStudent({
                                         <Button
                                             bgColor='#FE5F55'
                                             color='#F7F7FF'
-                                            onClick={()=>setAddButton(true)}
+                                            onClick={() => {
+                                                setAddButton(true)
+                                            }
+                                            }
                                         >
                                             Ajouter
                                         </Button>
