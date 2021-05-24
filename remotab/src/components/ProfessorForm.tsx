@@ -6,6 +6,8 @@ import logo from '../assets/logoRemotab.png';
 import prof1 from '../assets/prof1.png';
 import prof2 from '../assets/prof2.png';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddProfessor from '../components/AddProfessor';
+import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     page: {
@@ -167,33 +169,7 @@ export default function ProfessorForm() {
                         </CardContent>
                     </Card>
                 </div>
-
-                <div className={classes.addProfForm}>
-                    <div className={classes.addProf}>
-                        <h2>Ajouter un nouveau professeur</h2>
-                    </div>
-                    <form action="#" method="post" className={classes.formBody}>
-                        <div>
-                            <label >Prenom</label>
-                            <input type="text" id="fname" name="fname" value="Entrez un prénom" />
-                            <label>Nom</label>
-                            <input type="text" id="lname" name="lname" value="Entrez un nom" />
-                            <label>Adresse mail</label>
-                            <input type="email" id="email" name="email" value="Entrez l'adresse mail" />
-                        </div>
-                        <div>
-                            <label>Adresse mail</label>
-                            <input type="email" id="email" name="email" value="Entrez l'adresse mail" />
-                            <label>Adresse mail</label>
-                            <input type="email" id="email" name="email" value="Entrez l'adresse mail" />
-                            <label>Adresse mail</label>
-                            <input type="email" id="email" name="email" value="Entrez l'adresse mail" />
-                        </div>
-                        <label>Numéro de téléphone</label>
-                        <input type="number" id="mobile" name="mobile" value="Entrez le numéro de téléphone" />
-                        <button type="submit">Ajouter</button>
-                    </form>
-                </div>
+                <AddProfessor />
             </Card>
             <div>
                 <Card><CardContent>Gestion des élèves</CardContent></Card>

@@ -9,3 +9,13 @@
     background: #F7F7FF;
     box-shadow: inset 8px 8px 8px #c3c3c9, inset -8px -8px 8px #ffffff;
 }
+
+.myAddProfessorForm {
+    width: 890px;
+    height: 400px;
+    border-radius: 20px;
+    background: #8AA4C2;
+    box-shadow:  8px 8px 16px #788fa9,  -8px -8px 16px #9cb9db;
+    display: flex;
+    flex-direction: column;
+} 
