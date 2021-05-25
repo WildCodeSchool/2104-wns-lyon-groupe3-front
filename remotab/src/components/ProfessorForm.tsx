@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     },
     main: {
         background: theme.palette.primary.dark,
-        width: "80vw",
+        width: "70vw",
         margin: "150px auto",
         display: "flex",
         flexDirection: "column",
@@ -96,8 +96,28 @@ const useStyles = makeStyles(theme => ({
         marginTop: 20,
         display: "flex",
         flexDirection: "column"
+    },
+    asideContainer: {
+        margin: "150px auto",
+        display: "flex",
+        flexDirection: "column",
+        height: "auto"
+    },
+    asideCards: {
+        height: 200,
+        margin: 15,
+        background: theme.palette.primary.main,
+        display: "flex"
+    },
+    asideCardsContent: {
+        font: "Cabin",
+        textTransform: "uppercase",
+        textAlign: "center",
+        background: theme.palette.primary.main,
+        color: theme.palette.primary.light,
+        alignSelf: "center",
+        margin: "10 auto"
     }
-
 }));
 
 export default function ProfessorForm() {
@@ -117,64 +137,78 @@ export default function ProfessorForm() {
                 </button>
 
             </div>
-            <Card className={classes.main}>
-                <div className={classes.profCards}>
-                    <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                            <img src={prof1} alt="professor-avatar" className={classes.image} />
-                            <div className={classes.cardDescription}>
-                                <Subtitle2 secondary className={classes.title} >
-                                    Nom
+            <div style={{ display: "flex", flexDirection: "row" }}>
+                <Card className={classes.main}>
+                    <div className={classes.profCards}>
+                        <Card className={classes.card}>
+                            <CardContent className={classes.cardContent}>
+                                <img src={prof1} alt="professor-avatar" className={classes.image} />
+                                <div className={classes.cardDescription}>
+                                    <Subtitle2 secondary className={classes.title} >
+                                        Nom
                 </Subtitle2>
-                                <Subtitle2 secondary className={classes.title} >
-                                    Titre
+                                    <Subtitle2 secondary className={classes.title} >
+                                        Titre
                 </Subtitle2></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                            <img src={prof2} alt="professor-avatar" className={classes.image} />
-                            <div className={classes.cardDescription}>
-                                <Subtitle2 secondary className={classes.title} >
-                                    Nom
+                            </CardContent>
+                        </Card>
+                        <Card className={classes.card}>
+                            <CardContent className={classes.cardContent}>
+                                <img src={prof2} alt="professor-avatar" className={classes.image} />
+                                <div className={classes.cardDescription}>
+                                    <Subtitle2 secondary className={classes.title} >
+                                        Nom
                 </Subtitle2>
-                                <Subtitle2 secondary className={classes.title} >
-                                    Titre
+                                    <Subtitle2 secondary className={classes.title} >
+                                        Titre
                 </Subtitle2></div>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                            <img src={prof1} alt="professor-avatar" className={classes.image} />
-                            <div className={classes.cardDescription}>
-                                <Subtitle2 secondary className={classes.title} >
-                                    Nom
+                            </CardContent>
+                        </Card>
+                        <Card className={classes.card}>
+                            <CardContent className={classes.cardContent}>
+                                <img src={prof1} alt="professor-avatar" className={classes.image} />
+                                <div className={classes.cardDescription}>
+                                    <Subtitle2 secondary className={classes.title} >
+                                        Nom
                 </Subtitle2>
-                                <Subtitle2 secondary className={classes.title} >
-                                    Titre
+                                    <Subtitle2 secondary className={classes.title} >
+                                        Titre
                 </Subtitle2></div>
-                        </CardContent>
+                            </CardContent>
+                        </Card>
+                        <Card className={classes.card}>
+                            <CardContent className={classes.cardContent}>
+                                <img src={prof2} alt="professor-avatar" className={classes.image} />
+                                <div className={classes.cardDescription}>
+                                    <Subtitle2 secondary className={classes.title}>
+                                        Nom
+                </Subtitle2>
+                                    <Subtitle2 secondary className={classes.title} >
+                                        Titre
+                </Subtitle2>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                    <AddProfessor />
+                </Card>
+                <div className={classes.asideContainer}>
+                    <Card className={classes.asideCards}>
+                        <CardContent className={classes.asideCardsContent}>
+                            Gestion des élèves
+                            </CardContent>
                     </Card>
-                    <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                            <img src={prof2} alt="professor-avatar" className={classes.image} />
-                            <div className={classes.cardDescription}>
-                                <Subtitle2 secondary className={classes.title}>
-                                    Nom
-                </Subtitle2>
-                                <Subtitle2 secondary className={classes.title} >
-                                    Titre
-                </Subtitle2>
-                            </div>
-                        </CardContent>
+                    <Card className={classes.asideCards}>
+                        <CardContent className={classes.asideCardsContent}>
+                            Gestion des classes
+                            </CardContent>
+                    </Card>
+                    <Card className={classes.asideCards}>
+                        <CardContent className={classes.asideCardsContent}>
+                            Gestion des messages
+                            </CardContent>
                     </Card>
                 </div>
-                <AddProfessor />
-            </Card>
-            <div>
-                <Card><CardContent>Gestion des élèves</CardContent></Card>
-                <Card><CardContent>Gestion des classes</CardContent></Card>
-                <Card><CardContent>Gestion des messages</CardContent></Card>
             </div>
         </div>
     )
