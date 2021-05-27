@@ -1,10 +1,8 @@
-import { Card, CardContent, Subtitle2, ToggleButton } from 'ui-neumorphism';
+import { Card, CardContent, Subtitle2, ToggleButton, Button } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css'
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../assets/logoRemotab.png';
-import prof1 from '../assets/prof1.png';
-import prof2 from '../assets/prof2.png';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddProfessor from '../components/AddProfessor';
 import { Add } from '@material-ui/icons';
@@ -85,7 +83,6 @@ const useStyles = makeStyles(theme => ({
         borderRadius: "12px"
     },
     card: {
-        width: 200,
         margin: 15
     },
     cardContent: {
@@ -97,10 +94,15 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         fontSize: 16,
+        textAlign: "justify"
     },
     image: {
-        width: 60,
         marginRight: 10
+    },
+    detailsButton: {
+        marginTop: "10px",
+        background: theme.palette.primary.main,
+        color: theme.palette.primary.light,
     },
     addProfForm: {
         padding: 20,
@@ -141,6 +143,34 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.primary.light,
         alignSelf: "center",
         margin: "10 auto"
+    },
+    searchBarContainer: {
+        display: "flex",
+        justifyContent: "flex-end",
+        alignContent: "stretch",
+        alignItems: "center",
+        borderRadius: "10px",
+        backgroundColor: "#fff",
+        padding: "5px",
+        margin: " 15px",
+        width: "50%",
+        boxShadow: ".3rem .3rem .6rem #c3c3c3, -.2rem -.2rem .5rem #fff"
+    },
+    searchIcon: {
+        position: "absolute",
+        display: "flex",
+        fill: theme.palette.secondary.light,
+        marginRight: " 2px"
+    },
+    searchInput: {
+        padding: "10px",
+        width: "100%",
+        borderRadius: "10px",
+        border: "none",
+        marginBottom: "0",
+        boxShadow: "inset .2rem .2rem .5rem #c3c3c3, inset -.2rem -.2rem .5rem #fff",
+        color: " #c3c3c3",
+        outline: "none"
     }
 }));
 
@@ -176,19 +206,27 @@ export default function ProfessorForm() {
             <div style={{ display: "flex", flexDirection: "row" }}>
 
                 <Card className={classes.main}>
+                    <div style={{ display: "flex", justifyContent : "flex-end"}}>
+                        <div  className={classes.searchBarContainer}>
+                            <input type="text" name="search" className={classes.searchInput} placeholder="Recherche professeur par nom..." />
+                            <svg className={classes.searchIcon} width="22" height="22" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+                                <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" /></svg>
+                        </div>
+                    </div>
                     <div className={classes.profCards}>
                         {data.allUsers.map((currentUser: any) =>
                             <Card className={classes.card}>
                                 <CardContent className={classes.cardContent}>
-                                    <img src={prof1} alt="professor-avatar" className={classes.image} />
+                                    <img src={currentUser.photoProfil} alt="professor-avatar" className={classes.image} />
                                     <div className={classes.cardDescription}>
                                         <Subtitle2 secondary className={classes.title} >
                                             {currentUser.firstName}
                                         </Subtitle2>
                                         <Subtitle2 secondary className={classes.title} >
                                             {currentUser.titre}
-                                        </Subtitle2></div>
-                                    <button>Détails</button>
+                                        </Subtitle2>
+                                        <Button className={classes.detailsButton} bordered>Détails</Button>
+                                    </div>
                                 </CardContent>
                             </Card>
                         )}
