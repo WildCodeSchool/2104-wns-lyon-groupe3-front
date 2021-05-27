@@ -3,9 +3,8 @@ import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css'
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../assets/logoRemotab.png';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {ExitToApp, AddAPhoto, Add} from '@material-ui/icons';
 import AddProfessor from '../components/AddProfessor';
-import { Add } from '@material-ui/icons';
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 
@@ -75,15 +74,16 @@ const useStyles = makeStyles(theme => ({
     },
     profCards: {
         display: 'inline-flex',
-        overflow: "auto",
-        justifyContent: "space-evenly",
+        flexWrap: "nowrap",
+        overflowX: "scroll",
         padding: 40,
         margin: 20,
         border: "1px solid #F7F7FF",
-        borderRadius: "12px"
+        borderRadius: "12px",
     },
     card: {
-        margin: 15
+        margin: 15,
+        border: 0
     },
     cardContent: {
         display: "flex",
@@ -194,7 +194,7 @@ export default function ProfessorForm() {
             <div className={classes.myNav}>
                 <div className={classes.myDivExitButton}>
                     <span className={classes.mySpan}>Se déconnecter</span>
-                    <ExitToAppIcon className={classes.exitButton} />
+                    <ExitToApp className={classes.exitButton} />
                 </div>
 
                 <img src={logo} alt="logo" className={classes.logo} />

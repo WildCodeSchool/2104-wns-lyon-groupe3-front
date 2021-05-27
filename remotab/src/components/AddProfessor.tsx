@@ -1,7 +1,10 @@
-import React from 'react'
-import { makeStyles } from "@material-ui/core"
-import '../styles/neumorphism.css'
-import { Button, Divider, TextArea, TextField } from 'ui-neumorphism'
+import React from 'react';
+import { makeStyles } from "@material-ui/core";
+import '../styles/neumorphism.css';
+import { Button, Divider, TextArea, TextField } from 'ui-neumorphism';
+import { AddAPhoto } from '@material-ui/icons';
+import avatar from '../assets/avatar.jpg'
+
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -16,15 +19,28 @@ const useStyles = makeStyles(theme => ({
         margin: "10px",
         textTransform: "uppercase",
         fontFamily: "Alef,sans-serif",
-        color: theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText,
+        display: "inline-flex",
+        justifyContent: "space-around",
+        alignItems: "center"
     },
     formBody: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around"
     },
-    labels : {
+    labels: {
         color: theme.palette.primary.light
+    },
+    avatarImage: {
+        width: "100px",
+        borderRadius: "50%",
+        position: "relative"
+    },
+    addPhoto: {
+        position: "absolute",
+        marginLeft: "-25px",
+        marginTop: "10px"
     }
 }))
 
@@ -33,6 +49,10 @@ export default function AddProfessor() {
     return (
         <div className={classes.addProfForm}>
             <div className={classes.addProf}>
+                <div>
+                    <img src={avatar} className={classes.avatarImage} />
+                    <AddAPhoto className={classes.addPhoto}/>
+                </div>
                 <h3 style={{ textAlign: "center", marginBottom: "30px" }}>Ajouter un nouveau professeur</h3>
             </div>
             <div>
