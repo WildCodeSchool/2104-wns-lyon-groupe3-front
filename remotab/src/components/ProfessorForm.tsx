@@ -8,6 +8,29 @@ import prof2 from '../assets/prof2.png';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddProfessor from '../components/AddProfessor';
 import { Add } from '@material-ui/icons';
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
+
+
+const ALL_PROFS = gql`
+query GetAllProfessors {
+  allUsers {
+    id
+    firstName
+    lastName
+    titre
+    photoProfil
+    emailAddress
+    phoneNumber
+    Adress {
+      street
+      postalCode
+      town
+    }
+  }
+}
+`;
+
 
 const useStyles = makeStyles(theme => ({
     page: {
@@ -54,18 +77,19 @@ const useStyles = makeStyles(theme => ({
     },
     profCards: {
         display: 'inline-flex',
+        overflow: "auto",
         justifyContent: "space-evenly",
         padding: 40,
         margin: 20,
         border: "1px solid #F7F7FF",
-        borderRadius: 20
+        borderRadius: "12px"
     },
     card: {
         width: 200,
         margin: 15
     },
     cardContent: {
-        display: "inline-flex",
+        display: "flex",
     },
     cardDescription: {
         display: "flex",
@@ -121,9 +145,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ProfessorForm() {
+    const { loading, error, data } = useQuery(ALL_PROFS);
     const classes = useStyles();
 
+    if (loading) {
+        return <p> Loading...</p>
+    }
+    console.log(data.allUsers.map((user: any) => user.firstName))
+
+    if (error) {
+        return <p>Error...</p>
+    }
+
     return (
+
+        data &&
         <div className={classes.page}>
             <div className={classes.myNav}>
                 <div className={classes.myDivExitButton}>
@@ -138,60 +174,28 @@ export default function ProfessorForm() {
 
             </div>
             <div style={{ display: "flex", flexDirection: "row" }}>
+
                 <Card className={classes.main}>
                     <div className={classes.profCards}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                                <img src={prof1} alt="professor-avatar" className={classes.image} />
-                                <div className={classes.cardDescription}>
-                                    <Subtitle2 secondary className={classes.title} >
-                                        Nom
-                </Subtitle2>
-                                    <Subtitle2 secondary className={classes.title} >
-                                        Titre
-                </Subtitle2></div>
-                            </CardContent>
-                        </Card>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                                <img src={prof2} alt="professor-avatar" className={classes.image} />
-                                <div className={classes.cardDescription}>
-                                    <Subtitle2 secondary className={classes.title} >
-                                        Nom
-                </Subtitle2>
-                                    <Subtitle2 secondary className={classes.title} >
-                                        Titre
-                </Subtitle2></div>
-                            </CardContent>
-                        </Card>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                                <img src={prof1} alt="professor-avatar" className={classes.image} />
-                                <div className={classes.cardDescription}>
-                                    <Subtitle2 secondary className={classes.title} >
-                                        Nom
-                </Subtitle2>
-                                    <Subtitle2 secondary className={classes.title} >
-                                        Titre
-                </Subtitle2></div>
-                            </CardContent>
-                        </Card>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                                <img src={prof2} alt="professor-avatar" className={classes.image} />
-                                <div className={classes.cardDescription}>
-                                    <Subtitle2 secondary className={classes.title}>
-                                        Nom
-                </Subtitle2>
-                                    <Subtitle2 secondary className={classes.title} >
-                                        Titre
-                </Subtitle2>
-                                </div>
-                            </CardContent>
-                        </Card>
+                        {data.allUsers.map((currentUser: any) =>
+                            <Card className={classes.card}>
+                                <CardContent className={classes.cardContent}>
+                                    <img src={prof1} alt="professor-avatar" className={classes.image} />
+                                    <div className={classes.cardDescription}>
+                                        <Subtitle2 secondary className={classes.title} >
+                                            {currentUser.firstName}
+                                        </Subtitle2>
+                                        <Subtitle2 secondary className={classes.title} >
+                                            {currentUser.titre}
+                                        </Subtitle2></div>
+                                    <button>Détails</button>
+                                </CardContent>
+                            </Card>
+                        )}
                     </div>
                     <AddProfessor />
                 </Card>
+
                 <div className={classes.asideContainer}>
                     <Card className={classes.asideCards}>
                         <CardContent className={classes.asideCardsContent}>

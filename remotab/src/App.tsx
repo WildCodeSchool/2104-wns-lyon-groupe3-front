@@ -10,19 +10,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Palette } from '@material-ui/icons';
 
 
-function App(){
+
+function App() {  
+
   return (
     <ThemeProvider theme={theme}>
-       <Router>
+      <Router>
         <Switch>
-        <Route exact path='/'>
+          <Route exact path='/'>
             <HomePage />
-          </Route>   
-          <Route path='/professorform' component={ProfessorForm}/>
-      </Switch>
+          </Route>
+          <Route path='/professorform' component={ProfessorForm} />
+        </Switch>
       </Router>
     </ThemeProvider>
-    );
+  );
 }
 
 export default App;
