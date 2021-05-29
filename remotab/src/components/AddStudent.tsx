@@ -17,12 +17,11 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/client'
 
-import {ALL_USERS} from "../pages/StudentForm"
 import Buttons from './Buttons'
 import { useToasts } from 'react-toast-notifications'
 import merge from 'ts-deepmerge'
 
-import {UPDATE_USER} from "./Queries"
+import {UPDATE_USER, ALL_USERS} from "./Queries"
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -218,7 +217,7 @@ type dataProps = {
     setFirstNameStudent: any,
     lastNameStudent: string,
     setLastNameStudent: any,
-    classStu: any,
+    classStu: string,
     setClassStu: any,
     nameParent: string,
     setNameParent: any,
@@ -479,7 +478,7 @@ function AddStudent({
 
             setFirstNameStudent("")
             setLastNameStudent("")
-            //setClassStu(undefined)
+            setClassStu("")
             setNameParent("")
             setNumberParent("")
             setEmailParent("")
@@ -902,17 +901,6 @@ function AddStudent({
                                             setFlag={setFlag}
                                             setAddButton={setAddButton}
                                             setUpdateButton={setUpdateButton}
-
-                                            setFirstNameStudent={setFirstNameStudent}
-                                            setLastNameStudent={setLastNameStudent}
-                                            //setClassStu(undefined)
-                                            setNameParent={setNameParent}
-                                            setNumberParent={setNumberParent}
-                                            setEmailParent={setEmailParent}
-                                            setStreet={setStreet}
-                                            setPostalCode={setPostalCode}
-                                            setTown={setTown}
-                                            setFileSelected={setFileSelected}
                                             setIdUpdate={setIdUpdate}
                                         />
                                     </div>

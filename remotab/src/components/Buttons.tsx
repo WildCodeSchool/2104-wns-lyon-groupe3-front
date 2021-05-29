@@ -19,16 +19,6 @@ type dataProto = {
     setAddButton: any,
     setUpdateButton: any,
     setIdUpdate: any,
-    setFirstNameStudent: any,
-    setLastNameStudent: any,
-    //setClassStu(undefined)
-    setNameParent: any,
-    setNumberParent: any,
-    setEmailParent: any,
-    setStreet: any,
-    setPostalCode: any,
-    setTown: any,
-    setFileSelected: any
 }
 
 function Buttons({
@@ -37,17 +27,6 @@ function Buttons({
     setAddButton,
     setUpdateButton,
     setIdUpdate,
-
-    setFirstNameStudent,
-    setLastNameStudent,
-    //setClassStu(undefined)
-    setNameParent,
-    setNumberParent,
-    setEmailParent,
-    setStreet,
-    setPostalCode,
-    setTown,
-    setFileSelected,
 
 }: dataProto) {
 

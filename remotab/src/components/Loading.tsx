@@ -30,7 +30,7 @@ function Loading(
     const classes = useStyles()
      
     return (
-        <div className={classes.myBodyCard}>   
+        <div data-testid="loading-message" className={classes.myBodyCard}>   
             <CircularProgress />
         </div>
     )
