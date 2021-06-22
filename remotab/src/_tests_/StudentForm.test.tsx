@@ -7,6 +7,8 @@ import StudentForm from '../pages/StudentForm'
 import {ALL_USERS} from '../components/Queries'
 import Loading from '../components/Loading';
 
+import defaultImage from '../assets/defaultImage.png'
+
 
 const GET_USERS_SUCCESS_MOCK = {
   request: {
@@ -16,37 +18,10 @@ const GET_USERS_SUCCESS_MOCK = {
     data: {
         allUsers: [
         {
-            id: '1',
-            firstNameStudent: "toto",
             lastNameStudent: "tata",
             classStudent: 2,
-            photoProfil: "",
-            nameParent: "toto tata",
-            numberParent: "0756445885",
-            emailParent: "ddd@ff.fr",
-            Adress:{
-              id: '2',
-              street: "5 rue",
-              postalCode: "54789",
-              town: "paris"
-            }
-        },
-        {
-            id: '2',
-            firstNameStudent: "titi",
-            lastNameStudent: "tutu",
-            classStudent: 2,
-            photoProfil: "",
-            nameParent: "toto tata",
-            numberParent: "0756445885",
-            emailParent: "ddd@ff.fr",
-            Adress:{
-              id: '3',
-              street: "5 rue",
-              postalCode: "54789",
-              town: "paris"
-            }
-        },
+            photoProfil: defaultImage
+        }
       ],
     },
   },
@@ -104,10 +79,10 @@ describe('App', () => {
             </MockedProvider>
           );
     
-          const list = await waitFor(() => screen.getByTestId('element'));
+          const list = await waitFor(() => screen.getByRole());
     
-          const listItems = within(list).getByTestId('elementContent');
-        //  expect(listItems).toHaveLength(2);
+          const listItems = within(list).getByRole('Card');
+          expect(listItems).toHaveLength(1);
     
           expect(listItems).toHaveTextContent('toto');
          // expect(listItems[1]).toHaveTextContent('titi');

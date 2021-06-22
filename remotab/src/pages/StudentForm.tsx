@@ -296,8 +296,8 @@ function StudentPage() {
               />
               <Search className={classes.mySearchItem} />
             </div>
-            <div data-testid="element" className={classes.profCards}>
-              <div data-testid="elementContent" className={classes.studentCards} >
+            <div className={classes.profCards}>
+              <div   className={classes.studentCards} >
                 {
                   emptySearchData ?
                     <div className={classes.cardEmptyDiv}>
