@@ -518,7 +518,7 @@ function AddStudent({
     
             setFirstNameStudent("")
             setLastNameStudent("")
-            //setClassStu(undefined)
+            setClassStu(null)
             setNameParent("")
             setNumberParent("")
             setEmailParent("")
@@ -538,7 +538,7 @@ function AddStudent({
                         <Avatar
                             src={
 
-                                    newData.map((img: any) => img.photoProfil)
+                               newData.map((img: any) => img.photoProfil)
                             }
                             alt="profil-avatar"
                             className={classes.profilEleve}
@@ -644,7 +644,7 @@ function AddStudent({
                                                 name="firstNameStudent"
                                                 id="firstNameStudent"
                                                 placeholder="Entrez un prénom"
-                                                value={lastNameStudent}
+                                                value={firstNameStudent}
                                                 onChange={(e)=>setFirstNameStudent(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />

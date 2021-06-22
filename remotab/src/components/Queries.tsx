@@ -29,7 +29,6 @@ export const DELETE_USER = gql`
             firstNameStudent
             lastNameStudent
             classStudent
-            photoProfil
 
         }
     }
