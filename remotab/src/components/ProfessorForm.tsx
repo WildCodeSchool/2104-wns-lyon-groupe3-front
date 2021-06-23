@@ -223,19 +223,27 @@ export default function ProfessorForm() {
     const [errorFirstNameProf, setErrorFirstNameProf] = useState<boolean>(false)
     const [errorLastNameProf, setErrorLastNameProf] = useState<boolean>(false)
     const [errorTitreProf, setErrorTitreProf] = useState<boolean>(false)
-    const [errorPhotoProfilProf, setErrorPhotoProfileProf] = useState<boolean>(false)
     const [errorEmailAddressProf, setErrorEmailAddressProf] = useState<boolean>(false)
     const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
     const [errorStreetProf, setErrorStreetProf] = useState<boolean>(false)
     const [errorPostalCodeProf, setErrorPostalCodeProf] = useState<boolean>(false)
     const [errorTownProf, setErrorTownProf] = useState<boolean>(false)
 
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [titreProf, setTitreProf] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
+    const [emailAddressProf, setEmailAddressProf] = useState("")
+    const [streetProf, setStreetProf] = useState("")
+    const [postalCodeProf, setPostalCodeProf] = useState("")
+    const [town, setTown] = useState("")
+
     const [fileSelected, setFileSelected] = useState<File>()
 
-    // const [loadingTest, setLoadingTest] = useState<boolean>(true)
+    const [loadingTest, setLoadingTest] = useState<boolean>(true)
 
     //Search input
-    const handleChange = (event: any): void => {
+    const handleSearch = (event: any): void => {
         const searchedProf = event.value
         setSearchData(searchedProf)
 
@@ -278,13 +286,21 @@ export default function ProfessorForm() {
         setErrorFirstNameProf(false)
         setErrorLastNameProf(false)
         setErrorTitreProf(false)
-        setErrorPhotoProfileProf(false)
         setErrorEmailAddressProf(false)
         setErrorPhoneNumberProf(false)
         setErrorStreetProf(false)
         setErrorPostalCodeProf(false)
         setErrorTownProf(false)
         setFileSelected(undefined)
+
+        setFirstName("")
+        setLastName("")
+        setTitreProf("")
+        setPhoneNumber("")
+        setEmailAddressProf("")
+        setStreetProf("")
+        setPostalCodeProf("")
+        setTown("")
     }
 
     return (
@@ -310,7 +326,7 @@ export default function ProfessorForm() {
                                 className={classes.searchInput}
                                 placeholder="Recherche professeur par nom..."
                                 value={searchData}
-                                onChange={handleChange}
+                                onChange={handleSearch}
                             />
                             <svg className={classes.searchIcon} width="22" height="22" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
                                 <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" /></svg>
@@ -363,30 +379,48 @@ export default function ProfessorForm() {
                     </div>
                     <div>
                         <ToastProvider>
-                            <AddProfessor 
+                            <AddProfessor
                                 newData={newData}
                                 flag={flag}
                                 setFlag={setFlag}
+                                firstName={firstName}
+                                setFirstName={setFirstName}
                                 errorFirstNameProf={errorFirstNameProf}
                                 setErrorFirstNameProf={setErrorFirstNameProf}
+                                lastName={lastName}
+                                setLastName={setLastName}
                                 errorLastNameProf={errorLastNameProf}
                                 setErrorLastNameProf={setErrorLastNameProf}
+                                titreProf={titreProf}
+                                setTitreProf={setTitreProf}
                                 errorTitreProf={errorTitreProf}
                                 setErrorTitreProf={setErrorTitreProf}
-                                errorPhotoProfilProf={errorPhotoProfilProf}
-                                setErrorPhotoProfileProf={setErrorPhotoProfileProf}
+                                emailProf={emailAddressProf}
+                                setEmailProf={setEmailAddressProf}
                                 errorEmailAddressProf={errorEmailAddressProf}
                                 setErrorEmailAddressProf={setErrorEmailAddressProf}
+                                phoneNumber={phoneNumber}
+                                setPhoneNumber={setPhoneNumber}
                                 errorPhoneNumberProf={errorPhoneNumberProf}
                                 setErrorPhoneNumberProf={setErrorPhoneNumberProf}
+                                streetProf={streetProf}
+                                setStreetProf={setStreetProf}
                                 errorStreetProf={errorStreetProf}
                                 setErrorStreetProf={setErrorStreetProf}
+                                postalCode={postalCodeProf}
+                                setPostalCode={setPostalCodeProf}
                                 errorPostalCodeProf={errorPostalCodeProf}
                                 setErrorPostalCodeProf={setErrorPostalCodeProf}
+                                town={town}
+                                setTown={setTown}
                                 errorTownProf={errorTownProf}
                                 setErrorTownProf={setErrorTownProf}
                                 fileSelected={fileSelected}
                                 setFileSelected={setFileSelected}
+                                // photoProfil={avatar}
+                                // setPhotoProfil={avatar}
+                                // errorPhotoProfilProf={false}
+                                // setErrorPhotoProfileProf={avatar}
                                 refetch={refetch}
                             />
                         </ToastProvider>

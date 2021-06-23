@@ -1,7 +1,7 @@
 import React from 'react';
+import '../styles/neumorphism.css';
 import { makeStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
 import { Button, TextField, Avatar } from 'ui-neumorphism';
-import '../styles/neumorphism.css';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import CancelIcon from '@material-ui/icons/Cancel';
 import avatar from '../assets/avatar.jpg';
@@ -9,8 +9,9 @@ import gql from "graphql-tag";
 import { useState } from "react";
 import { useToasts } from 'react-toast-notifications';
 import { useMutation } from '@apollo/client';
-import { ALL_PROFS } from "./ProfessorForm";
 import Buttons from './Buttons';
+import merge from 'ts-deepmerge';
+import {UPDATE_USER, ALL_PROFS} from "./Queries"
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,11 +56,10 @@ type ProfFormValues = {
     firstName: string,
     lastName: string,
     titre: string,
-    photoProfil: string
     emailAddress: string,
-    phoneNumber: string,
+    phoneNumber: number,
     street: string,
-    postalCode: string,
+    postalCode: number,
     town: string
 }
 
@@ -68,13 +68,11 @@ type dataProps = {
     flag: boolean,
     setFlag: any,
     errorFirstNameProf: boolean,
-    setErrorFirstNameProf: any
+    setErrorFirstNameProf: any,
     errorLastNameProf: boolean,
     setErrorLastNameProf: any,
     errorTitreProf: boolean,
     setErrorTitreProf: any,
-    errorPhotoProfilProf: boolean,
-    setErrorPhotoProfileProf: any,
     errorEmailAddressProf: boolean,
     setErrorEmailAddressProf: any,
     errorPhoneNumberProf: boolean,
@@ -87,7 +85,24 @@ type dataProps = {
     setErrorTownProf: any,
     fileSelected: any,
     setFileSelected: any,
-    refetch: any
+    refetch: any,
+
+    firstName: string,
+    setFirstName: any,
+    lastName: string,
+    setLastName: any,
+    titreProf: string,
+    setTitreProf: any,
+    emailProf: string,
+    setEmailProf: any,
+    phoneNumber: string,
+    setPhoneNumber: any,
+    streetProf: string,
+    setStreetProf: any,
+    postalCode: string,
+    setPostalCode: any,
+    town: string,
+    setTown: any
 }
 
 const CREATE_USER = gql`
@@ -97,6 +112,7 @@ mutation CreateUser($input: InputUser!){
       firstNameProf
       lastNameProf
       titreProfilProf
+      photoProfil
       emailAddressProf
       phoneNumberProf
       Address{
@@ -119,8 +135,6 @@ export default function AddProfessor({
     setErrorLastNameProf,
     errorTitreProf,
     setErrorTitreProf,
-    errorPhotoProfilProf,
-    setErrorPhotoProfileProf,
     errorEmailAddressProf,
     setErrorEmailAddressProf,
     errorPhoneNumberProf,
@@ -133,22 +147,28 @@ export default function AddProfessor({
     setErrorTownProf,
     fileSelected,
     setFileSelected,
-    refetch
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    titreProf,
+    setTitreProf,
+    phoneNumber,
+    setPhoneNumber,
+    emailProf,
+    setEmailProf,
+    streetProf,
+    setStreetProf,
+    postalCode,
+    setPostalCode,
+    town,
+    setTown
+
 }: dataProps) {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
     const [modalUpdate, setModalUpdate] = useState(false)
     const [idUpdate, setIdUpdate] = useState("")
-
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [titreProf, setTitreProf] = useState("")
-    const [photoProfil, setPhotoProfil] = useState("")
-    const [phoneNumber, setPhoneNumber] = useState<Number>()
-    const [emailProf, setEmailProf] = useState("")
-    const [streetProf, setStreetProf] = useState("")
-    const [postalCode, setPostalCode] = useState("")
-    const [town, setTown] = useState("")
 
     const [deleteButton, setDeleteButton] = useState(false)
     const [addButton, setAddButton] = useState(false)
@@ -163,6 +183,7 @@ export default function AddProfessor({
             { query: ALL_PROFS }
         ]
     })
+    const [updateUserInfo] = useMutation(UPDATE_USER);
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -175,7 +196,6 @@ export default function AddProfessor({
             firstName: { value: string },
             lastName: { value: string },
             titreProf: { value: string },
-            photoProfil: { value: string },
             phoneNumber: { value: Number },
             emailProf: { value: string },
             streetProf: { value: string },
@@ -187,7 +207,6 @@ export default function AddProfessor({
             setFirstName(target.firstName.value)
             setLastName(target.lastName.value)
             setTitreProf(target.titreProf.value)
-            setPhotoProfil(target.photoProfil.value)
             setPhoneNumber(target.phoneNumber.value)
             setEmailProf(target.emailProf.value)
             setStreetProf(target.streetProf.value)
@@ -213,13 +232,6 @@ export default function AddProfessor({
                 setErrorTitreProf(true)
             } else {
                 setErrorTitreProf(false)
-            }
-
-            if (target.photoProfil.value.length === 0) {
-                hasError = true
-                setErrorPhotoProfileProf(true)
-            } else {
-                setErrorPhotoProfileProf(false)
             }
 
             if ((Number(target.phoneNumber.value) === 0) || isNaN(Number(target.phoneNumber.value))) {
@@ -271,7 +283,6 @@ export default function AddProfessor({
         const fileList = e.target.files;
 
         if (fileList) {
-            console.log("la fileList :", fileList)
             setFileSelected(fileList[0])
         }
     }
@@ -281,44 +292,70 @@ export default function AddProfessor({
         setFlag(false)
         const photoProfil = profil instanceof URL ? URL.createObjectURL(profil) : avatar
         const phoneNumberProf = Number(phoneNumber)
+        if (updateButton) {
 
-        const result = await createUser(
-            {
-                variables: {
-                    input: {
-                        firstName,
-                        lastName,
-                        titreProf,
-                        photoProfil,
-                        phoneNumberProf,
-                        emailProf,
-                        Address: {
-                            streetProf,
-                            postalCode,
-                            town,
-                        }
+            const result = await updateUserInfo(
+                {
+                    variables: {
+                        id: idUpdate
                     }
-
                 }
-            }
-        );
+            );
 
-        setFirstName("")
-        setLastName("")
-        setTitreProf("")
-        setPhoneNumber(undefined)
-        setEmailProf("")
-        setStreetProf("")
-        setPostalCode("")
-        setTown("")
-        setFileSelected(avatar)
+            addToast(`vous avez modifié les informations du professeur : ${firstName} ${lastName}`, {
+                appearance: "warning",
+                autoDismiss: true
+            })
 
-        addToast(`vous avez ajouté le professeur: ${firstName} ${lastName}`, {
-            appearance: "info",
-            autoDismiss: true
-        })
+            setFirstName("")
+            setLastName("")
+            setTitreProf("")
+            setPhoneNumber(undefined)
+            setEmailProf("")
+            setStreetProf("")
+            setPostalCode("")
+            setTown("")
+            setFileSelected(avatar)
+            setUpdateButton(false)
+
+        } else {
+            const result = await createUser(
+                {
+                    variables: {
+                        input: {
+                            firstName,
+                            lastName,
+                            titreProf,
+                            photoProfil,
+                            phoneNumberProf,
+                            emailProf,
+                            Address: {
+                                streetProf,
+                                postalCode,
+                                town,
+                            }
+                        }
+
+                    }
+                }
+            );
+
+            addToast(`vous avez ajouté le professeur: ${firstName} ${lastName}`, {
+                appearance: "info",
+                autoDismiss: true
+            })
+
+            setFirstName("")
+            setLastName("")
+            setTitreProf("")
+            setPhoneNumber(undefined)
+            setEmailProf("")
+            setStreetProf("")
+            setPostalCode("")
+            setTown("")
+            setFileSelected(avatar)            
+        }
     }
-
     return (
         <div className={classes.addProfForm}>
             {
@@ -329,7 +366,7 @@ export default function AddProfessor({
                                 fileSelected ?
                                     URL.createObjectURL(profil)
                                     :
-                                    newData.map((img: any) => img.avatar)
+                                    newData.map((img: any) => img.photoProfil)
                             }
                             alt="profil-avatar"
                             size={100}
@@ -579,11 +616,11 @@ export default function AddProfessor({
                                         flag ?
                                             <div style={{ display: "flex", flexDirection: "row-reverse", marginRight: "40px" }}>
                                                 <Buttons
-                                               dataElement={dataElement.id}
-                                               setFlag={setFlag}
-                                               setAddButton={setAddButton}
-                                               setUpdateButton={setUpdateButton}
-                                               setIdUpdate={setIdUpdate}
+                                                    dataElement={dataElement.id}
+                                                    setFlag={setFlag}
+                                                    setAddButton={setAddButton}
+                                                    setUpdateButton={setUpdateButton}
+                                                    setIdUpdate={setIdUpdate}
                                                 />
                                             </div>
                                             :
