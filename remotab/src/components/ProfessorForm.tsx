@@ -1,13 +1,13 @@
-import { Card, CardContent, Subtitle2, ToggleButton, Button } from 'ui-neumorphism';
+import { Card, CardContent, Subtitle2, Button } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css'
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../assets/logoRemotab.png';
-import { ExitToApp, AddAPhoto, Add } from '@material-ui/icons';
+import { ExitToApp } from '@material-ui/icons';
 import AddProfessor from '../components/AddProfessor';
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import avatar from "../assets/avatar.jpg";
 import { ToastProvider } from 'react-toast-notifications';
 
@@ -232,7 +232,7 @@ export default function ProfessorForm() {
 
     const [fileSelected, setFileSelected] = useState<File>()
 
-    const [loadingTest, setLoadingTest] = useState<boolean>(true)
+    // const [loadingTest, setLoadingTest] = useState<boolean>(true)
 
     //Search input
     const handleChange = (event: any): void => {
@@ -349,10 +349,10 @@ export default function ProfessorForm() {
                                             <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.lastNameStudent}
+                                                    {elem.lastName}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.classStudent}
+                                                    {elem.titre}
                                                 </Subtitle2>
                                                 <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
                                             </div>

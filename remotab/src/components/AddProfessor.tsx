@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
-import { Button, Divider, TextArea, TextField, Avatar } from 'ui-neumorphism';
+import { Button, TextField, Avatar } from 'ui-neumorphism';
 import '../styles/neumorphism.css';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -8,8 +8,10 @@ import avatar from '../assets/avatar.jpg';
 import gql from "graphql-tag";
 import { useState } from "react";
 import { useToasts } from 'react-toast-notifications';
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client';
 import { ALL_PROFS } from "./ProfessorForm";
+import Buttons from './Buttons';
+
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -135,6 +137,8 @@ export default function AddProfessor({
 }: dataProps) {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
+    const [modalUpdate, setModalUpdate] = useState(false)
+    const [idUpdate, setIdUpdate] = useState("")
 
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -386,7 +390,7 @@ export default function AddProfessor({
             <div className={classes.addProf}>
                 {
                     flag ?
-                        <span>Fiche de renseignement de <strong>{newData.map((element: any) => element.lastNameProf)}</strong></span>
+                        <span>Fiche de renseignement de <strong>{newData.map((element: any) => element.lastName)}</strong></span>
                         :
                         <h3 style={{ textAlign: "center", marginBottom: "30px" }}>Ajouter un nouveau professeur</h3>
                 }
@@ -411,7 +415,7 @@ export default function AddProfessor({
                                                 <TextField
                                                     name="firstName"
                                                     id="firstName"
-                                                    placeholder={dataElement.firstNameProf}
+                                                    placeholder={dataElement.firstName}
                                                     onChange={(e: any) => setFirstName(e.currentTarget.value)}
                                                     style={{ marginLeft: "0px" }} />
                                                 :
@@ -508,7 +512,7 @@ export default function AddProfessor({
                                                 <TextField
                                                     name="emailProf"
                                                     id="emailProf"
-                                                    placeholder={dataElement.emailProf}
+                                                    placeholder={dataElement.emailAddress}
                                                     style={{ marginLeft: "0px" }}
                                                 />
                                                 :
@@ -574,9 +578,12 @@ export default function AddProfessor({
                                     {
                                         flag ?
                                             <div style={{ display: "flex", flexDirection: "row-reverse", marginRight: "40px" }}>
-                                                <Button
-                                                // dataElement={dataElement.id}
-                                                // setFlag={setFlag}
+                                                <Buttons
+                                               dataElement={dataElement.id}
+                                               setFlag={setFlag}
+                                               setAddButton={setAddButton}
+                                               setUpdateButton={setUpdateButton}
+                                               setIdUpdate={setIdUpdate}
                                                 />
                                             </div>
                                             :
