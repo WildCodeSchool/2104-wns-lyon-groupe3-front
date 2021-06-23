@@ -1,4 +1,4 @@
-type Adress {
+type Address {
   id: ID
 	street: String @fake(type: streetName)
   postalCode: String @fake(type: zipCode)
@@ -12,7 +12,7 @@ type User {
   titre: String @fake(type: jobTitle)
   emailAddress: String @fake(type: email)
   photoProfil: String @fake(type: avatarUrl)
-  Adress:  Adress 
+  Address:  Address 
   phoneNumber: String @fake(type: phoneNumber, locale: fr)
   
 }
@@ -27,7 +27,7 @@ type User {
     photoProfil
     emailAddress
     phoneNumber
-    Adress {
+    Address {
       street
       postalCode
       town
@@ -35,7 +35,7 @@ type User {
   }
 }
 
-input InputAdress {
+input InputAddress {
   street: String!
   postalCode: String!
   town: String!
@@ -46,7 +46,7 @@ input InputUser {
   lastName: String!
   emailAddress: String!
   photoProfil: String!
-  Adress: InputAdress!
+  Address: InputAddress!
   phoneNumber: String!
 }
 

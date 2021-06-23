@@ -97,7 +97,7 @@ mutation CreateUser($input: InputUser!){
       titreProfilProf
       emailAddressProf
       phoneNumberProf
-      Adress{
+      Address{
         streetProf
         postalCodeProf
         townProf
@@ -288,7 +288,7 @@ export default function AddProfessor({
                         photoProfil,
                         phoneNumberProf,
                         emailProf,
-                        Adress: {
+                        Address: {
                             streetProf,
                             postalCode,
                             town,
@@ -328,7 +328,8 @@ export default function AddProfessor({
                                     newData.map((img: any) => img.avatar)
                             }
                             alt="profil-avatar"
-                            size={50}
+                            size={100}
+                            className={classes.avatarImage}
                         />
                         <label className={classes.labels} htmlFor="imageProfil">
                             <input
@@ -341,6 +342,7 @@ export default function AddProfessor({
                             />
                             <AddAPhotoIcon
                                 fontSize="small"
+                                className={classes.avatarImage}
                             />
                         </label>
 
@@ -352,14 +354,14 @@ export default function AddProfessor({
                                 <Avatar
                                     src={URL.createObjectURL(profil)}
                                     alt="profil-avatar"
-                                    size={50}
+                                    size={100}
                                     className={classes.avatarImage}
                                 />
                                 :
                                 <Avatar
                                     src={avatar}
                                     alt="profil-avatar"
-                                    size={50}
+                                    size={100}
                                     className={classes.avatarImage}
                                 />
                         }
@@ -375,6 +377,7 @@ export default function AddProfessor({
                             />
                             <AddAPhotoIcon
                                 fontSize="small"
+                                className={classes.avatarImage}
                             />
                         </label>
                     </div>
@@ -431,7 +434,7 @@ export default function AddProfessor({
                                                 <TextField
                                                     name="street"
                                                     id="street"
-                                                    placeholder={dataElement.Adress.street}
+                                                    placeholder={dataElement.Address.street}
                                                     style={{ marginLeft: "0px" }}
                                                 />
                                                 :
@@ -531,7 +534,7 @@ export default function AddProfessor({
                                                 <TextField
                                                     name="postalCode"
                                                     id="postalCode"
-                                                    placeholder={dataElement.Adress.postalCode}
+                                                    placeholder={dataElement.Address.postalCode}
                                                     style={{ marginLeft: "0px" }} />
                                                 :
                                                 <TextField
@@ -553,7 +556,7 @@ export default function AddProfessor({
                                                 <TextField
                                                     name="town"
                                                     id="town"
-                                                    placeholder={dataElement.Adress.town}
+                                                    placeholder={dataElement.Address.town}
                                                     style={{ marginLeft: "0px" }} />
                                                 :
                                                 <TextField

@@ -178,7 +178,7 @@ query GetAllProfessors {
     photoProfil
     emailAddress
     phoneNumber
-    Adress {
+    Address {
       street
       postalCode
       town
@@ -198,7 +198,7 @@ const initialData = {
             "photoProfil": avatar,
             "emailAddress": "",
             "phoneNumber": "",
-            "Adress": {
+            "Address": {
                 "street": "",
                 "postalCode": "",
                 "town": ""
