@@ -1,15 +1,3 @@
-# This is sample SDL schema for GraphQL Faker.
-#
-# There are two directives you can use to enhance fake data:
-#   - @fake
-#   - @examples
-# Each directive has autocompletion working so start by typing @
-#
-# Press save or Cmd+Enter to apply the changes and update server. Switch to GraphiQL
-# on the left panel to immediately test your changes.
-# This tool also supports extending existing APIs. Check graphql-faker --help
-#
-# Developed with ❤️ by APIs.guru | https://github.com/APIs-guru/graphql-faker
 type Adress {
   id: ID
 	street: String @fake(type: streetName)
@@ -27,6 +15,24 @@ type User {
   Adress:  Adress 
   phoneNumber: String @fake(type: phoneNumber, locale: fr)
   
+}
+
+
+{
+  allUsers {
+    id
+    firstName
+    lastName
+    titre
+    photoProfil
+    emailAddress
+    phoneNumber
+    Adress {
+      street
+      postalCode
+      town
+    }
+  }
 }
 
 input InputAdress {

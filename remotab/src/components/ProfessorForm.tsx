@@ -3,30 +3,13 @@ import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css'
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../assets/logoRemotab.png';
-import {ExitToApp, AddAPhoto, Add} from '@material-ui/icons';
+import { ExitToApp, AddAPhoto, Add } from '@material-ui/icons';
 import AddProfessor from '../components/AddProfessor';
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
-
-
-const ALL_PROFS = gql`
-query GetAllProfessors {
-  allUsers {
-    id
-    firstName
-    lastName
-    titre
-    photoProfil
-    emailAddress
-    phoneNumber
-    Adress {
-      street
-      postalCode
-      town
-    }
-  }
-}
-`;
+import { useState, useEffect } from "react";
+import avatar from "../assets/avatar.jpg";
+import { ToastProvider } from 'react-toast-notifications';
 
 
 const useStyles = makeStyles(theme => ({
@@ -91,6 +74,16 @@ const useStyles = makeStyles(theme => ({
     cardDescription: {
         display: "flex",
         flexDirection: "column"
+    },
+    cardEmpty: {
+        width: 320,
+        margin: 15,
+    },
+    cardEmptyDiv: {
+        margin: 10,
+        width: "-webkit-fill-available",
+        display: "flex",
+        justifyContent: "center"
     },
     title: {
         fontSize: 16,
@@ -174,21 +167,127 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+
+export const ALL_PROFS = gql`
+query GetAllProfessors {
+  allUsers {
+    id
+    firstName
+    lastName
+    titre
+    photoProfil
+    emailAddress
+    phoneNumber
+    Adress {
+      street
+      postalCode
+      town
+    }
+  }
+}
+`;
+
+
+const initialData = {
+    "allUsers": [
+        {
+            "id": "",
+            "firstName": "",
+            "lastName": "",
+            "titre": "",
+            "photoProfil": avatar,
+            "emailAddress": "",
+            "phoneNumber": "",
+            "Adress": {
+                "street": "",
+                "postalCode": "",
+                "town": ""
+            }
+        }
+    ]
+}
+
 export default function ProfessorForm() {
-    const { loading, error, data } = useQuery(ALL_PROFS);
     const classes = useStyles();
 
-    if (loading) {
-        return <p> Loading...</p>
+    const [newData, setNewData] = useState([{}]);
+    const { loading, error, data, refetch } = useQuery(ALL_PROFS);
+    const [dataResult, setDataResult] = useState(initialData);
+    const [flag, setFlag] = useState<boolean>(false)
+    const [searchData, setSearchData] = useState();
+    const [emptySearchData, setEmptySearchData] = useState<boolean>(false);
+
+    // const [filteredProfessors, setFilteredProfessors] = useState([]);
+
+    //Error handling
+    const [errorFirstNameProf, setErrorFirstNameProf] = useState<boolean>(false)
+    const [errorLastNameProf, setErrorLastNameProf] = useState<boolean>(false)
+    const [errorTitreProf, setErrorTitreProf] = useState<boolean>(false)
+    const [errorPhotoProfilProf, setErrorPhotoProfileProf] = useState<boolean>(false)
+    const [errorEmailAddressProf, setErrorEmailAddressProf] = useState<boolean>(false)
+    const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
+    const [errorStreetProf, setErrorStreetProf] = useState<boolean>(false)
+    const [errorPostalCodeProf, setErrorPostalCodeProf] = useState<boolean>(false)
+    const [errorTownProf, setErrorTownProf] = useState<boolean>(false)
+
+    const [fileSelected, setFileSelected] = useState<File>()
+
+    const [loadingTest, setLoadingTest] = useState<boolean>(true)
+
+    //Search input
+    const handleChange = (event: any): void => {
+        const searchedProf = event.value
+        setSearchData(searchedProf)
+
+        if (searchedProf) {
+            if (data !== undefined) {
+
+                const filteredSearch = data.allUsers.filter((prof: any) =>
+                    prof.firstName.toLowerCase().includes(searchedProf.toLowerCase()));
+
+
+                if (filteredSearch.length === 0) {
+                    setEmptySearchData(true)
+                }
+
+                else {
+                    setDataResult({ allUsers: filteredSearch })
+                    setEmptySearchData(false)
+                }
+            }
+        }
+        else {
+            setDataResult(data)
+            setEmptySearchData(false)
+        }
     }
-    console.log(data.allUsers.map((user: any) => user.firstName))
+
+    if (loading) {
+        return <div data-testid="loading-message">Chargement en cours...</div>
+    }
 
     if (error) {
-        return <p>Error...</p>
+        return <div data-testid="error-message">Erreur...</div>
+    }
+
+    //Details button
+    const handleDetails = (id: any) => {
+        const filteredData = data.allUsers.filter((elem: any) => elem.id === id)
+        setFlag(true)
+        setNewData(filteredData)
+        setErrorFirstNameProf(false)
+        setErrorLastNameProf(false)
+        setErrorTitreProf(false)
+        setErrorPhotoProfileProf(false)
+        setErrorEmailAddressProf(false)
+        setErrorPhoneNumberProf(false)
+        setErrorStreetProf(false)
+        setErrorPostalCodeProf(false)
+        setErrorTownProf(false)
+        setFileSelected(undefined)
     }
 
     return (
-
         data &&
         <div className={classes.page}>
             <div className={classes.myNav}>
@@ -204,51 +303,110 @@ export default function ProfessorForm() {
 
             </div>
             <div style={{ display: "flex", flexDirection: "row" }}>
-
                 <Card className={classes.main}>
-                    <div style={{ display: "flex", justifyContent : "flex-end"}}>
-                        <div  className={classes.searchBarContainer}>
-                            <input type="text" name="search" className={classes.searchInput} placeholder="Recherche professeur par nom..." />
+                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                        <div className={classes.searchBarContainer}>
+                            <input type="text" name="search"
+                                className={classes.searchInput}
+                                placeholder="Recherche professeur par nom..."
+                                value={searchData}
+                                onChange={handleChange}
+                            />
                             <svg className={classes.searchIcon} width="22" height="22" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
                                 <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" /></svg>
                         </div>
                     </div>
                     <div className={classes.profCards}>
-                        {data.allUsers.map((currentUser: any) =>
-                            <Card className={classes.card}>
-                                <CardContent className={classes.cardContent}>
-                                    <img src={currentUser.photoProfil} alt="professor-avatar" className={classes.image} />
-                                    <div className={classes.cardDescription}>
-                                        <Subtitle2 secondary className={classes.title} >
-                                            {currentUser.firstName}
-                                        </Subtitle2>
-                                        <Subtitle2 secondary className={classes.title} >
-                                            {currentUser.titre}
-                                        </Subtitle2>
-                                        <Button className={classes.detailsButton} bordered>Détails</Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        )}
+                        {emptySearchData ?
+                            <div className={classes.cardEmptyDiv}>
+                                <Card className={classes.cardEmpty}>
+                                    <CardContent className={classes.cardContent}>
+                                        <Subtitle2 secondary className={classes.title}>Votre recherche n'a donné aucun résultat...</Subtitle2>
+                                    </CardContent>
+                                </Card>
+                            </div> :
+                            searchData ?
+                                dataResult.allUsers.map((elem: any) =>
+                                    <Card className={classes.card}>
+                                        <CardContent className={classes.cardContent}>
+                                            <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
+                                            <div className={classes.cardDescription}>
+                                                <Subtitle2 secondary className={classes.title} >
+                                                    {elem.firstName}
+                                                </Subtitle2>
+                                                <Subtitle2 secondary className={classes.title} >
+                                                    {elem.titre}
+                                                </Subtitle2>
+                                                <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                )
+                                :
+                                data.allUsers.map((elem: any) =>
+                                    <Card className={classes.card} >
+                                        <CardContent className={classes.cardContent}>
+                                            <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
+                                            <div className={classes.cardDescription}>
+                                                <Subtitle2 secondary className={classes.title} >
+                                                    {elem.lastNameStudent}
+                                                </Subtitle2>
+                                                <Subtitle2 secondary className={classes.title} >
+                                                    {elem.classStudent}
+                                                </Subtitle2>
+                                                <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                )
+                        }
                     </div>
-                    <AddProfessor />
+                    <div>
+                        <ToastProvider>
+                            <AddProfessor 
+                                newData={newData}
+                                flag={flag}
+                                setFlag={setFlag}
+                                errorFirstNameProf={errorFirstNameProf}
+                                setErrorFirstNameProf={setErrorFirstNameProf}
+                                errorLastNameProf={errorLastNameProf}
+                                setErrorLastNameProf={setErrorLastNameProf}
+                                errorTitreProf={errorTitreProf}
+                                setErrorTitreProf={setErrorTitreProf}
+                                errorPhotoProfilProf={errorPhotoProfilProf}
+                                setErrorPhotoProfileProf={setErrorPhotoProfileProf}
+                                errorEmailAddressProf={errorEmailAddressProf}
+                                setErrorEmailAddressProf={setErrorEmailAddressProf}
+                                errorPhoneNumberProf={errorPhoneNumberProf}
+                                setErrorPhoneNumberProf={setErrorPhoneNumberProf}
+                                errorStreetProf={errorStreetProf}
+                                setErrorStreetProf={setErrorStreetProf}
+                                errorPostalCodeProf={errorPostalCodeProf}
+                                setErrorPostalCodeProf={setErrorPostalCodeProf}
+                                errorTownProf={errorTownProf}
+                                setErrorTownProf={setErrorTownProf}
+                                fileSelected={fileSelected}
+                                setFileSelected={setFileSelected}
+                                refetch={refetch}
+                            />
+                        </ToastProvider>
+                    </div>
                 </Card>
-
                 <div className={classes.asideContainer}>
                     <Card className={classes.asideCards}>
                         <CardContent className={classes.asideCardsContent}>
                             Gestion des élèves
-                            </CardContent>
+                        </CardContent>
                     </Card>
                     <Card className={classes.asideCards}>
                         <CardContent className={classes.asideCardsContent}>
                             Gestion des classes
-                            </CardContent>
+                        </CardContent>
                     </Card>
                     <Card className={classes.asideCards}>
                         <CardContent className={classes.asideCardsContent}>
                             Gestion des messages
-                            </CardContent>
+                        </CardContent>
                     </Card>
                 </div>
             </div>
