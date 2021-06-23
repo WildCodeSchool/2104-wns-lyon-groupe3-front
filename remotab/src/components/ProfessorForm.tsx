@@ -10,6 +10,8 @@ import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import avatar from "../assets/avatar.jpg";
 import { ToastProvider } from 'react-toast-notifications';
+import {ALL_PROFS} from '../components/Queries'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -166,27 +168,6 @@ const useStyles = makeStyles(theme => ({
         outline: "none"
     }
 }));
-
-
-export const ALL_PROFS = gql`
-query GetAllProfessors {
-  allUsers {
-    id
-    firstName
-    lastName
-    titre
-    photoProfil
-    emailAddress
-    phoneNumber
-    Address {
-      street
-      postalCode
-      town
-    }
-  }
-}
-`;
-
 
 const initialData = {
     "allUsers": [
@@ -417,10 +398,6 @@ export default function ProfessorForm() {
                                 setErrorTownProf={setErrorTownProf}
                                 fileSelected={fileSelected}
                                 setFileSelected={setFileSelected}
-                                // photoProfil={avatar}
-                                // setPhotoProfil={avatar}
-                                // errorPhotoProfilProf={false}
-                                // setErrorPhotoProfileProf={avatar}
                                 refetch={refetch}
                             />
                         </ToastProvider>

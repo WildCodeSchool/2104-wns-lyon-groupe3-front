@@ -10,8 +10,7 @@ import { useState } from "react";
 import { useToasts } from 'react-toast-notifications';
 import { useMutation } from '@apollo/client';
 import Buttons from './Buttons';
-import merge from 'ts-deepmerge';
-import {UPDATE_USER, ALL_PROFS} from "./Queries"
+import { UPDATE_USER, ALL_PROFS } from "./Queries"
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 type ProfFormValues = {
     firstName: string,
     lastName: string,
-    titre: string,
+    titreProf: string,
     emailAddress: string,
     phoneNumber: number,
     street: string,
@@ -111,7 +110,7 @@ mutation CreateUser($input: InputUser!){
       id
       firstNameProf
       lastNameProf
-      titreProfilProf
+      titreProf
       photoProfil
       emailAddressProf
       phoneNumberProf
@@ -353,7 +352,7 @@ export default function AddProfessor({
             setStreetProf("")
             setPostalCode("")
             setTown("")
-            setFileSelected(avatar)            
+            setFileSelected(avatar)
         }
     }
     return (
@@ -542,6 +541,29 @@ export default function AddProfessor({
                                             {errorLastNameProf && "Nom obligatoire"}
                                         </span>
                                     </div>
+
+                                    <div style={{ display: "flex", flexDirection: "column" }}>
+                                        <label className={classes.labels} htmlFor="postalCode" >Code postal</label>
+                                        {
+                                            flag ?
+                                                <TextField
+                                                    name="postalCode"
+                                                    id="postalCode"
+                                                    placeholder={dataElement.Address.postalCode}
+                                                    style={{ marginLeft: "0px" }} />
+                                                :
+                                                <TextField
+                                                    name="postalCode"
+                                                    id="postalCode"
+                                                    placeholder="Entrez un code postal"
+                                                    value={postalCode}
+                                                    onChange={(e: any) => setPostalCode(e.currentTarget.value)}
+                                                    style={{ marginLeft: "0px" }} />
+                                        }
+                                        <span >
+                                            {errorPostalCodeProf && "Code postal incorrect"}
+                                        </span>
+                                    </div>
                                     <div style={{ display: "flex", flexDirection: "column" }}>
                                         <label className={classes.labels} htmlFor="emailProf">Adresse mail</label>
                                         {
@@ -568,26 +590,26 @@ export default function AddProfessor({
                                     </div>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="postalCode" >Code postal</label>
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                        <label className={classes.labels} htmlFor="titre">Titre</label>
                                         {
                                             flag ?
                                                 <TextField
-                                                    name="postalCode"
-                                                    id="postalCode"
-                                                    placeholder={dataElement.Address.postalCode}
+                                                    name="title"
+                                                    id="title"
+                                                    placeholder={dataElement.titre}
                                                     style={{ marginLeft: "0px" }} />
                                                 :
                                                 <TextField
-                                                    name="postalCode"
-                                                    id="postalCode"
-                                                    placeholder="Entrez un code postal"
-                                                    value={postalCode}
-                                                    onChange={(e: any) => setPostalCode(e.currentTarget.value)}
+                                                    name="title"
+                                                    id="title"
+                                                    placeholder="Entrez un titre"
+                                                    value={titreProf}
+                                                    onChange={(e: any) => setTitreProf(e.currentTarget.value)}
                                                     style={{ marginLeft: "0px" }} />
                                         }
-                                        <span >
-                                            {errorPostalCodeProf && "Code postal incorrect"}
+                                        <span>
+                                            {errorTitreProf && "Titre obligatoire"}
                                         </span>
                                     </div>
                                     <div style={{ display: "flex", flexDirection: "column" }}>
