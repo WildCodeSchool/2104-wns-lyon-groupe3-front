@@ -54,7 +54,7 @@ export default function Buttons({
     }
 
     return (
-        <>
+        <div>
             <Button
                 bgColor='#FE5F55'
                 color='#F7F7FF'
@@ -71,7 +71,7 @@ export default function Buttons({
             >
                 Supprimer le professeur
             </Button>
-        </>
+        </div>
     )
 
 }

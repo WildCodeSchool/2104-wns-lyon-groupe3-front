@@ -1,4 +1,4 @@
-import { Card, CardContent, Subtitle2, Button } from 'ui-neumorphism';
+import { Card, CardContent, Subtitle2, Button, Badge } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css'
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,8 +9,8 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import avatar from "../assets/avatar.jpg";
-import { ToastProvider } from 'react-toast-notifications';
-import {ALL_PROFS} from '../components/Queries'
+import { ToastProvider, useToasts } from 'react-toast-notifications';
+import { ALL_PROFS } from '../components/Queries'
 
 
 
@@ -210,13 +210,13 @@ export default function ProfessorForm() {
     const [errorPostalCodeProf, setErrorPostalCodeProf] = useState<boolean>(false)
     const [errorTownProf, setErrorTownProf] = useState<boolean>(false)
 
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
+    const [firstNameProf, setFirstNameProf] = useState("")
+    const [lastNameProf, setLastNameProf] = useState("")
     const [titreProf, setTitreProf] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
-    const [emailAddressProf, setEmailAddressProf] = useState("")
-    const [streetProf, setStreetProf] = useState("")
-    const [postalCodeProf, setPostalCodeProf] = useState("")
+    const [emailAddress, setEmailAddress] = useState("")
+    const [street, setStreet] = useState("")
+    const [postalCode, setPostalCode] = useState("")
     const [town, setTown] = useState("")
 
     const [fileSelected, setFileSelected] = useState<File>()
@@ -274,13 +274,13 @@ export default function ProfessorForm() {
         setErrorTownProf(false)
         setFileSelected(undefined)
 
-        setFirstName("")
-        setLastName("")
+        setFirstNameProf("")
+        setLastNameProf("")
         setTitreProf("")
         setPhoneNumber("")
-        setEmailAddressProf("")
-        setStreetProf("")
-        setPostalCodeProf("")
+        setEmailAddress("")
+        setStreet("")
+        setPostalCode("")
         setTown("")
     }
 
@@ -364,32 +364,32 @@ export default function ProfessorForm() {
                                 newData={newData}
                                 flag={flag}
                                 setFlag={setFlag}
-                                firstName={firstName}
-                                setFirstName={setFirstName}
+                                firstNameProf={firstNameProf}
+                                setFirstNameProf={setFirstNameProf}
                                 errorFirstNameProf={errorFirstNameProf}
                                 setErrorFirstNameProf={setErrorFirstNameProf}
-                                lastName={lastName}
-                                setLastName={setLastName}
+                                lastNameProf={lastNameProf}
+                                setLastNameProf={setLastNameProf}
                                 errorLastNameProf={errorLastNameProf}
                                 setErrorLastNameProf={setErrorLastNameProf}
                                 titreProf={titreProf}
                                 setTitreProf={setTitreProf}
                                 errorTitreProf={errorTitreProf}
                                 setErrorTitreProf={setErrorTitreProf}
-                                emailProf={emailAddressProf}
-                                setEmailProf={setEmailAddressProf}
+                                emailAddress={emailAddress}
+                                setEmailAddress={setEmailAddress}
                                 errorEmailAddressProf={errorEmailAddressProf}
                                 setErrorEmailAddressProf={setErrorEmailAddressProf}
                                 phoneNumber={phoneNumber}
                                 setPhoneNumber={setPhoneNumber}
                                 errorPhoneNumberProf={errorPhoneNumberProf}
                                 setErrorPhoneNumberProf={setErrorPhoneNumberProf}
-                                streetProf={streetProf}
-                                setStreetProf={setStreetProf}
+                                street={street}
+                                setStreet={setStreet}
                                 errorStreetProf={errorStreetProf}
                                 setErrorStreetProf={setErrorStreetProf}
-                                postalCode={postalCodeProf}
-                                setPostalCode={setPostalCodeProf}
+                                postalCode={postalCode}
+                                setPostalCode={setPostalCode}
                                 errorPostalCodeProf={errorPostalCodeProf}
                                 setErrorPostalCodeProf={setErrorPostalCodeProf}
                                 town={town}
@@ -416,7 +416,16 @@ export default function ProfessorForm() {
                     </Card>
                     <Card className={classes.asideCards}>
                         <CardContent className={classes.asideCardsContent}>
-                            Gestion des messages
+                            <Badge
+                                bgColor='transparent'
+                                color='var(--error)'
+                                content={0}
+                                bordered
+                                overlap
+                                borderColor='transparent'
+                            >
+                                Gestion des messages
+                            </Badge>
                         </CardContent>
                     </Card>
                 </div>
