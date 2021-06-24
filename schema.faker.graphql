@@ -10,26 +10,34 @@
 # This tool also supports extending existing APIs. Check graphql-faker --help
 #
 # Developed with ❤️ by APIs.guru | https://github.com/APIs-guru/graphql-faker
-type Adress {
-  id: ID
+type Address {
 	street: String @fake(type: streetName)
   postalCode: String @fake(type: zipCode)
-  town: String @fake(type: city)
+  city: String @fake(type: city)
+}
+
+type LegalRepresentatives {
+  firstName: String @fake(type: firstName)
+  lastName: String @fake(type: lastName)
+  email:String @fake(type: email)
+  number:String @fake(type: phoneNumber, locale: fr)
+  address:  Address
 }
 
 type User {
   id: ID
-  firstNameStudent: String @fake(type: firstName)
-  lastNameStudent: String @fake(type: lastName)
-  classStudent:Int @fake(type: number, options:{maxNumber:6, minNumber:1})
+  firstName: String @fake(type: firstName)
+  lastName: String @fake(type: lastName)
+  email:String @fake(type: email)
+  role: Role 
+  passWord: String @fake(type: password) 
+  classes:[Int] @fake(type: number, options:{maxNumber:6, minNumber:1}) 
+  classRoom: Int @fake(type: number, options:{maxNumber:6, minNumber:1})
   photoProfil: String @fake(type: avatarUrl)
-  
-  nameParent:String @fake(type: fullName)
-  numberParent:String @fake(type: phoneNumber, locale: fr)
-  emailParent:String @fake(type: email)
-  
-  Adress:  Adress 
+  legalRepresentatives: LegalRepresentatives
+  address:  Address 
 }
+
 
 input InputAdress {
   street: String!
@@ -37,15 +45,31 @@ input InputAdress {
   town: String!
 }
 
+input InputLegalRepresentatives {
+  firstName: String!
+  lastName: String!
+  email:String!
+  number:String!
+  address:  InputAdress
+}
+
+enum Role {
+  student
+  teacher
+  admin
+}
+
 input InputUser {
-  firstNameStudent: String!
-  lastNameStudent: String!
-  classStudent: Int!
+  firstName: String!
+  lastName: String!
+  email:String
+  role: String 
+  passWord: String
+  classes:[Int]
+  classRoom: Int
   photoProfil: String!
-  nameParent: String!
-  numberParent: String!
-  emailParent: String!
-  Adress: InputAdress!
+  legalRepresentatives: InputLegalRepresentatives
+  address:  InputAdress
 }
 
 type Mutation {
