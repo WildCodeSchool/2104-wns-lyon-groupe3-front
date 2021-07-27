@@ -61,7 +61,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* <Router> */}
-      {/* <div className={classes.myBackground}>
+       <div className={classes.myBackground}>
         <div className={classes.myNav}>
           <div className={classes.myDivExitButton}>
             <span className={classes.mySpan}>Se déconnecter</span>
@@ -79,9 +79,9 @@ function App() {
         
         </div>
         <StudentPage />
-      </div> */}
+      </div> 
 
-      <ConnexionPage />
+      {/* <ConnexionPage /> */}
 
 
         {/* <Switch>

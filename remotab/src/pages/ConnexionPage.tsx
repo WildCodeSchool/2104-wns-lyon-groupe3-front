@@ -98,7 +98,7 @@ export default function ConnexionPage() {
                                         <input
                                             name="pseudo"
                                             id="pseudo"
-                                            //placeholder={dataElement.firstNameStudent}
+                                            //placeholder={dataElement.firstname}
                                             className="inputConnexionCustom"
                                         />
                                     </Box>
@@ -110,7 +110,7 @@ export default function ConnexionPage() {
                                         <input
                                             name="passWord"
                                             id="passWord"
-                                            //placeholder={dataElement.firstNameStudent}
+                                            //placeholder={dataElement.firstname}
                                             className="inputConnexionCustom"
                                         />
                                     </Box>

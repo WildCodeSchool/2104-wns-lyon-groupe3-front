@@ -21,7 +21,7 @@ import Buttons from './Buttons'
 import { useToasts } from 'react-toast-notifications'
 import merge from 'ts-deepmerge'
 
-import {UPDATE_USER, ALL_USERS} from "./Queries"
+import {UPDATE_USER, ALL_USERS, CREATE_USER} from "./Queries"
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -138,17 +138,17 @@ const useStyles = makeStyles(theme => ({
 }))
 
 type FormValues = {
-    firstNameStudent: string,
-    lastNameStudent: string,
+    firstname: string,
+    lastname: string,
     class: Number,
 
     nameParent: string,
     numberParent: number,
-    emailParent: string,
+    email: string,
 
     street: string,
     postalCode: number,
-    town: string
+    city: string
 }
 // const initialString = {
 //     returnString: ""
@@ -159,26 +159,26 @@ type FormValues = {
 // }
 
 // type Action = {
-//     type: "firstNameStudent" | "lastNameStudent"| "nameParent"| "numberParent"| "emailParent"| "street"| "postalCode"| "town";
+//     type: "firstname" | "lastname"| "nameParent"| "numberParent"| "email"| "street"| "postalCode"| "city";
 // }
 
 // function reducer(state:State, action:Action) {
 //     switch (action.type) {
-//         case 'firstNameStudent':
+//         case 'firstname':
 //             return {returnString: "Prénom obligatoire"};  
-//         case 'lastNameStudent':
+//         case 'lastname':
 //             return {returnString: "Nom obligatoire"};
 //         case 'nameParent':
 //             return {returnString: "Nom obligatoire"};
 //         case 'numberParent':
 //             return {returnString: "Numéro obligatoire"};
-//         case 'emailParent':
+//         case 'email':
 //             return {returnString: "Email obligatoire"};
 //         case 'street':
 //             return {returnString: "Nom de rue obligatoire"};
 //         case 'postalCode':
 //             return {returnString: "Code postal obligatoire"};
-//         case 'town':
+//         case 'city':
 //             return {returnString: "Nom de ville obligatoire"};
 //       default:
 //         return state;
@@ -192,113 +192,99 @@ type dataProps = {
     flag: boolean,
     setFlag: any,
 
-    errorFirstNameStudent: boolean,
-    setErrorFirstNameStudent: any
-    errorLastNameStudent:boolean,
-    setErrorLastNameStudent:any,
+    errorfirstname: boolean,
+    setErrorfirstname: any
+    errorlastname:boolean,
+    setErrorlastname:any,
     errorClassStudent:boolean,
     setErrorClassStudent:any,
     errorNameParent:boolean,
     setErrorNameParent:any,
     errorNumberParent:boolean,
     setErrorNumberParent:any,
-    errorEmailParent:boolean,
-    setErrorEmailParent:any,
+    erroremail:boolean,
+    setErroremail:any,
     errorStreet:boolean,
     setErrorStreet:any,
     errorPostalCode:boolean,
     setErrorPostalCode:any,
-    errorTown:boolean,
-    setErrorTown: any,
+    errorcity:boolean,
+    setErrorcity: any,
     fileSelected:any,
     setFileSelected: any,
     
-    firstNameStudent: string,
-    setFirstNameStudent: any,
-    lastNameStudent: string,
-    setLastNameStudent: any,
+    firstname: string,
+    setfirstname: any,
+    lastname: string,
+    setlastname: any,
     classStu: string,
     setClassStu: any,
     nameParent: string,
     setNameParent: any,
     numberParent: string,
     setNumberParent: any,
-    emailParent: string,
-    setEmailParent: any,
+    email: string,
+    setemail: any,
     street: string,
     setStreet: any,
     postalCode: string,
     setPostalCode: any,
-    town: string,
-    setTown: any
+    city: string,
+    setcity: any,
+    role: any,
+    setRole: any,
+    refetch: any
 }
 
-const CREATE_USER = gql`
-
-mutation CreateUser($input: InputUser!){
-    createUser(inputUser: $input){
-      id
-      firstNameStudent
-      lastNameStudent
-      classStudent
-      photoProfil
-      nameParent
-      numberParent
-      emailParent
-      Adress{
-        id
-        street
-        postalCode
-        town
-      }
-    }
-  }
-`;
 
 function AddStudent({
     newData,
     flag,
     setFlag,
 
-    errorFirstNameStudent,
-    setErrorFirstNameStudent,
-    errorLastNameStudent,
-    setErrorLastNameStudent,
+    errorfirstname,
+    setErrorfirstname,
+    errorlastname,
+    setErrorlastname,
     errorClassStudent,
     setErrorClassStudent,
     errorNameParent,
     setErrorNameParent,
     errorNumberParent,
     setErrorNumberParent,
-    errorEmailParent,
-    setErrorEmailParent,
+    erroremail,
+    setErroremail,
     errorStreet,
     setErrorStreet,
     errorPostalCode,
     setErrorPostalCode,
-    errorTown,
-    setErrorTown,
+    errorcity,
+    setErrorcity,
 
     fileSelected,
     setFileSelected,
-    firstNameStudent,
-    setFirstNameStudent,
-    lastNameStudent,
-    setLastNameStudent,
+    firstname,
+    setfirstname,
+    lastname,
+    setlastname,
     classStu,
     setClassStu,
     nameParent,
     setNameParent,
     numberParent,
     setNumberParent,
-    emailParent,
-    setEmailParent,
+    email,
+    setemail,
     street,
     setStreet,
     postalCode,
     setPostalCode,
-    town,
-    setTown
+    city,
+    setcity,
+
+    role,
+    setRole,
+    refetch
 
 }: dataProps) {
 
@@ -335,42 +321,42 @@ function AddStudent({
 
         const target = event.target as typeof event.target & {
 
-            firstNameStudent: {value: string},
-            lastNameStudent: {value: string},
+            firstname: {value: string},
+            lastname: {value: string},
             classStu: {value: Number},
         
             nameParent: {value: string},
             numberParent: {value: string},
-            emailParent: {value: string},
+            email: {value: string},
         
             street: {value: string},
             postalCode: {value: string},
-            town: {value: string}
+            city: {value: string}
         }
 
         if (addButton) {
-            setFirstNameStudent(target.firstNameStudent.value)
-            setLastNameStudent(target.lastNameStudent.value)
+            setfirstname(target.firstname.value)
+            setlastname(target.lastname.value)
             setClassStu(target.classStu.value)
             setNameParent(target.nameParent.value)
             setNumberParent(target.numberParent.value)
-            setEmailParent(target.emailParent.value)
+            setemail(target.email.value)
             setStreet(target.street.value)
             setPostalCode(target.postalCode.value)
-            setTown(target.town.value)
+            setcity(target.city.value)
     
-            if (target.firstNameStudent.value.length === 0) {
+            if (target.firstname.value.length === 0) {
                 hasError = true
-                setErrorFirstNameStudent(true)
+                setErrorfirstname(true)
             } else {
-                setErrorFirstNameStudent(false)
+                setErrorfirstname(false)
             }
     
-            if (target.lastNameStudent.value.length === 0) {
+            if (target.lastname.value.length === 0) {
                 hasError = true
-                setErrorLastNameStudent(true)
+                setErrorlastname(true)
             } else {
-                setErrorLastNameStudent(false)
+                setErrorlastname(false)
             }
     
             if ((Number(target.classStu.value) === 0) || isNaN(Number(target.classStu.value)))  {
@@ -387,11 +373,11 @@ function AddStudent({
                 setErrorNameParent(false)
             }
     
-            if ((target.emailParent.value.length === 0) || (!regex.test(target.emailParent.value))) {
+            if ((target.email.value.length === 0) || (!regex.test(target.email.value))) {
                 hasError = true
-                setErrorEmailParent(true)
+                setErroremail(true)
             } else {
-                setErrorEmailParent(false)
+                setErroremail(false)
             }
     
             if ((Number(target.numberParent.value) === 0) || isNaN(Number(target.numberParent.value)) || (target.numberParent.value.length !== 10)) {
@@ -408,11 +394,11 @@ function AddStudent({
                 setErrorStreet(false)
             }
     
-            if (target.town.value.length === 0) {
+            if (target.city.value.length === 0) {
                 hasError = true
-                setErrorTown(true)
+                setErrorcity(true)
             } else {
-                setErrorTown(false)
+                setErrorcity(false)
             }
     
             if ((Number(target.postalCode.value) === 0) || isNaN(Number(target.postalCode.value)) || (target.postalCode.value.length !== 5)) {
@@ -457,7 +443,7 @@ function AddStudent({
         setOpen(false)
         setFlag(false)
        // alert("envoyé")
-        const photoProfil = profil instanceof URL ? URL.createObjectURL(profil) : defaultImage
+        const picture = profil instanceof URL ? URL.createObjectURL(profil) : defaultImage
         const classStudent = Number(classStu)
         
 
@@ -471,60 +457,67 @@ function AddStudent({
                  }
             );
 
-            addToast(`vous avez modifié les informations de l'élève : ${firstNameStudent} ${lastNameStudent}`, {
+            addToast(`vous avez modifié les informations de l'élève : ${firstname} ${lastname}`, {
                 appearance: "warning",
                 autoDismiss: true
             })
 
-            setFirstNameStudent("")
-            setLastNameStudent("")
+            setfirstname("")
+            setlastname("")
             setClassStu("")
             setNameParent("")
             setNumberParent("")
-            setEmailParent("")
+            setemail("")
             setStreet("")
             setPostalCode("")
-            setTown("")
+            setcity("")
             setFileSelected(defaultImage)
             setUpdateButton(false)
 
         }else {
+            console.log(                            firstname,
+                lastname,
+                email,                                street,
+                postalCode,
+                city, role, picture)
+            
             const result = await createUser(
                 {
                     variables: {
-                        input: {
-                            firstNameStudent,
-                            lastNameStudent,
-                            classStudent,
-                            photoProfil,
-                            nameParent,
-                            numberParent,
-                            emailParent,
-                            Adress: {
+       
+                            firstname,
+                            lastname,
+                            email,
+                            addressInput: {
                                 street,
                                 postalCode,
-                                town,
-                            }
-                        }
+                                city,
+                            },
+                            role,
+                           // birthday,
+                            picture
+                        
     
                     }
                 }
             );
                 
-            addToast(`vous avez ajouté l'élève: ${firstNameStudent} ${lastNameStudent}`, {
+            addToast(`vous avez ajouté l'élève: ${firstname} ${lastname}`, {
                 appearance: "info",
                 autoDismiss: true
             })
+
+            refetch()
     
-            setFirstNameStudent("")
-            setLastNameStudent("")
+            setfirstname("")
+            setlastname("")
             setClassStu(null)
             setNameParent("")
             setNumberParent("")
-            setEmailParent("")
+            setemail("")
             setStreet("")
             setPostalCode("")
-            setTown("")
+            setcity("")
             setFileSelected(defaultImage)
         }
 
@@ -538,7 +531,7 @@ function AddStudent({
                         <Avatar
                             src={
 
-                               newData.map((img: any) => img.photoProfil)
+                               newData.map((img: any) => img.picture)
                             }
                             alt="profil-avatar"
                             className={classes.profilEleve}
@@ -603,7 +596,7 @@ function AddStudent({
             <div className={classes.addProf}>
                 {
                     flag ?
-                        <span>Fiche de renseignement de <strong>{newData.map((element:any) => element.lastNameStudent) }</strong></span>
+                        <span>Fiche de renseignement de <strong>{newData.map((element:any) => element.lastname) }</strong></span>
                         :
                         <h3>Ajouter un élève</h3>
                 }
@@ -625,61 +618,61 @@ function AddStudent({
                         >
                             <div className={classes.addInfoStudent}>
                                 <div className={classes.addBlockInfo}>
-                                    <label htmlFor="firstNameStudent" >Prénom de l'élève</label>
+                                    <label htmlFor="firstname" >Prénom de l'élève</label>
                                     {
                                         flag ?
                                             <input
-                                                name="firstNameStudent"
-                                                id="firstNameStudent"
-                                                //placeholder={dataElement.firstNameStudent}
-                                                value={firstNameStudent ? firstNameStudent : dataElement.firstNameStudent }
+                                                name="firstname"
+                                                id="firstname"
+                                                //placeholder={dataElement.firstname}
+                                                value={firstname ? firstname : dataElement.firstname }
                                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                                                     e.persist()
-                                                    setFirstNameStudent(e.currentTarget.value)
+                                                    setfirstname(e.currentTarget.value)
                                                 }}
                                                 className="inputCustom"
                                             />
                                             :
                                             <input
-                                                name="firstNameStudent"
-                                                id="firstNameStudent"
+                                                name="firstname"
+                                                id="firstname"
                                                 placeholder="Entrez un prénom"
-                                                value={firstNameStudent}
-                                                onChange={(e)=>setFirstNameStudent(e.currentTarget.value)}
+                                                value={firstname}
+                                                onChange={(e)=>setfirstname(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
                                     }
                                     <span className={classes.myErrorMessage} >
-                                        {errorFirstNameStudent && "Prénom obligatoire"}
+                                        {errorfirstname && "Prénom obligatoire"}
                                     </span>
                                 </div>
                                 <div className={classes.addBlockInfo}>
-                                    <label htmlFor="lastNameStudent" >Nom de l'élève</label>
+                                    <label htmlFor="lastname" >Nom de l'élève</label>
                                     {
                                         flag ?
                                             <input
-                                                name="lastNameStudent"
-                                                id="lastNameStudent"
-                                                //placeholder={dataElement.lastNameStudent}
-                                                value={lastNameStudent ? lastNameStudent : dataElement.lastNameStudent }
+                                                name="lastname"
+                                                id="lastname"
+                                                //placeholder={dataElement.lastname}
+                                                value={lastname ? lastname : dataElement.lastname }
                                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                                                     e.persist()
-                                                    setLastNameStudent(e.currentTarget.value)
+                                                    setlastname(e.currentTarget.value)
                                                 }}
                                                 className="inputCustom"
                                             />
                                             : 
                                             <input
-                                                name="lastNameStudent"
-                                                id="lastNameStudent"
+                                                name="lastname"
+                                                id="lastname"
                                                 placeholder="Entrez un nom"
-                                                value={lastNameStudent}
-                                                onChange={(e)=>setLastNameStudent(e.currentTarget.value)}
+                                                value={lastname}
+                                                onChange={(e)=>setlastname(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
                                     }
                                     <span className={classes.myErrorMessage}>
-                                        {errorLastNameStudent && "Nom obligatoire"}
+                                        {errorlastname && "Nom obligatoire"}
                                     </span>
                                 </div>
                                 <div className={classes.addBlockInfo}>
@@ -774,32 +767,32 @@ function AddStudent({
                                         </span>
                                     </div>
                                     <div className={classes.addBlockInfo}>
-                                        <label htmlFor="emailParent" >Adresse mail</label>
+                                        <label htmlFor="email" >email</label>
                                         {
                                             flag ?
                                                 <input
-                                                    name="emailParent"
-                                                    id="emailParent"
-                                                    //placeholder={dataElement.emailParent}
-                                                    value={emailParent ? emailParent : dataElement.emailParent}
+                                                    name="email"
+                                                    id="email"
+                                                    //placeholder={dataElement.email}
+                                                    value={email ? email : dataElement.email}
                                                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setEmailParent(e.currentTarget.value)
+                                                        setemail(e.currentTarget.value)
                                                     }}
                                                     className="inputCustom"
                                                 />
                                                 :
                                                 <input
-                                                    name="emailParent"
-                                                    id="emailParent"
-                                                    placeholder="Entrez une adresse mail"
-                                                    value={emailParent}
-                                                    onChange={(e)=>setEmailParent(e.currentTarget.value)}
+                                                    name="email"
+                                                    id="email"
+                                                    placeholder="Entrez l'email"
+                                                    value={email}
+                                                    onChange={(e)=>setemail(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorEmailParent && "Email incorrect"}
+                                            {erroremail && "Email incorrect"}
                                         </span>
                                     </div>
                                 </div>
@@ -811,8 +804,8 @@ function AddStudent({
                                                 <input
                                                     name="street"
                                                     id="street"
-                                                   // placeholder={dataElement.Adress.street}
-                                                    value={street ? street : dataElement.Adress.street}
+                                                   // placeholder={dataElement.addressInput.street}
+                                                    value={street ? street : dataElement.address.street}
                                                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setStreet(e.currentTarget.value)
@@ -840,8 +833,8 @@ function AddStudent({
                                                 <input
                                                     name="postalCode"
                                                     id="postalCode"
-                                                   // placeholder={dataElement.Adress.postalCode}
-                                                    value={postalCode ? postalCode : dataElement.Adress.postalCode}
+                                                   // placeholder={dataElement.addressInput.postalCode}
+                                                    value={postalCode ? postalCode : dataElement.address.postalCode}
                                                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setPostalCode(e.currentTarget.value)
@@ -863,32 +856,32 @@ function AddStudent({
                                         </span>
                                     </div>
                                     <div className={classes.addBlockInfo}>
-                                        <label htmlFor="town" >Ville</label>
+                                        <label htmlFor="city" >Ville</label>
                                         {
                                             flag ?
                                                 <input
-                                                    name="town"
-                                                    id="town"
-                                                    //placeholder={dataElement.Adress.town}
-                                                    value={town ? town : dataElement.Adress.town}
+                                                    name="city"
+                                                    id="city"
+                                                    //placeholder={dataElement.addressInput.city}
+                                                    value={city ? city : dataElement.address.city}
                                                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setTown(e.currentTarget.value)
+                                                        setcity(e.currentTarget.value)
                                                     }}
                                                     className="inputCustom"
                                                 />
                                                 :
                                                 <input
-                                                    name="town"
-                                                    id="town"
+                                                    name="city"
+                                                    id="city"
                                                     placeholder="Entrez une ville"
-                                                    value={town}
-                                                    onChange={(e)=>setTown(e.currentTarget.value)}
+                                                    value={city}
+                                                    onChange={(e)=>setcity(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorTown && "Nom de ville obligatoire"}
+                                            {errorcity && "Nom de ville obligatoire"}
                                         </span>
                                     </div>
                                 </div>
@@ -897,11 +890,12 @@ function AddStudent({
                                 flag ?
                                     <div className={classes.addButtonDetails} >
                                         <Buttons
-                                            dataElement={dataElement.id}
+                                            dataElement={dataElement._id}
                                             setFlag={setFlag}
                                             setAddButton={setAddButton}
                                             setUpdateButton={setUpdateButton}
                                             setIdUpdate={setIdUpdate}
+                                            refetch={refetch}
                                         />
                                     </div>
                                     :
@@ -954,8 +948,8 @@ function AddStudent({
                             <div className={classes.categoryInfo} >
                                 <h3 className={classes.titleContent} >Elève</h3>
                                 <div className={classes.divInfo} >
-                                    <span>Prénom de l'élève : <strong>{firstNameStudent}</strong></span>
-                                    <span>Nom de l'élève : <strong>{lastNameStudent}</strong></span>
+                                    <span>Prénom de l'élève : <strong>{firstname}</strong></span>
+                                    <span>Nom de l'élève : <strong>{lastname}</strong></span>
                                     <span>Classe de l'élève : <strong>{classStu}</strong></span>                                   
                                 </div>
                             </div>
@@ -964,15 +958,15 @@ function AddStudent({
                                 <div className={classes.divInfo} >
                                     <span>Nom du représentant : <strong>{nameParent}</strong></span>
                                     <span>Numéro de téléphone : <strong>{numberParent}</strong></span>
-                                    <span>Adresse mail du représentant : <strong>{emailParent}</strong></span>
+                                    <span>email du représentant : <strong>{email}</strong></span>
                                 </div>
                             </div>
                             <div className={classes.categoryInfo}>
-                                <h3 className={classes.titleContent} >Adresse</h3>
+                                <h3 className={classes.titleContent} >addresse</h3>
                                 <div className={classes.divInfo}>
                                     <span>Rue : <strong>{street}</strong></span>
                                     <span>Code postal : <strong>{postalCode}</strong></span>
-                                    <span>Ville : <strong>{ town}</strong></span>
+                                    <span>Ville : <strong>{ city}</strong></span>
                                 </div>
                             </div>
                         </div>
