@@ -110,6 +110,17 @@
     text-align: center;
 }
 
+.inputConnexionCustom{
+    width: 250px;
+    height: 40px;
+    border-radius: 5px;
+    border-color: transparent;
+    border-width: 0;
+    background: #e4ebf5;
+    box-shadow: inset -2px -2px 5px #ffffff, inset 2px 2px 5px #bec8e4;
+    text-align: center;
+}
+
 /* Scrollbar */
 
 ::-webkit-scrollbar {
