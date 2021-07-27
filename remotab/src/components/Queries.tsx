@@ -4,12 +4,12 @@ export const ALL_PROFS = gql`
 query GetAllProfessors {
   allUsers {
     id
-    firstName
-    lastName
-    titre
+    firstNameProf
+    lastNameProf
+    titreProf
     photoProfil
     emailAddress
-    phoneNumber
+    phoneNumberProf
     Address {
       street
       postalCode
@@ -24,8 +24,8 @@ export const DELETE_USER = gql`
     mutation DeleteUser($id: String!) {
         removeUser(id: $id){
             id
-            firstName
-            lastName
+            firstNameProf
+            lastNameProf
             photoProfil
         }
     }
@@ -35,12 +35,12 @@ export const UPDATE_USER = gql`
     mutation UpdateUserInfo($id: String!) {
         updateUserInfo(id: $id){
             id
-            firstName
-            lastName
-            titre
+            firstNameProf
+            lastNameProf
+            titreProf
             photoProfil
             emailAddress
-            phoneNumber
+            phoneNumberProf
             Address {
                 street
                 postalCode

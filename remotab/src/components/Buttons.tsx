@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core"
 import { Button } from 'ui-neumorphism'
 import 'ui-neumorphism/dist/index.css'
 
-import { DELETE_USER } from './Queries'
+import { DELETE_USER, UPDATE_USER } from './Queries'
 import { useMutation, useQuery } from '@apollo/client'
 import { useToasts } from 'react-toast-notifications'
 
@@ -29,9 +29,10 @@ export default function Buttons({
 
     const classes = useStyles()
     const [removeUser, { data },] = useMutation(DELETE_USER);
+    const [updateUserInfo] = useMutation(UPDATE_USER);
     const { addToast } = useToasts()
 
-    const handleSubmitupdate = () => {
+    const handleSubmitUpdate = () => {
         setIdUpdate(dataElement)
         setAddButton(true)
         setUpdateButton(true)
@@ -54,24 +55,24 @@ export default function Buttons({
     }
 
     return (
-        <div>
+        <>
             <Button
                 bgColor='#FE5F55'
                 color='#F7F7FF'
-                style={{ height: "25px", margin: "5px" }}
-                onClick={handleSubmitupdate}
+                style={{ height: "35px", margin: "5px" }}
+                onClick={handleSubmitUpdate}
             >
                 Enrégistrer les modifications
             </Button>
             <Button
                 bgColor='#FE5F55'
                 color='#F7F7FF'
-                style={{ height: "25px", margin: "5px" }}
+                style={{ height: "35px", margin: "5px" }}
                 onClick={handleSubmitDelete}
             >
                 Supprimer le professeur
             </Button>
-        </div>
+        </>
     )
 
 }

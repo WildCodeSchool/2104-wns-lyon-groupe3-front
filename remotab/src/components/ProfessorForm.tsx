@@ -7,7 +7,7 @@ import { ExitToApp } from '@material-ui/icons';
 import AddProfessor from '../components/AddProfessor';
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
 import { ToastProvider, useToasts } from 'react-toast-notifications';
 import { ALL_PROFS } from '../components/Queries'
@@ -166,7 +166,7 @@ const useStyles = makeStyles(theme => ({
         boxShadow: "inset .2rem .2rem .5rem #c3c3c3, inset -.2rem -.2rem .5rem #fff",
         color: " #c3c3c3",
         outline: "none"
-    }
+    },
 }));
 
 const initialData = {
@@ -195,7 +195,7 @@ export default function ProfessorForm() {
     const { loading, error, data, refetch } = useQuery(ALL_PROFS);
     const [dataResult, setDataResult] = useState(initialData);
     const [flag, setFlag] = useState<boolean>(false)
-    const [searchData, setSearchData] = useState();
+    const [searchData, setSearchData] = useState<string>();
     const [emptySearchData, setEmptySearchData] = useState<boolean>(false);
 
     // const [filteredProfessors, setFilteredProfessors] = useState([]);
@@ -213,7 +213,7 @@ export default function ProfessorForm() {
     const [firstNameProf, setFirstNameProf] = useState("")
     const [lastNameProf, setLastNameProf] = useState("")
     const [titreProf, setTitreProf] = useState("")
-    const [phoneNumber, setPhoneNumber] = useState("")
+    const [phoneNumberProf, setPhoneNumberProf] = useState("")
     const [emailAddress, setEmailAddress] = useState("")
     const [street, setStreet] = useState("")
     const [postalCode, setPostalCode] = useState("")
@@ -224,16 +224,17 @@ export default function ProfessorForm() {
     const [loadingTest, setLoadingTest] = useState<boolean>(true)
 
     //Search input
-    const handleSearch = (event: any): void => {
-        const searchedProf = event.value
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const searchedProf = event.target.value
         setSearchData(searchedProf)
 
         if (searchedProf) {
             if (data !== undefined) {
 
-                const filteredSearch = data.allUsers.filter((prof: any) =>
-                    prof.firstName.toLowerCase().includes(searchedProf.toLowerCase()));
-
+                const filteredSearch = data.allUsers.filter((prof: any) => {
+                    prof.firstName.toLowerCase().includes(searchedProf.toLowerCase());
+                    console.log(prof.firstName)
+                })
 
                 if (filteredSearch.length === 0) {
                     setEmptySearchData(true)
@@ -277,7 +278,7 @@ export default function ProfessorForm() {
         setFirstNameProf("")
         setLastNameProf("")
         setTitreProf("")
-        setPhoneNumber("")
+        setPhoneNumberProf("")
         setEmailAddress("")
         setStreet("")
         setPostalCode("")
@@ -303,7 +304,9 @@ export default function ProfessorForm() {
                 <Card className={classes.main}>
                     <div style={{ display: "flex", justifyContent: "flex-end" }}>
                         <div className={classes.searchBarContainer}>
-                            <input type="text" name="search"
+                            <input 
+                                name="search" 
+                                id="search"
                                 className={classes.searchInput}
                                 placeholder="Recherche professeur par nom..."
                                 value={searchData}
@@ -346,7 +349,7 @@ export default function ProfessorForm() {
                                             <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.lastName}
+                                                    {elem.firstName}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
                                                     {elem.titre}
@@ -380,8 +383,8 @@ export default function ProfessorForm() {
                                 setEmailAddress={setEmailAddress}
                                 errorEmailAddressProf={errorEmailAddressProf}
                                 setErrorEmailAddressProf={setErrorEmailAddressProf}
-                                phoneNumber={phoneNumber}
-                                setPhoneNumber={setPhoneNumber}
+                                phoneNumberProf={phoneNumberProf}
+                                setPhoneNumberProf={setPhoneNumberProf}
                                 errorPhoneNumberProf={errorPhoneNumberProf}
                                 setErrorPhoneNumberProf={setErrorPhoneNumberProf}
                                 street={street}

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useToasts } from 'react-toast-notifications';
 import { useMutation } from '@apollo/client';
 import Buttons from './Buttons';
-import { UPDATE_USER, ALL_PROFS } from "./Queries"
+import { UPDATE_USER } from "./Queries"
 
 
 const useStyles = makeStyles(theme => ({
@@ -37,12 +37,15 @@ const useStyles = makeStyles(theme => ({
         justifyContent: "space-around"
     },
     labels: {
-        color: theme.palette.primary.light
+        color: theme.palette.primary.light,
+        position: "absolute",
+        marginLeft: "20px"
     },
     avatarImage: {
         width: "100px",
         borderRadius: "50%",
-        position: "relative"
+        position: "absolute",
+        color: "rgb(254, 95, 85)"
     },
     addPhoto: {
         position: "absolute",
@@ -91,8 +94,8 @@ type dataProps = {
     setTitreProf: any,
     emailAddress: string,
     setEmailAddress: any,
-    phoneNumber: string,
-    setPhoneNumber: any,
+    phoneNumberProf: string,
+    setPhoneNumberProf: any,
     street: string,
     setStreet: any,
     postalCode: string,
@@ -110,7 +113,7 @@ mutation CreateUser($input: InputUser!){
       titreProf
       photoProfil
       emailAddress
-      phoneNumber
+      phoneNumberProf
       Address{
         street
         postalCode
@@ -149,8 +152,8 @@ export default function AddProfessor({
     setLastNameProf,
     titreProf,
     setTitreProf,
-    phoneNumber,
-    setPhoneNumber,
+    phoneNumberProf,
+    setPhoneNumberProf,
     emailAddress,
     setEmailAddress,
     street,
@@ -163,10 +166,8 @@ export default function AddProfessor({
 }: dataProps) {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [modalUpdate, setModalUpdate] = useState(false)
     const [idUpdate, setIdUpdate] = useState("")
 
-    const [deleteButton, setDeleteButton] = useState(false)
     const [addButton, setAddButton] = useState(false)
     const [updateButton, setUpdateButton] = useState(false)
 
@@ -174,18 +175,13 @@ export default function AddProfessor({
 
     const profil = fileSelected || ""
 
-    const [createUser, { data }] = useMutation(CREATE_USER
-        //     , {
-        //     refetchQueries: [
-        //         { query: ALL_PROFS }
-        //     ]
-        // }
-    )
+    const [createUser, { data }] = useMutation(CREATE_USER)
     const [updateUserInfo] = useMutation(UPDATE_USER);
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
         let hasError = false
+
 
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
@@ -201,11 +197,13 @@ export default function AddProfessor({
             town: { value: string }
         }
 
+        console.log(target.firstNameProf.value);
+
         if (addButton) {
             setFirstNameProf(target.firstNameProf.value)
             setLastNameProf(target.lastNameProf.value)
             setTitreProf(target.titreProf.value)
-            setPhoneNumber(target.phoneNumber.value)
+            setPhoneNumberProf(target.phoneNumber.value)
             setEmailAddress(target.emailAddress.value)
             setStreet(target.street.value)
             setPostalCode(target.postalCode.value)
@@ -286,10 +284,10 @@ export default function AddProfessor({
     }
 
     const handleSend = async () => {
+        console.log(updateButton);
         setOpen(false)
         setFlag(false)
         const photoProfil = profil instanceof URL ? URL.createObjectURL(profil) : avatar
-        const phoneNumberProf = Number(phoneNumber)
         if (updateButton) {
 
             const result = await updateUserInfo(
@@ -308,7 +306,7 @@ export default function AddProfessor({
             setFirstNameProf("")
             setLastNameProf("")
             setTitreProf("")
-            setPhoneNumber(undefined)
+            setPhoneNumberProf(undefined)
             setEmailAddress("")
             setStreet("")
             setPostalCode("")
@@ -317,6 +315,7 @@ export default function AddProfessor({
             setUpdateButton(false)
 
         } else {
+            console.log("coucou")
             const result = await createUser(
                 {
                     variables: {
@@ -325,15 +324,14 @@ export default function AddProfessor({
                             lastNameProf,
                             titreProf,
                             photoProfil,
-                            phoneNumberProf,
                             emailAddress,
+                            phoneNumberProf,
                             Address: {
                                 street,
                                 postalCode,
                                 town,
                             }
                         }
-
                     }
                 }
             );
@@ -346,7 +344,7 @@ export default function AddProfessor({
             setFirstNameProf("")
             setLastNameProf("")
             setTitreProf("")
-            setPhoneNumber(undefined)
+            setPhoneNumberProf(undefined)
             setEmailAddress("")
             setStreet("")
             setPostalCode("")
@@ -436,29 +434,30 @@ export default function AddProfessor({
                 {
                     newData.map((dataElement: any) =>
                         <form onSubmit={handleSubmit} className={classes.formBody}>
-                            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                            <div style={{ display: "flex", justifyContent: "space-around", marginLeft: "100px" }}>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
                                     <div style={{ display: "flex", flexDirection: "column" }}>
                                         <label className={classes.labels} htmlFor="firstName" >Prénom du professeur</label>
                                         {
                                             flag ?
-                                                <TextField
-                                                    name="firstName"
+                                                <input
+                                                    name="firstNameProf"
                                                     id="firstName"
-                                                    value={firstNameProf ? firstNameProf : dataElement.firstNameProf}
+                                                    // placeholder={dataElement.firstName}
+                                                    value={firstNameProf ? firstNameProf : dataElement.firstName}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setFirstNameProf(e.currentTarget.value)
                                                     }}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                                 :
-                                                <TextField
-                                                    name="firstName"
+                                                <input
+                                                    name="firstNameProf"
                                                     id="firstName"
                                                     placeholder="Entrez un prénom"
-                                                    value={lastNameProf}
+                                                    value={firstNameProf}
                                                     onChange={(e: any) => setFirstNameProf(e.currentTarget.value)}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
                                             {errorFirstNameProf && "Prénom obligatoire"}
@@ -468,24 +467,24 @@ export default function AddProfessor({
                                         <label className={classes.labels} htmlFor="street">Rue</label>
                                         {
                                             flag ?
-                                                <TextField
+                                                <input
                                                     name="street"
                                                     id="street"
+                                                    placeholder={dataElement.Address.street}
                                                     value={street ? street : dataElement.Address.street}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setStreet(e.currentTarget.value)
                                                     }}
-                                                    style={{ marginLeft: "0px" }}
-                                                />
+                                                    className="inputCustom" />
                                                 :
-                                                <TextField
+                                                <input
                                                     name="street"
                                                     id="street"
                                                     placeholder="Entrez la rue"
                                                     value={street}
                                                     onChange={(e: any) => setStreet(e.currentTarget.value)}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
                                             {errorStreetProf && "Nom de rue obligatoire"}
@@ -495,24 +494,25 @@ export default function AddProfessor({
                                         <label className={classes.labels} htmlFor="phoneNumber">Numéro de téléphone</label>
                                         {
                                             flag ?
-                                                <TextField
+                                                <input
                                                     name="phoneNumber"
                                                     id="phoneNumber"
-                                                    value={phoneNumber ? phoneNumber : dataElement.phoneNumber}
+                                                    placeholder={dataElement.phoneNumber}
+                                                    value={phoneNumberProf ? phoneNumberProf : dataElement.phoneNumber}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setPhoneNumber(e.currentTarget.value)
+                                                        setPhoneNumberProf(e.currentTarget.value)
                                                     }}
-                                                    style={{ marginLeft: "0px" }}
+                                                    className="inputCustom"
                                                 />
                                                 :
-                                                <TextField
+                                                <input
                                                     name="phoneNumber"
                                                     id="phoneNumber"
-                                                    value={phoneNumber}
+                                                    value={phoneNumberProf}
                                                     placeholder="Entrez le numéro de téléphone"
-                                                    onChange={(e: any) => setPhoneNumber(Number(e.currentTarget.value))}
-                                                    style={{ marginLeft: "0px" }}
+                                                    onChange={(e: any) => setPhoneNumberProf(Number(e.currentTarget.value))}
+                                                    className="inputCustom"
                                                 />
                                         }
                                         <span className={classes.myErrorMessage}>
@@ -525,9 +525,10 @@ export default function AddProfessor({
                                         <label className={classes.labels} htmlFor="lastName" >Nom du professeur</label>
                                         {
                                             flag ?
-                                                <TextField
-                                                    name="lastName"
+                                                <input
+                                                    name="lastNameProf"
                                                     id="lastName"
+                                                    placeholder={dataElement.lastName}
                                                     value={lastNameProf ? lastNameProf : dataElement.lastNameProf}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
@@ -536,8 +537,8 @@ export default function AddProfessor({
                                                     style={{ marginLeft: "0px" }}
                                                 />
                                                 :
-                                                <TextField
-                                                    name="lastName"
+                                                <input
+                                                    name="lastNameProf"
                                                     id="lastName"
                                                     placeholder="Entrez un nom"
                                                     value={lastNameProf}
@@ -553,9 +554,10 @@ export default function AddProfessor({
                                         <label className={classes.labels} htmlFor="postalCode">Code postal</label>
                                         {
                                             flag ?
-                                                <TextField
+                                                <input
                                                     name="postalCode"
                                                     id="postalCode"
+                                                    placeholder={dataElement.Address.postalCode}
                                                     value={postalCode ? postalCode : dataElement.Address.postalCode}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
@@ -563,7 +565,7 @@ export default function AddProfessor({
                                                     }}
                                                     style={{ marginLeft: "0px" }} />
                                                 :
-                                                <TextField
+                                                <input
                                                     name="postalCode"
                                                     id="postalCode"
                                                     placeholder="Entrez un code postal"
@@ -579,9 +581,10 @@ export default function AddProfessor({
                                         <label className={classes.labels} htmlFor="emailAddress">Adresse mail</label>
                                         {
                                             flag ?
-                                                <TextField
+                                                <input
                                                     name="emailAddress"
                                                     id="emailAddress"
+                                                    placeholder={dataElement.emailAddress}
                                                     value={emailAddress ? emailAddress : dataElement.emailAddress}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
@@ -590,7 +593,7 @@ export default function AddProfessor({
                                                     style={{ marginLeft: "0px" }}
                                                 />
                                                 :
-                                                <TextField
+                                                <input
                                                     name="emailAddress"
                                                     id="emailAddress"
                                                     placeholder="Entrez une adresse mail"
@@ -609,9 +612,10 @@ export default function AddProfessor({
                                         <label className={classes.labels} htmlFor="titre">Titre</label>
                                         {
                                             flag ?
-                                                <TextField
-                                                    name="title"
+                                                <input
+                                                    name="titreProf"
                                                     id="title"
+                                                    placeholder={dataElement.titre}
                                                     value={titreProf ? titreProf : dataElement.titre}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
@@ -620,8 +624,8 @@ export default function AddProfessor({
                                                     }
                                                     style={{ marginLeft: "0px" }} />
                                                 :
-                                                <TextField
-                                                    name="title"
+                                                <input
+                                                    name="titreProf"
                                                     id="title"
                                                     placeholder="Entrez un titre"
                                                     value={titreProf}
@@ -636,9 +640,10 @@ export default function AddProfessor({
                                         <label className={classes.labels} htmlFor="town">Ville</label>
                                         {
                                             flag ?
-                                                <TextField
+                                                <input
                                                     name="town"
                                                     id="town"
+                                                    placeholder={dataElement.Address.town}
                                                     value={town ? town : dataElement.Address.town}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
@@ -646,7 +651,7 @@ export default function AddProfessor({
                                                     }}
                                                     style={{ marginLeft: "0px" }} />
                                                 :
-                                                <TextField
+                                                <input
                                                     name="town"
                                                     id="town"
                                                     placeholder="Entrez une ville"
@@ -658,29 +663,29 @@ export default function AddProfessor({
                                             {errorTownProf && "Nom de ville obligatoire"}
                                         </span>
                                     </div>
-                                    {
-                                        flag ?
-                                            <div style={{ display: "flex", flexDirection: "row-reverse", marginRight: "40px" }}>
-                                                <Buttons
-                                                    dataElement={dataElement.id}
-                                                    setFlag={setFlag}
-                                                    setAddButton={setAddButton}
-                                                    setUpdateButton={setUpdateButton}
-                                                    setIdUpdate={setIdUpdate}
-                                                />
-                                            </div>
-                                            :
-                                            <div style={{ display: "flex", flexDirection: "row-reverse", marginRight: "20px", marginTop: "30px" }}>
-                                                <Button
-                                                    bgColor='#FE5F55' color='#F7F7FF'
-                                                    onClick={() => setAddButton(true)}
-                                                >
-                                                    Ajouter
-                                                </Button>
-                                            </div>
-                                    }
                                 </div>
                             </div>
+                            {
+                                flag ?
+                                    <div style={{ display: "inline-flex", justifyContent: "space-around", marginTop: "30px", marginBottom: "30px" }}>
+                                        <Buttons
+                                            dataElement={dataElement.id}
+                                            setFlag={setFlag}
+                                            setAddButton={setAddButton}
+                                            setUpdateButton={setUpdateButton}
+                                            setIdUpdate={setIdUpdate}
+                                        />
+                                    </div>
+                                    :
+                                    <div style={{ display: "flex", flexDirection: "row-reverse", marginRight: "20px", marginTop: "30px" }}>
+                                        <Button
+                                            bgColor='#FE5F55' color='#F7F7FF'
+                                            onClick={() => setAddButton(true)}
+                                        >
+                                            Ajouter
+                                        </Button>
+                                    </div>
+                            }
                         </form>
                     )
                 }
@@ -723,7 +728,7 @@ export default function AddProfessor({
                             </div>
                             <div>
                                 <div>
-                                    <span>Numéro de téléphone : <strong>{phoneNumber}</strong></span>
+                                    <span>Numéro de téléphone : <strong>{phoneNumberProf}</strong></span>
                                     <span>Adresse mail : <strong>{emailAddress}</strong></span>
                                 </div>
                             </div>

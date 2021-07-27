@@ -7,13 +7,13 @@ type Address {
 
 type User {
   id: ID
-  firstName: String @fake(type: firstName)
-  lastName: String @fake(type: lastName)
-  titre: String @fake(type: jobTitle)
+  firstNameProf: String @fake(type: firstName)
+  lastNameProf: String @fake(type: lastName)
+  titreProf: String @fake(type: jobTitle)
   emailAddress: String @fake(type: email)
   photoProfil: String @fake(type: avatarUrl)
   Address:  Address 
-  phoneNumber: String @fake(type: phoneNumber, locale: fr)
+  phoneNumberProf: String @fake(type: phoneNumber, locale: fr)
   
 }
 
@@ -21,12 +21,12 @@ type User {
 {
   allUsers {
     id
-    firstName
-    lastName
-    titre
+    firstNameProf
+    lastNameProf
+    titreProf
     photoProfil
     emailAddress
-    phoneNumber
+    phoneNumberProf
     Address {
       street
       postalCode
@@ -42,12 +42,13 @@ input InputAddress {
 }
 
 input InputUser {
-  firstName: String!
-  lastName: String!
+  firstNameProf: String!
+  lastNameProf: String!
+  titreProf: String!
   emailAddress: String!
   photoProfil: String!
   Address: InputAddress!
-  phoneNumber: String!
+  phoneNumberProf: String!
 }
 
 type Mutation {
