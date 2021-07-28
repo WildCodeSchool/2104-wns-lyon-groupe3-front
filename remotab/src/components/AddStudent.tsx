@@ -311,7 +311,7 @@ function AddStudent({
         // }
     )
 
-    const [updateUserInfo] = useMutation(UPDATE_USER)
+    const [updateUser] = useMutation(UPDATE_USER)
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -448,43 +448,13 @@ function AddStudent({
         
 
         if (updateButton) {
-
-            const result = await updateUserInfo(
-                 {
-                     variables: {
-                            id: idUpdate
-                     }
-                 }
-            );
-
-            addToast(`vous avez modifié les informations de l'élève : ${firstname} ${lastname}`, {
-                appearance: "warning",
-                autoDismiss: true
-            })
-
-            setfirstname("")
-            setlastname("")
-            setClassStu("")
-            setNameParent("")
-            setNumberParent("")
-            setemail("")
-            setStreet("")
-            setPostalCode("")
-            setcity("")
-            setFileSelected(defaultImage)
-            setUpdateButton(false)
-
-        }else {
-            console.log(                            firstname,
-                lastname,
-                email,                                street,
-                postalCode,
-                city, role, picture)
-            
-            const result = await createUser(
-                {
-                    variables: {
-       
+            const id = idUpdate
+            console.log(id)
+            try {
+                const result = await updateUser(
+                    {
+                        variables: {
+                            id,
                             firstname,
                             lastname,
                             email,
@@ -493,32 +463,80 @@ function AddStudent({
                                 postalCode,
                                 city,
                             },
-                            role,
-                           // birthday,
-                            picture
-                        
-    
+                        }
                     }
-                }
-            );
+               );
+   
+               addToast(`vous avez modifié les informations de l'élève : ${firstname} ${lastname}`, {
+                   appearance: "warning",
+                   autoDismiss: true
+               })
+   
+               setfirstname("")
+               setlastname("")
+               setClassStu("")
+               setNameParent("")
+               setNumberParent("")
+               setemail("")
+               setStreet("")
+               setPostalCode("")
+               setcity("")
+               setFileSelected(defaultImage)
+               setUpdateButton(false)
                 
-            addToast(`vous avez ajouté l'élève: ${firstname} ${lastname}`, {
-                appearance: "info",
-                autoDismiss: true
-            })
+            } catch (error) {
+                console.log(error)
+            }
 
-            refetch()
+
+
+        }else {
+
+            try {
+
+                const result = await createUser(
+                    {
+                        variables: {
+           
+                                firstname,
+                                lastname,
+                                email,
+                                addressInput: {
+                                    street,
+                                    postalCode,
+                                    city,
+                                },
+                                role,
+                               // birthday,
+                                picture
+                            
+        
+                        }
+                    }
+                );
+                    
+                addToast(`vous avez ajouté l'élève: ${firstname} ${lastname}`, {
+                    appearance: "info",
+                    autoDismiss: true
+                })
     
-            setfirstname("")
-            setlastname("")
-            setClassStu(null)
-            setNameParent("")
-            setNumberParent("")
-            setemail("")
-            setStreet("")
-            setPostalCode("")
-            setcity("")
-            setFileSelected(defaultImage)
+                refetch()
+        
+                setfirstname("")
+                setlastname("")
+                setClassStu(null)
+                setNameParent("")
+                setNumberParent("")
+                setemail("")
+                setStreet("")
+                setPostalCode("")
+                setcity("")
+                setFileSelected(defaultImage)
+
+            }catch(error){
+                console.log(error)
+            }
+
         }
 
     }

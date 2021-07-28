@@ -240,7 +240,6 @@ function StudentPage() {
     setStreet("")
     setPostalCode("")
     setcity("")
-    setRole("")
   }
 
   const handleSearch = (event: any): void => {

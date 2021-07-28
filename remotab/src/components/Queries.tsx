@@ -88,10 +88,10 @@ export const DELETE_USER = gql`
 export const UPDATE_USER = gql`
 mutation updateUser(
     $id: String!,
-    $firstname: String,
-    $lastname: String,
-    $email: String,
-    $addressInput: addressInput,
+    $firstname: String!,
+    $lastname: String!,
+    $email: String!,
+    $addressInput: addressInput!,
     $role: String,
     $isActive: String,
     $birthday: String,
