@@ -5,13 +5,14 @@ import theme from "./styles/theme";
 import { ThemeProvider } from '@material-ui/core/styles';
 import ProfessorForm from './components/ProfessorForm';
 import HomePage from './components/HomePage';
+import Agenda from './components/Agenda';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { Palette } from '@material-ui/icons';
 
 
 
-function App() {  
+function App() {
 
   return (
     <ThemeProvider theme={theme}>
@@ -21,6 +22,7 @@ function App() {
             <HomePage />
           </Route>
           <Route path='/professorform' component={ProfessorForm} />
+          <Route path='/agenda' component={Agenda} />
         </Switch>
       </Router>
     </ThemeProvider>

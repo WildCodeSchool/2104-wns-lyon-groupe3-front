@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/neumorphism.css';
 import { makeStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
-import { Button, TextField, Avatar } from 'ui-neumorphism';
+import { Button, Avatar } from 'ui-neumorphism';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import CancelIcon from '@material-ui/icons/Cancel';
 import avatar from '../assets/avatar.jpg';
@@ -59,6 +59,11 @@ const useStyles = makeStyles(theme => ({
         left: "12px",
         bottom: "4px",
         fontSize: "12px"
+    },
+    inputBlocks: {
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: "10px"
     }
 }))
 
@@ -197,8 +202,6 @@ export default function AddProfessor({
             town: { value: string }
         }
 
-        console.log(target.firstNameProf.value);
-
         if (addButton) {
             setFirstNameProf(target.firstNameProf.value)
             setLastNameProf(target.lastNameProf.value)
@@ -284,7 +287,6 @@ export default function AddProfessor({
     }
 
     const handleSend = async () => {
-        console.log(updateButton);
         setOpen(false)
         setFlag(false)
         const photoProfil = profil instanceof URL ? URL.createObjectURL(profil) : avatar
@@ -315,7 +317,6 @@ export default function AddProfessor({
             setUpdateButton(false)
 
         } else {
-            console.log("coucou")
             const result = await createUser(
                 {
                     variables: {
@@ -365,23 +366,21 @@ export default function AddProfessor({
                             size={100}
                             className={classes.avatarImage}
                         />
-                        <label className={classes.labels} htmlFor="imageProfil">
-                            <input
-                                type="file"
-                                accept="image/jpeg,image/jpg,image/PNG,application/pdf"
-                                hidden
-                                onChange={handleChangeImage}
-                                name="imageProfil"
-                                id="imageProfil"
-                            />
-                            <AddAPhotoIcon
-                                fontSize="small"
-                                className={classes.avatarImage}
-                            />
-                        </label>
+                        <input
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                            hidden
+                            onChange={handleChangeImage}
+                            name="imageProfil"
+                            id="imageProfil"
+                        />
+                        <AddAPhotoIcon
+                            fontSize="small"
+                            className={classes.avatarImage}
+                        />
                     </div>
                     :
-                    <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div className={classes.inputBlocks}>
                         {
                             profil instanceof File ?
                                 <Avatar
@@ -398,20 +397,19 @@ export default function AddProfessor({
                                     className={classes.avatarImage}
                                 />
                         }
-                        <label className={classes.labels} htmlFor="imageProfil">
-                            <input
-                                type="file"
-                                accept="image/jpeg,image/jpg,image/PNG,application/pdf"
-                                hidden
-                                onChange={handleChangeImage}
-                                name="imageProfil"
-                                id="imageProfil"
-                            />
-                            <AddAPhotoIcon
-                                fontSize="small"
-                                className={classes.avatarImage}
-                            />
-                        </label>
+
+                        <input
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                            hidden
+                            onChange={handleChangeImage}
+                            name="imageProfil"
+                            id="imageProfil"
+                        />
+                        <AddAPhotoIcon
+                            fontSize="small"
+                            className={classes.avatarImage}
+                        />
                     </div>
             }
 
@@ -436,15 +434,14 @@ export default function AddProfessor({
                         <form onSubmit={handleSubmit} className={classes.formBody}>
                             <div style={{ display: "flex", justifyContent: "space-around", marginLeft: "100px" }}>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="firstName" >Prénom du professeur</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
                                                     name="firstNameProf"
                                                     id="firstName"
-                                                    // placeholder={dataElement.firstName}
-                                                    value={firstNameProf ? firstNameProf : dataElement.firstName}
+                                                    placeholder={dataElement.firstNameProf}
+                                                    value={firstNameProf ? firstNameProf : dataElement.firstNameProf}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setFirstNameProf(e.currentTarget.value)
@@ -463,8 +460,7 @@ export default function AddProfessor({
                                             {errorFirstNameProf && "Prénom obligatoire"}
                                         </span>
                                     </div>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="street">Rue</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
@@ -490,15 +486,14 @@ export default function AddProfessor({
                                             {errorStreetProf && "Nom de rue obligatoire"}
                                         </span>
                                     </div>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="phoneNumber">Numéro de téléphone</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
-                                                    name="phoneNumber"
+                                                    name="phoneNumberProf"
                                                     id="phoneNumber"
-                                                    placeholder={dataElement.phoneNumber}
-                                                    value={phoneNumberProf ? phoneNumberProf : dataElement.phoneNumber}
+                                                    placeholder={dataElement.phoneNumberProf}
+                                                    value={phoneNumberProf ? phoneNumberProf : dataElement.phoneNumberProf}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setPhoneNumberProf(e.currentTarget.value)
@@ -507,7 +502,7 @@ export default function AddProfessor({
                                                 />
                                                 :
                                                 <input
-                                                    name="phoneNumber"
+                                                    name="phoneNumberProf"
                                                     id="phoneNumber"
                                                     value={phoneNumberProf}
                                                     placeholder="Entrez le numéro de téléphone"
@@ -521,8 +516,7 @@ export default function AddProfessor({
                                     </div>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="lastName" >Nom du professeur</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
@@ -534,8 +528,7 @@ export default function AddProfessor({
                                                         e.persist()
                                                         setLastNameProf(e.currentTarget.value)
                                                     }}
-                                                    style={{ marginLeft: "0px" }}
-                                                />
+                                                    className="inputCustom" />
                                                 :
                                                 <input
                                                     name="lastNameProf"
@@ -543,15 +536,13 @@ export default function AddProfessor({
                                                     placeholder="Entrez un nom"
                                                     value={lastNameProf}
                                                     onChange={(e: any) => setLastNameProf(e.currentTarget.value)}
-                                                    style={{ marginLeft: "0px" }}
-                                                />
+                                                    className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
                                             {errorLastNameProf && "Nom obligatoire"}
                                         </span>
                                     </div>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="postalCode">Code postal</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
@@ -563,7 +554,7 @@ export default function AddProfessor({
                                                         e.persist()
                                                         setPostalCode(e.currentTarget.value)
                                                     }}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                                 :
                                                 <input
                                                     name="postalCode"
@@ -571,14 +562,13 @@ export default function AddProfessor({
                                                     placeholder="Entrez un code postal"
                                                     value={postalCode}
                                                     onChange={(e: any) => setPostalCode(e.currentTarget.value)}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
                                             {errorPostalCodeProf && "Code postal incorrect"}
                                         </span>
                                     </div>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="emailAddress">Adresse mail</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
@@ -590,7 +580,7 @@ export default function AddProfessor({
                                                         e.persist()
                                                         setEmailAddress(e.currentTarget.value)
                                                     }}
-                                                    style={{ marginLeft: "0px" }}
+                                                    className="inputCustom"
                                                 />
                                                 :
                                                 <input
@@ -599,7 +589,7 @@ export default function AddProfessor({
                                                     placeholder="Entrez une adresse mail"
                                                     value={emailAddress}
                                                     onChange={(e: any) => setEmailAddress(e.currentTarget.value)}
-                                                    style={{ marginLeft: "0px" }}
+                                                    className="inputCustom"
                                                 />
                                         }
                                         <span className={classes.myErrorMessage}>
@@ -608,21 +598,20 @@ export default function AddProfessor({
                                     </div>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="titre">Titre</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
                                                     name="titreProf"
                                                     id="title"
-                                                    placeholder={dataElement.titre}
-                                                    value={titreProf ? titreProf : dataElement.titre}
+                                                    placeholder={dataElement.titreProf}
+                                                    value={titreProf ? titreProf : dataElement.titreProf}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setTitreProf(e.currentTarget.value)
                                                     }
                                                     }
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                                 :
                                                 <input
                                                     name="titreProf"
@@ -630,14 +619,13 @@ export default function AddProfessor({
                                                     placeholder="Entrez un titre"
                                                     value={titreProf}
                                                     onChange={(e: any) => setTitreProf(e.currentTarget.value)}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
                                             {errorTitreProf && "Titre obligatoire"}
                                         </span>
                                     </div>
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <label className={classes.labels} htmlFor="town">Ville</label>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
@@ -649,7 +637,7 @@ export default function AddProfessor({
                                                         e.persist()
                                                         setTown(e.currentTarget.value)
                                                     }}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                                 :
                                                 <input
                                                     name="town"
@@ -657,7 +645,7 @@ export default function AddProfessor({
                                                     placeholder="Entrez une ville"
                                                     value={town}
                                                     onChange={(e: any) => setTown(e.currentTarget.value)}
-                                                    style={{ marginLeft: "0px" }} />
+                                                    className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
                                             {errorTownProf && "Nom de ville obligatoire"}

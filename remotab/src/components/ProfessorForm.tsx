@@ -1,6 +1,6 @@
 import { Card, CardContent, Subtitle2, Button, Badge } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
-import '../styles/neumorphism.css'
+import '../styles/neumorphism.css';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../assets/logoRemotab.png';
 import { ExitToApp } from '@material-ui/icons';
@@ -232,8 +232,7 @@ export default function ProfessorForm() {
             if (data !== undefined) {
 
                 const filteredSearch = data.allUsers.filter((prof: any) => {
-                    prof.firstName.toLowerCase().includes(searchedProf.toLowerCase());
-                    console.log(prof.firstName)
+                    prof.firstNameProf.toLowerCase().includes(searchedProf.toLowerCase());
                 })
 
                 if (filteredSearch.length === 0) {
@@ -332,10 +331,10 @@ export default function ProfessorForm() {
                                             <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.firstName}
+                                                    {elem.firstNameProf}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.titre}
+                                                    {elem.titreProf}
                                                 </Subtitle2>
                                                 <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
                                             </div>
@@ -349,10 +348,10 @@ export default function ProfessorForm() {
                                             <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.firstName}
+                                                    {elem.firstNameProf}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.titre}
+                                                    {elem.titreProf}
                                                 </Subtitle2>
                                                 <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
                                             </div>
