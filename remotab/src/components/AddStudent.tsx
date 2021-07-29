@@ -301,7 +301,7 @@ function AddStudent({
 
     const {addToast} = useToasts()
 
-    const profil = fileSelected || ""
+    const [profil, setProfil] = React.useState(fileSelected || "") 
 
     const [createUser, { data }] = useMutation(CREATE_USER,
         // {
@@ -311,6 +311,7 @@ function AddStudent({
         // }
     )
 
+    console.log(profil)
     const [updateUser] = useMutation(UPDATE_USER)
 
     const handleSubmit = (event: React.SyntheticEvent) => {
@@ -443,26 +444,33 @@ function AddStudent({
         setOpen(false)
         setFlag(false)
        // alert("envoyé")
-        const picture = profil instanceof URL ? URL.createObjectURL(profil) : defaultImage
+       
+        const picture = profil instanceof File ? URL.createObjectURL(profil) : defaultImage
         const classStudent = Number(classStu)
+        const isActive = "ACTIVE"
+        const birthday = "01/01/1994"
         
 
         if (updateButton) {
             const id = idUpdate
             console.log(id)
             try {
-                const result = await updateUser(
+                 await updateUser(
                     {
                         variables: {
                             id,
                             firstname,
                             lastname,
                             email,
-                            addressInput: {
-                                street,
+                            address: {
+                               street,
                                 postalCode,
-                                city,
+                                city
                             },
+                            role,
+                            isActive,
+                            birthday,
+                            picture
                         }
                     }
                );
@@ -482,7 +490,8 @@ function AddStudent({
                setPostalCode("")
                setcity("")
                setFileSelected(defaultImage)
-               setUpdateButton(false)
+                setUpdateButton(false)
+                setProfil(defaultImage)
                 
             } catch (error) {
                 console.log(error)
@@ -494,7 +503,7 @@ function AddStudent({
 
             try {
 
-                const result = await createUser(
+                await createUser(
                     {
                         variables: {
            
@@ -507,7 +516,8 @@ function AddStudent({
                                     city,
                                 },
                                 role,
-                               // birthday,
+                                isActive,
+                                birthday,
                                 picture
                             
         
@@ -524,7 +534,7 @@ function AddStudent({
         
                 setfirstname("")
                 setlastname("")
-                setClassStu(null)
+                setClassStu("")
                 setNameParent("")
                 setNumberParent("")
                 setemail("")
@@ -532,9 +542,15 @@ function AddStudent({
                 setPostalCode("")
                 setcity("")
                 setFileSelected(defaultImage)
+                setProfil(defaultImage)
+                
 
             }catch(error){
                 console.log(error)
+                addToast(`l'adresse mail : ${email} est déjà utilisée`, {
+                    appearance: "error",
+                    autoDismiss: false
+                })
             }
 
         }
@@ -713,7 +729,7 @@ function AddStudent({
                                                 name="classStu"
                                                 id="classStu"
                                                 placeholder="Entrez la classe"
-                                                //value={Number(classStu)}
+                                                value={classStu}
                                                 onChange={(e)=>setClassStu(Number(e.currentTarget.value))}
                                                 className="inputCustom"
                                             />
@@ -745,7 +761,7 @@ function AddStudent({
                                                 <input
                                                     name="nameParent"
                                                     id="nameParent"
-                                                    placeholder="Entrez la nom"
+                                                    placeholder="Entrez le nom"
                                                     value={nameParent}
                                                     onChange={(e)=>setNameParent(e.currentTarget.value)}
                                                     className="inputCustom"
@@ -948,20 +964,11 @@ function AddStudent({
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <div className={classes.dialogContent} >
-                            {
-                                profil instanceof File ?
-                                    <Avatar
-                                        src={URL.createObjectURL(profil)}
-                                        size={120}
-                                        style={{alignSelf:"center"}}
-                                    />
-                                    :
-                                    <Avatar
-                                        src={defaultImage}
-                                        size={120}
-                                        style={{alignSelf:"center"}}
-                                    />
-                            }
+                            <Avatar
+                                src={profil instanceof File ? URL.createObjectURL(profil) : defaultImage}
+                                size={120}
+                                style={{alignSelf:"center"}}
+                            />
                             
                             <div className={classes.categoryInfo} >
                                 <h3 className={classes.titleContent} >Elève</h3>
@@ -980,7 +987,7 @@ function AddStudent({
                                 </div>
                             </div>
                             <div className={classes.categoryInfo}>
-                                <h3 className={classes.titleContent} >addresse</h3>
+                                <h3 className={classes.titleContent} >Adresse postale</h3>
                                 <div className={classes.divInfo}>
                                     <span>Rue : <strong>{street}</strong></span>
                                     <span>Code postal : <strong>{postalCode}</strong></span>

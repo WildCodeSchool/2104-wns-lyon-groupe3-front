@@ -91,7 +91,7 @@ mutation updateUser(
     $firstname: String!,
     $lastname: String!,
     $email: String!,
-    $addressInput: addressInput!,
+    $address: addressInput!,
     $role: String,
     $isActive: String,
     $birthday: String,
@@ -102,25 +102,13 @@ mutation updateUser(
         firstname: $firstname,
         lastname: $lastname,
         email: $email,
-        address: $addressInput,
+        address: $address,
         role: $role,
         isActive: $isActive,
         birthday: $birthday,
         picture: $picture
     ) {
-        _id,
-        firstname,
-        lastname,
-        email,
-        address{
-            street,
-            postalCode,
-            city
-        },
-        role,
-        isActive,
-        birthday,
-        picture
+        _id, firstname, lastname, email, address{street, postalCode, city}, role, isActive, birthday, picture
     }
-} 
+}
 `
