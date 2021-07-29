@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import logo from '../assets/logoRemotab.png';
 import { ExitToApp } from '@material-ui/icons';
 import AddProfessor from '../components/AddProfessor';
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
@@ -170,19 +169,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const initialData = {
-    "allUsers": [
+    "getAllUsers": [
         {
-            "id": "",
-            "firstName": "",
-            "lastName": "",
-            "titre": "",
-            "photoProfil": avatar,
-            "emailAddress": "",
-            "phoneNumber": "",
-            "Address": {
+            "_id": "",
+            "firstname": "",
+            "lastname": "",
+            "role": "",
+            "picture": avatar,
+            "email": "",
+            "phoneNumberProf": "",
+            "addressInput": {
                 "street": "",
                 "postalCode": "",
-                "town": ""
+                "city": ""
             }
         }
     ]
@@ -198,26 +197,24 @@ export default function ProfessorForm() {
     const [searchData, setSearchData] = useState<string>();
     const [emptySearchData, setEmptySearchData] = useState<boolean>(false);
 
-    // const [filteredProfessors, setFilteredProfessors] = useState([]);
-
     //Error handling
-    const [errorFirstNameProf, setErrorFirstNameProf] = useState<boolean>(false)
-    const [errorLastNameProf, setErrorLastNameProf] = useState<boolean>(false)
-    const [errorTitreProf, setErrorTitreProf] = useState<boolean>(false)
-    const [errorEmailAddressProf, setErrorEmailAddressProf] = useState<boolean>(false)
+    const [errorFirstname, setErrorFirstname] = useState<boolean>(false)
+    const [errorLastname, setErrorLastname] = useState<boolean>(false)
+    const [errorRole, setErrorRole] = useState<boolean>(false)
+    const [errorEmail, setErrorEmail] = useState<boolean>(false)
     const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
-    const [errorStreetProf, setErrorStreetProf] = useState<boolean>(false)
-    const [errorPostalCodeProf, setErrorPostalCodeProf] = useState<boolean>(false)
-    const [errorTownProf, setErrorTownProf] = useState<boolean>(false)
+    const [errorStreet, setErrorStreet] = useState<boolean>(false)
+    const [errorPostalCode, setErrorPostalCode] = useState<boolean>(false)
+    const [errorCity, setErrorCity] = useState<boolean>(false)
 
-    const [firstNameProf, setFirstNameProf] = useState("")
-    const [lastNameProf, setLastNameProf] = useState("")
-    const [titreProf, setTitreProf] = useState("")
+    const [firstname, setFirstname] = useState("")
+    const [lastname, setLastname] = useState("")
+    const [role, setRole] = useState("TEACHER")
     const [phoneNumberProf, setPhoneNumberProf] = useState("")
-    const [emailAddress, setEmailAddress] = useState("")
+    const [email, setEmail] = useState("")
     const [street, setStreet] = useState("")
     const [postalCode, setPostalCode] = useState("")
-    const [town, setTown] = useState("")
+    const [city, setCity] = useState("")
 
     const [fileSelected, setFileSelected] = useState<File>()
 
@@ -232,7 +229,7 @@ export default function ProfessorForm() {
             if (data !== undefined) {
 
                 const filteredSearch = data.allUsers.filter((prof: any) => {
-                    prof.firstNameProf.toLowerCase().includes(searchedProf.toLowerCase());
+                    prof.firstname.toLowerCase().includes(searchedProf.toLowerCase());
                 })
 
                 if (filteredSearch.length === 0) {
@@ -240,7 +237,7 @@ export default function ProfessorForm() {
                 }
 
                 else {
-                    setDataResult({ allUsers: filteredSearch })
+                    setDataResult({ getAllUsers: filteredSearch })
                     setEmptySearchData(false)
                 }
             }
@@ -264,24 +261,24 @@ export default function ProfessorForm() {
         const filteredData = data.allUsers.filter((elem: any) => elem.id === id)
         setFlag(true)
         setNewData(filteredData)
-        setErrorFirstNameProf(false)
-        setErrorLastNameProf(false)
-        setErrorTitreProf(false)
-        setErrorEmailAddressProf(false)
+        setErrorFirstname(false)
+        setErrorLastname(false)
+        setErrorRole(true)
+        setErrorEmail(false)
         setErrorPhoneNumberProf(false)
-        setErrorStreetProf(false)
-        setErrorPostalCodeProf(false)
-        setErrorTownProf(false)
+        setErrorStreet(false)
+        setErrorPostalCode(false)
+        setErrorCity(false)
         setFileSelected(undefined)
 
-        setFirstNameProf("")
-        setLastNameProf("")
-        setTitreProf("")
+        setFirstname("")
+        setLastname("")
+        setRole("")
         setPhoneNumberProf("")
-        setEmailAddress("")
+        setEmail("")
         setStreet("")
         setPostalCode("")
-        setTown("")
+        setCity("")
     }
 
     return (
@@ -303,8 +300,8 @@ export default function ProfessorForm() {
                 <Card className={classes.main}>
                     <div style={{ display: "flex", justifyContent: "flex-end" }}>
                         <div className={classes.searchBarContainer}>
-                            <input 
-                                name="search" 
+                            <input
+                                name="search"
                                 id="search"
                                 className={classes.searchInput}
                                 placeholder="Recherche professeur par nom..."
@@ -325,16 +322,16 @@ export default function ProfessorForm() {
                                 </Card>
                             </div> :
                             searchData ?
-                                dataResult.allUsers.map((elem: any) =>
+                                dataResult.getAllUsers.map((elem: any) =>
                                     <Card className={classes.card}>
                                         <CardContent className={classes.cardContent}>
-                                            <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
+                                            <img src={elem.picture} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.firstNameProf}
+                                                    {elem.firstname}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.titreProf}
+                                                    {elem.role}
                                                 </Subtitle2>
                                                 <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
                                             </div>
@@ -345,13 +342,13 @@ export default function ProfessorForm() {
                                 data.allUsers.map((elem: any) =>
                                     <Card className={classes.card} >
                                         <CardContent className={classes.cardContent}>
-                                            <img src={elem.photoProfil} alt="professor-avatar" className={classes.image} />
+                                            <img src={elem.picture} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.firstNameProf}
+                                                    {elem.firstname}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.titreProf}
+                                                    {elem.role}
                                                 </Subtitle2>
                                                 <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
                                             </div>
@@ -366,38 +363,38 @@ export default function ProfessorForm() {
                                 newData={newData}
                                 flag={flag}
                                 setFlag={setFlag}
-                                firstNameProf={firstNameProf}
-                                setFirstNameProf={setFirstNameProf}
-                                errorFirstNameProf={errorFirstNameProf}
-                                setErrorFirstNameProf={setErrorFirstNameProf}
-                                lastNameProf={lastNameProf}
-                                setLastNameProf={setLastNameProf}
-                                errorLastNameProf={errorLastNameProf}
-                                setErrorLastNameProf={setErrorLastNameProf}
-                                titreProf={titreProf}
-                                setTitreProf={setTitreProf}
-                                errorTitreProf={errorTitreProf}
-                                setErrorTitreProf={setErrorTitreProf}
-                                emailAddress={emailAddress}
-                                setEmailAddress={setEmailAddress}
-                                errorEmailAddressProf={errorEmailAddressProf}
-                                setErrorEmailAddressProf={setErrorEmailAddressProf}
+                                firstname={firstname}
+                                setFirstname={setFirstname}
+                                errorFirstname={errorFirstname}
+                                setErrorFirstname={setErrorFirstname}
+                                lastname={lastname}
+                                setLastname={setLastname}
+                                errorLastname={errorLastname}
+                                setErrorLastname={setErrorLastname}
+                                role={role}
+                                setRole={setRole}
+                                errorRole={errorRole}
+                                setErrorRole={setErrorRole}
+                                email={email}
+                                setEmail={setEmail}
+                                errorEmail={errorEmail}
+                                setErrorEmail={setErrorEmail}
                                 phoneNumberProf={phoneNumberProf}
                                 setPhoneNumberProf={setPhoneNumberProf}
                                 errorPhoneNumberProf={errorPhoneNumberProf}
                                 setErrorPhoneNumberProf={setErrorPhoneNumberProf}
                                 street={street}
                                 setStreet={setStreet}
-                                errorStreetProf={errorStreetProf}
-                                setErrorStreetProf={setErrorStreetProf}
+                                errorStreet={errorStreet}
+                                setErrorStreet={setErrorStreet}
                                 postalCode={postalCode}
                                 setPostalCode={setPostalCode}
-                                errorPostalCodeProf={errorPostalCodeProf}
-                                setErrorPostalCodeProf={setErrorPostalCodeProf}
-                                town={town}
-                                setTown={setTown}
-                                errorTownProf={errorTownProf}
-                                setErrorTownProf={setErrorTownProf}
+                                errorPostalCode={errorPostalCode}
+                                setErrorPostalCode={setErrorPostalCode}
+                                city={city}
+                                setCity={setCity}
+                                errorCity={errorCity}
+                                setErrorCity={setErrorCity}
                                 fileSelected={fileSelected}
                                 setFileSelected={setFileSelected}
                                 refetch={refetch}

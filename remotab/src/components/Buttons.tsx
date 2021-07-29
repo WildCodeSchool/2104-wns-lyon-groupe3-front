@@ -16,6 +16,7 @@ type dataProto = {
     setAddButton: any,
     setUpdateButton: any,
     setIdUpdate: any,
+    refetch: any
 }
 
 export default function Buttons({
@@ -24,11 +25,12 @@ export default function Buttons({
     setAddButton,
     setUpdateButton,
     setIdUpdate,
+    refetch
 
 }: dataProto) {
 
     const classes = useStyles()
-    const [removeUser, { data },] = useMutation(DELETE_USER);
+    const [deleteUser] = useMutation(DELETE_USER);
     const [updateUserInfo] = useMutation(UPDATE_USER);
     const { addToast } = useToasts()
 
@@ -38,18 +40,22 @@ export default function Buttons({
         setUpdateButton(true)
     }
 
-    const handleSubmitDelete = () => {
-        removeUser({
+    const handleSubmitDelete = async () => {
+
+        const id = dataElement;
+
+        const result = await deleteUser({
             variables: {
-                id: dataElement
+                id
             }
         });
 
-        if (data)
-            addToast(`vous avez supprimé : ${data.removeUser.firstNameProf} ${data.removeUser.lastNameProf}`, {
-                appearance: "error",
-                autoDismiss: true
-            })
+        addToast(`Vous avez supprimé : ${result.data.deleteUser.firstname} ${result.data.deleteUser.lastname}`, {
+            appearance: "error",
+            autoDismiss: true
+        })
+
+        refetch()
 
         setFlag(false)
     }

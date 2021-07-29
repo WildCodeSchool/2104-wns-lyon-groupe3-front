@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useToasts } from 'react-toast-notifications';
 import { useMutation } from '@apollo/client';
 import Buttons from './Buttons';
-import { UPDATE_USER } from "./Queries"
+import { UPDATE_USER, ALL_PROFS, CREATE_USER } from "./Queries"
 
 
 const useStyles = makeStyles(theme => ({
@@ -71,107 +71,88 @@ type dataProps = {
     newData: any,
     flag: boolean,
     setFlag: any,
-    errorFirstNameProf: boolean,
-    setErrorFirstNameProf: any,
-    errorLastNameProf: boolean,
-    setErrorLastNameProf: any,
-    errorTitreProf: boolean,
-    setErrorTitreProf: any,
-    errorEmailAddressProf: boolean,
-    setErrorEmailAddressProf: any,
+    errorFirstname: boolean,
+    setErrorFirstname: any,
+    errorLastname: boolean,
+    setErrorLastname: any,
+    errorRole: boolean,
+    setErrorRole: any,
+    errorEmail: boolean,
+    setErrorEmail: any,
     errorPhoneNumberProf: boolean,
     setErrorPhoneNumberProf: any,
-    errorStreetProf: boolean,
-    setErrorStreetProf: any,
-    errorPostalCodeProf: boolean,
-    setErrorPostalCodeProf: any,
-    errorTownProf: boolean,
-    setErrorTownProf: any,
+    errorStreet: boolean,
+    setErrorStreet: any,
+    errorPostalCode: boolean,
+    setErrorPostalCode: any,
+    errorCity: boolean,
+    setErrorCity: any,
     fileSelected: any,
     setFileSelected: any,
     refetch: any,
 
-    firstNameProf: string,
-    setFirstNameProf: any,
-    lastNameProf: string,
-    setLastNameProf: any,
-    titreProf: string,
-    setTitreProf: any,
-    emailAddress: string,
-    setEmailAddress: any,
+    firstname: string,
+    setFirstname: any,
+    lastname: string,
+    setLastname: any,
+    role: string,
+    setRole: any,
+    email: string,
+    setEmail: any,
     phoneNumberProf: string,
     setPhoneNumberProf: any,
     street: string,
     setStreet: any,
     postalCode: string,
     setPostalCode: any,
-    town: string,
-    setTown: any
+    city: string,
+    setCity: any
 }
-
-const CREATE_USER = gql`
-mutation CreateUser($input: InputUser!){
-    createUser(inputUser: $input){
-      id
-      firstNameProf
-      lastNameProf
-      titreProf
-      photoProfil
-      emailAddress
-      phoneNumberProf
-      Address{
-        street
-        postalCode
-        town
-      }
-    }
-  }
-`;
-
 
 export default function AddProfessor({
     newData,
     flag,
     setFlag,
-    errorFirstNameProf,
-    setErrorFirstNameProf,
-    errorLastNameProf,
-    setErrorLastNameProf,
-    errorTitreProf,
-    setErrorTitreProf,
-    errorEmailAddressProf,
-    setErrorEmailAddressProf,
+    errorFirstname,
+    setErrorFirstname,
+    errorLastname,
+    setErrorLastname,
+    errorRole,
+    setErrorRole,
+    errorEmail,
+    setErrorEmail,
     errorPhoneNumberProf,
     setErrorPhoneNumberProf,
-    errorStreetProf,
-    setErrorStreetProf,
-    errorPostalCodeProf,
-    setErrorPostalCodeProf,
-    errorTownProf,
-    setErrorTownProf,
+    errorStreet,
+    setErrorStreet,
+    errorPostalCode,
+    setErrorPostalCode,
+    errorCity,
+    setErrorCity,
     fileSelected,
     setFileSelected,
-    firstNameProf,
-    setFirstNameProf,
-    lastNameProf,
-    setLastNameProf,
-    titreProf,
-    setTitreProf,
+    firstname,
+    setFirstname,
+    lastname,
+    setLastname,
+    role,
+    setRole,
     phoneNumberProf,
     setPhoneNumberProf,
-    emailAddress,
-    setEmailAddress,
+    email,
+    setEmail,
     street,
     setStreet,
     postalCode,
     setPostalCode,
-    town,
-    setTown
+    city,
+    setCity,
+    refetch
 
 }: dataProps) {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [idUpdate, setIdUpdate] = useState("")
+    const [idUpdate, setIdUpdate] = useState("") 
 
     const [addButton, setAddButton] = useState(false)
     const [updateButton, setUpdateButton] = useState(false)
@@ -192,80 +173,80 @@ export default function AddProfessor({
 
         const target = event.target as typeof event.target & {
 
-            firstNameProf: { value: string },
-            lastNameProf: { value: string },
-            titreProf: { value: string },
-            phoneNumber: { value: Number },
-            emailAddress: { value: string },
+            firstname: { value: string },
+            lastname: { value: string },
+            role: { value: string },
+            phoneNumberProf: { value: Number },
+            email: { value: string },
             street: { value: string },
             postalCode: { value: string },
-            town: { value: string }
+            city: { value: string }
         }
 
         if (addButton) {
-            setFirstNameProf(target.firstNameProf.value)
-            setLastNameProf(target.lastNameProf.value)
-            setTitreProf(target.titreProf.value)
-            setPhoneNumberProf(target.phoneNumber.value)
-            setEmailAddress(target.emailAddress.value)
+            setFirstname(target.firstname.value)
+            setLastname(target.lastname.value)
+            setRole(target.role.value)
+            setPhoneNumberProf(target.phoneNumberProf.value)
+            setEmail(target.email.value)
             setStreet(target.street.value)
             setPostalCode(target.postalCode.value)
-            setTown(target.town.value)
+            setCity(target.city.value)
 
-            if (target.firstNameProf.value.length === 0) {
+            if (target.firstname.value.length === 0) {
                 hasError = true
-                setErrorFirstNameProf(true)
+                setErrorFirstname(true)
             } else {
-                setErrorFirstNameProf(false)
+                setErrorFirstname(false)
             }
 
-            if (target.lastNameProf.value.length === 0) {
+            if (target.lastname.value.length === 0) {
                 hasError = true
-                setErrorLastNameProf(true)
+                setErrorLastname(true)
             } else {
-                setErrorLastNameProf(false)
+                setErrorLastname(false)
             }
 
-            if (target.titreProf.value.length === 0) {
+            if (target.role.value.length === 0) {
                 hasError = true
-                setErrorTitreProf(true)
+                setErrorRole(true)
             } else {
-                setErrorTitreProf(false)
+                setErrorRole(false)
             }
 
-            if ((Number(target.phoneNumber.value) === 0) || isNaN(Number(target.phoneNumber.value))) {
+            if ((Number(target.phoneNumberProf.value) === 0) || isNaN(Number(target.phoneNumberProf.value))) {
                 hasError = true
                 setErrorPhoneNumberProf(true)
             } else {
                 setErrorPhoneNumberProf(false)
             }
 
-            if ((target.emailAddress.value.length === 0) || (!regex.test(target.emailAddress.value))) {
+            if ((target.email.value.length === 0) || (!regex.test(target.email.value))) {
                 hasError = true
-                setErrorEmailAddressProf(true)
+                setErrorEmail(true)
             } else {
-                setErrorEmailAddressProf(false)
+                setErrorEmail(false)
             }
 
             if (target.street.value.length === 0) {
                 hasError = true
-                setErrorStreetProf(true)
+                setErrorStreet(true)
             } else {
-                setErrorStreetProf(false)
+                setErrorStreet(false)
             }
 
-            if (target.town.value.length === 0) {
+            if (target.city.value.length === 0) {
                 hasError = true
-                setErrorTownProf(true)
+                setErrorCity(true)
             } else {
-                setErrorTownProf(false)
+                setErrorCity(false)
             }
 
             if ((Number(target.postalCode.value) === 0) || isNaN(Number(target.postalCode.value)) || (target.postalCode.value.length !== 5)) {
                 hasError = true
-                setErrorPostalCodeProf(true)
+                setErrorPostalCode(true)
             } else {
-                setErrorPostalCodeProf(false)
+                setErrorPostalCode(false)
             }
 
             if (hasError === false) {
@@ -300,19 +281,19 @@ export default function AddProfessor({
                 }
             );
 
-            addToast(`vous avez modifié les informations du professeur : ${firstNameProf} ${lastNameProf}`, {
+            addToast(`vous avez modifié les informations du professeur : ${firstname} ${lastname}`, {
                 appearance: "warning",
                 autoDismiss: true
             })
 
-            setFirstNameProf("")
-            setLastNameProf("")
-            setTitreProf("")
+            setFirstname("")
+            setLastname("")
+            setRole("")
             setPhoneNumberProf(undefined)
-            setEmailAddress("")
+            setEmail("")
             setStreet("")
             setPostalCode("")
-            setTown("")
+            setCity("")
             setFileSelected(avatar)
             setUpdateButton(false)
 
@@ -321,35 +302,34 @@ export default function AddProfessor({
                 {
                     variables: {
                         input: {
-                            firstNameProf,
-                            lastNameProf,
-                            titreProf,
-                            photoProfil,
-                            emailAddress,
+                            firstname,
+                            lastname,
+                            role,
+                            email,
                             phoneNumberProf,
                             Address: {
                                 street,
                                 postalCode,
-                                town,
+                                city,
                             }
                         }
                     }
                 }
             );
 
-            addToast(`vous avez ajouté le professeur: ${firstNameProf} ${lastNameProf}`, {
+            addToast(`vous avez ajouté le professeur: ${firstname} ${lastname}`, {
                 appearance: "info",
                 autoDismiss: true
             })
 
-            setFirstNameProf("")
-            setLastNameProf("")
-            setTitreProf("")
+            setFirstname("")
+            setLastname("")
+            setRole("")
             setPhoneNumberProf(undefined)
-            setEmailAddress("")
+            setEmail("")
             setStreet("")
             setPostalCode("")
-            setTown("")
+            setCity("")
             setFileSelected(avatar)
         }
     }
@@ -438,26 +418,26 @@ export default function AddProfessor({
                                         {
                                             flag ?
                                                 <input
-                                                    name="firstNameProf"
+                                                    name="firstname"
                                                     id="firstName"
-                                                    placeholder={dataElement.firstNameProf}
-                                                    value={firstNameProf ? firstNameProf : dataElement.firstNameProf}
+                                                    placeholder={dataElement.firstname}
+                                                    value={firstname ? firstname : dataElement.firstname}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setFirstNameProf(e.currentTarget.value)
+                                                        setFirstname(e.currentTarget.value)
                                                     }}
                                                     className="inputCustom" />
                                                 :
                                                 <input
-                                                    name="firstNameProf"
+                                                    name="firstname"
                                                     id="firstName"
                                                     placeholder="Entrez un prénom"
-                                                    value={firstNameProf}
-                                                    onChange={(e: any) => setFirstNameProf(e.currentTarget.value)}
+                                                    value={firstname}
+                                                    onChange={(e: any) => setFirstname(e.currentTarget.value)}
                                                     className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorFirstNameProf && "Prénom obligatoire"}
+                                            {errorFirstname && "Prénom obligatoire"}
                                         </span>
                                     </div>
                                     <div className={classes.inputBlocks}>
@@ -483,7 +463,7 @@ export default function AddProfessor({
                                                     className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorStreetProf && "Nom de rue obligatoire"}
+                                            {errorStreet && "Nom de rue obligatoire"}
                                         </span>
                                     </div>
                                     <div className={classes.inputBlocks}>
@@ -520,26 +500,26 @@ export default function AddProfessor({
                                         {
                                             flag ?
                                                 <input
-                                                    name="lastNameProf"
+                                                    name="lastname"
                                                     id="lastName"
                                                     placeholder={dataElement.lastName}
-                                                    value={lastNameProf ? lastNameProf : dataElement.lastNameProf}
+                                                    value={lastname ? lastname : dataElement.lastname}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setLastNameProf(e.currentTarget.value)
+                                                        setLastname(e.currentTarget.value)
                                                     }}
                                                     className="inputCustom" />
                                                 :
                                                 <input
-                                                    name="lastNameProf"
+                                                    name="lastname"
                                                     id="lastName"
                                                     placeholder="Entrez un nom"
-                                                    value={lastNameProf}
-                                                    onChange={(e: any) => setLastNameProf(e.currentTarget.value)}
+                                                    value={lastname}
+                                                    onChange={(e: any) => setLastname(e.currentTarget.value)}
                                                     className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorLastNameProf && "Nom obligatoire"}
+                                            {errorLastname && "Nom obligatoire"}
                                         </span>
                                     </div>
                                     <div className={classes.inputBlocks}>
@@ -565,35 +545,35 @@ export default function AddProfessor({
                                                     className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorPostalCodeProf && "Code postal incorrect"}
+                                            {errorPostalCode && "Code postal incorrect"}
                                         </span>
                                     </div>
                                     <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
-                                                    name="emailAddress"
-                                                    id="emailAddress"
-                                                    placeholder={dataElement.emailAddress}
-                                                    value={emailAddress ? emailAddress : dataElement.emailAddress}
+                                                    name="email"
+                                                    id="email"
+                                                    placeholder={dataElement.email}
+                                                    value={email ? email : dataElement.email}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setEmailAddress(e.currentTarget.value)
+                                                        setEmail(e.currentTarget.value)
                                                     }}
                                                     className="inputCustom"
                                                 />
                                                 :
                                                 <input
-                                                    name="emailAddress"
-                                                    id="emailAddress"
+                                                    name="email"
+                                                    id="email"
                                                     placeholder="Entrez une adresse mail"
-                                                    value={emailAddress}
-                                                    onChange={(e: any) => setEmailAddress(e.currentTarget.value)}
+                                                    value={email}
+                                                    onChange={(e: any) => setEmail(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorEmailAddressProf && "Email incorrect"}
+                                            {errorEmail && "Email incorrect"}
                                         </span>
                                     </div>
                                 </div>
@@ -602,53 +582,53 @@ export default function AddProfessor({
                                         {
                                             flag ?
                                                 <input
-                                                    name="titreProf"
+                                                    name="role"
                                                     id="title"
-                                                    placeholder={dataElement.titreProf}
-                                                    value={titreProf ? titreProf : dataElement.titreProf}
+                                                    placeholder={dataElement.role}
+                                                    value={role ? role : dataElement.role}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setTitreProf(e.currentTarget.value)
+                                                        setRole(e.currentTarget.value)
                                                     }
                                                     }
                                                     className="inputCustom" />
                                                 :
                                                 <input
-                                                    name="titreProf"
+                                                    name="role"
                                                     id="title"
                                                     placeholder="Entrez un titre"
-                                                    value={titreProf}
-                                                    onChange={(e: any) => setTitreProf(e.currentTarget.value)}
+                                                    value={role}
+                                                    onChange={(e: any) => setRole(e.currentTarget.value)}
                                                     className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorTitreProf && "Titre obligatoire"}
+                                            {errorRole && "Titre obligatoire"}
                                         </span>
                                     </div>
                                     <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
-                                                    name="town"
-                                                    id="town"
-                                                    placeholder={dataElement.Address.town}
-                                                    value={town ? town : dataElement.Address.town}
+                                                    name="city"
+                                                    id="city"
+                                                    placeholder={dataElement.Address.city}
+                                                    value={city ? city : dataElement.Address.city}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
-                                                        setTown(e.currentTarget.value)
+                                                        setCity(e.currentTarget.value)
                                                     }}
                                                     className="inputCustom" />
                                                 :
                                                 <input
-                                                    name="town"
-                                                    id="town"
+                                                    name="city"
+                                                    id="city"
                                                     placeholder="Entrez une ville"
-                                                    value={town}
-                                                    onChange={(e: any) => setTown(e.currentTarget.value)}
+                                                    value={city}
+                                                    onChange={(e: any) => setCity(e.currentTarget.value)}
                                                     className="inputCustom" />
                                         }
                                         <span className={classes.myErrorMessage}>
-                                            {errorTownProf && "Nom de ville obligatoire"}
+                                            {errorCity && "Nom de ville obligatoire"}
                                         </span>
                                     </div>
                                 </div>
@@ -662,6 +642,7 @@ export default function AddProfessor({
                                             setAddButton={setAddButton}
                                             setUpdateButton={setUpdateButton}
                                             setIdUpdate={setIdUpdate}
+                                            refetch={refetch}
                                         />
                                     </div>
                                     :
@@ -709,22 +690,22 @@ export default function AddProfessor({
                             <div>
                                 <h3>Professeur</h3>
                                 <div>
-                                    <span>Prénom : <strong>{firstNameProf}</strong></span>
-                                    <span>Nom: <strong>{lastNameProf}</strong></span>
-                                    <span>Titre : <strong>{titreProf}</strong></span>
+                                    <span>Prénom : <strong>{firstname}</strong></span>
+                                    <span>Nom: <strong>{lastname}</strong></span>
+                                    <span>Titre : <strong>{role}</strong></span>
                                 </div>
                             </div>
                             <div>
                                 <div>
                                     <span>Numéro de téléphone : <strong>{phoneNumberProf}</strong></span>
-                                    <span>Adresse mail : <strong>{emailAddress}</strong></span>
+                                    <span>Adresse mail : <strong>{email}</strong></span>
                                 </div>
                             </div>
                             <h3>Adresse</h3>
                             <div>
                                 <span>Rue : <strong>{street}</strong></span>
                                 <span>Code postal : <strong>{postalCode}</strong></span>
-                                <span>Ville : <strong>{town}</strong></span>
+                                <span>Ville : <strong>{city}</strong></span>
                             </div>
                         </div>
                     </DialogContentText>

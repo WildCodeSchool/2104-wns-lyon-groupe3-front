@@ -109,3 +109,7 @@
     box-shadow: inset -2px -2px 5px #ffffff, inset 2px 2px 5px #bec8e4;
     text-align: center;
 }
+
+.rbc-month-view{
+    display: block !important;
+  }

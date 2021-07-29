@@ -1,51 +1,124 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 export const ALL_PROFS = gql`
 query GetAllProfessors {
-  allUsers {
-    id
-    firstNameProf
-    lastNameProf
-    titreProf
-    photoProfil
-    emailAddress
+  getAllUsers {
+    _id
+    firstname
+    lastname
+    role
+    picture
+    email
+    password
     phoneNumberProf
-    Address {
+    address {
       street
       postalCode
-      town
+      city
     }
+    role
+    isActive
   }
 }
 `;
 
+export const CREATE_USER = gql`
+mutation createUser(
+        $firstname: String!,
+        $lastname: String!,
+        $email: String!,
+        $addressInput: addressInput!,
+        $role: String,
+        $isActive: String,
+        $picture: String,
+        $phoneNumberProf: String
+    ) {
+        createUser(
+            firstname: $firstname,
+            lastname: $lastname,
+            email: $email,
+            address: $addressInput,
+            role: $role,
+            isActive: $isActive,
+            picture: $picture,
+            phoneNumberProf: $phoneNumberProf
+        ) {
+            firstname,
+            lastname,
+            email,
+            address{
+                street,
+                postalCode,
+                city
+            },
+            role,
+            isActive,
+            picture,
+            phoneNumberProf
+    }
+  }
+`;
 
 export const DELETE_USER = gql`
-    mutation DeleteUser($id: String!) {
-        removeUser(id: $id){
-            id
-            firstNameProf
-            lastNameProf
-            photoProfil
+     mutation deleteUser(
+        $id: String!,
+    ) {
+        deleteUser(
+            id: $id,
+        ) {
+            _id,
+            firstname,
+            lastname,
+            email,
+            address{
+                street,
+                postalCode,
+                city
+            },
+            role,
+            isActive,
+            picture,
+            phoneNumberProf
         }
-    }
+    } 
 `
 
 export const UPDATE_USER = gql`
-    mutation UpdateUserInfo($id: String!) {
-        updateUserInfo(id: $id){
-            id
-            firstNameProf
-            lastNameProf
-            titreProf
-            photoProfil
-            emailAddress
-            phoneNumberProf
-            Address {
-                street
-                postalCode
-                town
-            }
-        }
+   mutation updateUser(
+    $id: String!,
+    $firstname: String,
+    $lastname: String,
+    $email: String,
+    $addressInput: addressInput,
+    $role: String,
+    $isActive: String,
+    $picture: String,
+    $phoneNumberProf: String
+) {
+    updateUser(
+        id: $id,
+        firstname: $firstname,
+        lastname: $lastname,
+        email: $email,
+        address: $addressInput,
+        role: $role,
+        isActive: $isActive,
+        picture: $picture,
+        phoneNumberProf: $phoneNumberProf
+    ) {
+        _id,
+        firstname,
+        lastname,
+        email,
+        address{
+            street,
+            postalCode,
+            city
+        },
+        role,
+        isActive,
+        picture,
+        phoneNumberProf
     }
+} 
 `
