@@ -2,14 +2,12 @@ import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
-import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import events from "../../src/utils/events";
 import * as dates from '../../src/utils/dates';
-import React, { useState, useEffect, useReducer } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import axios from 'axios';
-
+import { Button } from 'ui-neumorphism';
+import GroupIcon from '@material-ui/icons/Group';
 
 // const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
@@ -20,16 +18,24 @@ interface Event {
 }
 
 const appStyles = makeStyles(theme => ({
-    calendarContainer: {
+    calendarStyle: {
         backgroundColor: theme.palette.primary.light,
-        borderRadius: '0px',
-        opacity: 0.8,
         color: 'black',
         display: 'block',
         border: '1px solid black',
-        padding: '.5em 0',
-        textAlign: 'center',
-        width: "800px"
+        padding: '10px',
+        margin: "0 auto",
+        marginTop: "50px",
+    },
+    calendarContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    buttonStyle: {
+        backgroundColor: '#F7F7FF',
+        color: '#577399',
+        marginTop: '10px'
     }
 }))
 
@@ -41,17 +47,22 @@ export default function Agenda() {
 
     return (
         <div className={classes.calendarContainer}        >
-            <Calendar
+            <Calendar className={classes.calendarStyle}
                 events={events}
                 // views={allViews}
                 localizer={localizer}
-                step={50}
+                step={60}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: 500 }}
                 max={dates.add(dates.endOf(new Date(2021, 17, 1), 'day'), -1, 'hours')}
                 defaultDate={new Date(2021, 3, 14, 17, 0, 0)}
+                defaultView={Views.DAY}
             />
+
+            <Button className={classes.buttonStyle}>
+                <GroupIcon style={{ marginRight: "5px" }} />
+                Accéder à ma classe
+            </Button>
         </div>
     )
 };
