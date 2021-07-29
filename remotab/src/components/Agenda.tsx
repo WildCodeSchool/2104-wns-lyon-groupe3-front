@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import events from "../events";
+import events from "../../src/utils/events";
 import * as dates from '../../src/utils/dates';
 import React, { useState, useEffect, useReducer } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -50,7 +50,7 @@ export default function Agenda() {
                 endAccessor="end"
                 style={{ height: 500 }}
                 max={dates.add(dates.endOf(new Date(2021, 17, 1), 'day'), -1, 'hours')}
-                defaultDate={new Date(2021, 7, 7)}
+                defaultDate={new Date(2021, 3, 14, 17, 0, 0)}
             />
         </div>
     )
