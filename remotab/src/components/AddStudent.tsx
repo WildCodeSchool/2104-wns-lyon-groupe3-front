@@ -301,7 +301,7 @@ function AddStudent({
 
     const {addToast} = useToasts()
 
-    const [profil, setProfil] = React.useState(fileSelected || "") 
+    const [profil, setProfil] = React.useState<File>() 
 
     const [createUser, { data }] = useMutation(CREATE_USER,
         // {
@@ -424,20 +424,21 @@ function AddStudent({
 
     const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.persist()
+        console.log("profil",profil)
 
         const fileList = e.target.files;
-    
-        if (fileList) {
-            console.log("la fileList :", fileList)
-            setFileSelected(fileList[0])
 
-            console.log("fileSelected:", fileSelected)
-        }
+        if (!fileList) return;
+
+        setFileSelected(fileList[0]);
         
-        //  if (fileSelected) {
-        //      const formData = new FormData();
-        //      formData.append("image", fileSelected, fileSelected.name);
-        //  }
+        if (fileSelected) {
+            const formData = new FormData();
+            formData.append("image", fileSelected, fileSelected.name);
+        }
+
+        console.log(fileList, fileSelected)
+      
     }
 
     const handleSend = async() => {
@@ -445,7 +446,7 @@ function AddStudent({
         setFlag(false)
        // alert("envoyé")
        
-        const picture = profil instanceof File ? URL.createObjectURL(profil) : defaultImage
+        const picture = fileSelected instanceof File ? URL.createObjectURL(fileSelected) : defaultImage
         const classStudent = Number(classStu)
         const isActive = "ACTIVE"
         const birthday = "01/01/1994"
@@ -489,9 +490,9 @@ function AddStudent({
                setStreet("")
                setPostalCode("")
                setcity("")
-               setFileSelected(defaultImage)
+               setFileSelected()
                 setUpdateButton(false)
-                setProfil(defaultImage)
+                setProfil(undefined)
                 
             } catch (error) {
                 console.log(error)
@@ -541,8 +542,8 @@ function AddStudent({
                 setStreet("")
                 setPostalCode("")
                 setcity("")
-                setFileSelected(defaultImage)
-                setProfil(defaultImage)
+                setFileSelected()
+                setProfil(undefined)
                 
 
             }catch(error){
@@ -575,7 +576,7 @@ function AddStudent({
                             <input
                                 //style={{background: "black", height: 20, width: 20}}
                                 type="file"
-                                accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                                accept="image/*"
                                 hidden
                                 onChange={handleChangeImage}
                                 name="imageProfil"
@@ -592,9 +593,9 @@ function AddStudent({
                     :
                     <div className={classes.changeProfil}>
                         {
-                            profil instanceof File ?
+                            fileSelected instanceof File ?
                                 <Avatar
-                                    src={URL.createObjectURL(profil)}
+                                    src={URL.createObjectURL(fileSelected)}
                                     alt="profil-avatar"
                                     className={classes.profilEleve}
                                     size={50}
@@ -612,7 +613,7 @@ function AddStudent({
                             <input
                                 //style={{background: "black", height: 20, width: 20}}
                                 type="file"
-                                accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                                accept="image/*"
                                 hidden
                                 onChange={handleChangeImage}
                                 name="imageProfil"
@@ -965,7 +966,7 @@ function AddStudent({
                     <DialogContentText id="alert-dialog-description">
                         <div className={classes.dialogContent} >
                             <Avatar
-                                src={profil instanceof File ? URL.createObjectURL(profil) : defaultImage}
+                                src={fileSelected instanceof File ? URL.createObjectURL(fileSelected) : defaultImage}
                                 size={120}
                                 style={{alignSelf:"center"}}
                             />

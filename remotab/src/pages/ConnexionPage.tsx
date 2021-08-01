@@ -3,9 +3,8 @@ import connexionIcon from "../assets/connexionIcon.svg"
 import { Button, Grid, makeStyles } from "@material-ui/core"
 import logo from '../assets/logoRemotab.png';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { Label } from '@material-ui/icons';
+import {useHistory} from "react-router"
 
 const useStyles = makeStyles(theme => ({
  
@@ -49,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ConnexionPage() {
     const classes = useStyles()
+    const history = useHistory()
 
     const [pseudo, setPseudo] = React.useState("")
     const [password, setPassword] = React.useState("")
@@ -62,6 +62,10 @@ export default function ConnexionPage() {
         };
         
         console.log(target.password.value)
+    }
+
+    const connectToPlatform = () => {
+        history.push("/admin")
     }
     
     return (
@@ -148,6 +152,7 @@ export default function ConnexionPage() {
                                     variant="contained"
                                     className={classes.connexionButton}
                                     type="submit"
+                                    onClick={connectToPlatform}
                                 >
                                     Se connecter
                                 </Button>

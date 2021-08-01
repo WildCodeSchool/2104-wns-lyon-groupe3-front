@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from "@material-ui/core"
-import { Badge, Body2, Button, Card, CardAction, CardContent, H5} from 'ui-neumorphism'
+import { Badge, Body2, Button, Card, CardAction, CardContent, H5 } from 'ui-neumorphism'
+import {useHistory} from "react-router"
 import 'ui-neumorphism/dist/index.css'
 
 const useStyles = makeStyles(theme => ({
@@ -64,8 +65,13 @@ const useStyles = makeStyles(theme => ({
   }))
   
 
-function FormView(){
+function Form(){
     const classes = useStyles()
+    const history = useHistory()
+
+    const myCategory = () => {
+        history.push("/admin/student")
+    }
 
    // const { dark } = this.props
       return (
@@ -96,7 +102,10 @@ function FormView(){
                     </Body2>
                 </CardContent>
                 <CardAction className={classes.myCardActionPrincipal}>
-                    <Button  className={classes.myButtonPrincipal}>
+                      <Button
+                          onClick={ myCategory}
+                          className={classes.myButtonPrincipal}
+                      >
                         Accéder
                     </Button>
                 </CardAction>
@@ -134,7 +143,7 @@ function FormView(){
                       </Badge>
 
                     <Body2 className={classes.myBody2Principal}>
-                        Communication par message avec l'ensemble de la vie social de l'école, ainsi que des professeurs
+                        Communication par message avec l'ensemble de la vie sociale de l'école, ainsi que des professeurs
                     </Body2>
                 </CardContent>
                 <CardAction className={classes.myCardActionPrincipal}>
@@ -148,4 +157,4 @@ function FormView(){
 
 }
 
-export default FormView
+export default Form

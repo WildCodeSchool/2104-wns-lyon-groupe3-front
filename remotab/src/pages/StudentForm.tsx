@@ -14,7 +14,8 @@ import { useQuery } from '@apollo/client'
 import Loading from '../components/Loading'
 import { ToastProvider } from 'react-toast-notifications'
 
-import {ALL_USERS} from '../components/Queries'
+import { ALL_STUDENT} from '../components/Queries'
+import HeaderAdmin from '../components/HeaderAdmin'
 
 
 const useStyles = makeStyles(theme => ({
@@ -160,7 +161,7 @@ arrowForward: {
 }))
 
 const initialData = {
-  "getAllUsers": [
+  "getUsersByRole": [
     {
       "_id": "",
       "firstname": "",
@@ -180,7 +181,7 @@ const initialData = {
 
 function StudentPage() {
   const classes = useStyles()
-  const { loading, error, data, refetch } = useQuery(ALL_USERS);
+  const { loading, error, data, refetch } = useQuery(ALL_STUDENT, {variables: {role: 'STUDENT'}});
   const [newData, setNewData] = React.useState([{}])
 
   const [dataResult, setDataResult] = React.useState(initialData)
@@ -216,7 +217,7 @@ function StudentPage() {
 
   const handleCard = (idElement: any) => {
     
-    const filtered = data.getAllUsers.filter((e:any) => e._id === idElement)
+    const filtered = data.getUsersByRole.filter((e:any) => e._id === idElement)
 
     setFlag(true)
     setNewData(filtered)
@@ -248,7 +249,7 @@ function StudentPage() {
 
     if (mySearchItem) {
       if (data !== undefined) {
-        const searchFiltered = data.getAllUsers.filter((element: any) => element.classStudent === Number(mySearchItem))
+        const searchFiltered = data.getUsersByRole.filter((element: any) => element.classStudent === Number(mySearchItem))
         //return element.classStudent.toLowerCase().indexOf(mySearchItem.toLowerCase()) >= 0
         //console.log(mySearchItem)
         
@@ -256,7 +257,7 @@ function StudentPage() {
           console.log("mes data2: ",dataResult)
           setEmptySearchData(true)
         } else {
-          setDataResult({getAllUsers: searchFiltered})
+          setDataResult({getUsersByRole: searchFiltered})
           setEmptySearchData(false)
         }
       }
@@ -277,6 +278,7 @@ function StudentPage() {
   
   return (
     <div data-testid="content">
+      <HeaderAdmin />
       {data &&
       <div  className={classes.myBodyCard}>   
         <Card className={classes.myCardPrincipal}>
@@ -310,13 +312,13 @@ function StudentPage() {
                     </div>
                   :
                   searchData ?
-                    dataResult.getAllUsers.map((dataElement: any) =>
+                    dataResult.getUsersByRole.map((dataElement: any) =>
                       <Card  className={classes.card} key={dataElement._id}>
                         <CardContent  className={classes.cardContent}>
                           <Avatar src={dataElement.picture} alt="professor-avatar" className={classes.image} />
                           <div  className={classes.cardDescription}>
                             <Subtitle2 secondary className={classes.title} >
-                              {dataElement.lastname}
+                            { `${dataElement.firstname} ${dataElement.lastname}`}
                             </Subtitle2>
                             {/* <Subtitle1 secondary className={classes.title} >
                               {dataElement.birthday}
@@ -330,13 +332,13 @@ function StudentPage() {
                       </Card>
                     )
                     :
-                    data.getAllUsers.map((dataElement: any) =>
+                    data.getUsersByRole.map((dataElement: any) =>
                     <Card className={classes.card} key={dataElement._id} >
                       <CardContent className={classes.cardContent}>
                         <Avatar src={dataElement.picture} alt="professor-avatar" className={classes.image} />
                         <div className={classes.cardDescription}>
                           <Subtitle2 secondary className={classes.title} >
-                            {dataElement.lastname}
+                           { `${dataElement.firstname} ${dataElement.lastname}`}
                           </Subtitle2>
                           {/* <Subtitle1 secondary className={classes.title} >
                             {dataElement.birthday}

@@ -23,6 +23,26 @@ export const ALL_USERS = gql`
     }
 `;
 
+export const ALL_STUDENT = gql`
+    query UserStudent(
+        $role: String!
+    ){
+        getUsersByRole(role: $role)
+        {
+            _id
+            firstname
+            lastname
+            birthday
+            email
+            password
+            address{street, postalCode, city}
+            role
+            isActive
+            picture
+        }
+    }
+`;
+
 export const CREATE_USER = gql`
     mutation createUser(
         $firstname: String!,
