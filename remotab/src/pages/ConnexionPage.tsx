@@ -29,23 +29,40 @@ const useStyles = makeStyles(theme => ({
     },
     titleConnect: {
      //   marginBottom: "revert"
+        marginLeft: "-50px",
+        fontWeight: "bold"
     },
     connexionForm: {
-        height: "100%",
+        height: "68%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-evenly",
-        marginTop: "-32px"
+        //justifyContent: "space-evenly",
+       // marginTop: "-32px"
     },
     textPasswordForget:{
-        marginTop: "-42px",
-        marginBottom: "-12px"
+        marginTop: "-25px",
+        marginBottom: "22px",
+        color: theme.palette.secondary.light,
     }
     
   }))
 
 export default function ConnexionPage() {
     const classes = useStyles()
+
+    const [pseudo, setPseudo] = React.useState("")
+    const [password, setPassword] = React.useState("")
+
+    const handleSubmit = (event: React.SyntheticEvent) => {
+        event.preventDefault()
+
+        const target = event.target as typeof event.target & {
+            pseudo: { value: string };
+            password: { value: string };
+        };
+        
+        console.log(target.password.value)
+    }
     
     return (
         <div className={classes.myBackground}>
@@ -83,22 +100,26 @@ export default function ConnexionPage() {
                                 Se connecter
                             </Typography>
                             <form
+                                onSubmit={handleSubmit}
                                 className={classes.connexionForm}
                             >
                                 <Box
                                     display="flex"
                                     flexDirection="column"
+                                    height="80%"
+                                    justifyContent= "space-evenly"
                                 >
                                     <Box
                                         display="flex"
                                         flexDirection="column"
-                                        marginBottom={35}
+                                       // marginBottom={35}
                                     >
-                                        <label htmlFor="pseudo">Pseudo</label>
+                                        <label htmlFor="pseudo" style={{marginBottom: 10}}>Pseudo ou email</label>
                                         <input
                                             name="pseudo"
                                             id="pseudo"
-                                            //placeholder={dataElement.firstname}
+                                            value={pseudo}
+                                            onChange={(e)=>setPseudo(e.currentTarget.value)}
                                             className="inputConnexionCustom"
                                         />
                                     </Box>
@@ -106,11 +127,13 @@ export default function ConnexionPage() {
                                         display="flex"
                                         flexDirection="column"
                                     >
-                                        <label htmlFor="passWord">Mot de passe</label>
+                                        <label htmlFor="password" style={{marginBottom: 10}}>Mot de passe</label>
                                         <input
-                                            name="passWord"
-                                            id="passWord"
-                                            //placeholder={dataElement.firstname}
+                                            name="password"
+                                            id="password"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e)=>setPassword(e.currentTarget.value)}
                                             className="inputConnexionCustom"
                                         />
                                     </Box>
@@ -124,6 +147,7 @@ export default function ConnexionPage() {
                                     color="primary"
                                     variant="contained"
                                     className={classes.connexionButton}
+                                    type="submit"
                                 >
                                     Se connecter
                                 </Button>
@@ -136,12 +160,8 @@ export default function ConnexionPage() {
                     >
                         <img src={connexionIcon} alt=""/>
                     </Grid>
-
-                </Grid>
-                
-            </Box>
-            
-        </div>
-        
+                </Grid>          
+            </Box>       
+        </div>   
     )
 }
