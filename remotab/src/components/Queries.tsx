@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const ALL_PROFS = gql`
 query GetAllProfessors {
-  getAllUsers {
+    getAllUsers {
     _id
     firstname
     lastname
@@ -10,7 +10,7 @@ query GetAllProfessors {
     picture
     email
     password
-    # phoneNumberProf
+    phoneNumberProf
     address {
       street
       postalCode
@@ -31,7 +31,7 @@ mutation createUser(
         $role: String,
         $isActive: String,
         $picture: String,
-        # $phoneNumberProf: String
+        $phoneNumberProf: String
     ) {
         createUser(
             firstname: $firstname,
@@ -41,7 +41,7 @@ mutation createUser(
             role: $role,
             isActive: $isActive,
             picture: $picture,
-            # phoneNumberProf: $phoneNumberProf
+        phoneNumberProf: $phoneNumberProf
         ) {
             firstname,
             lastname,
@@ -54,7 +54,7 @@ mutation createUser(
             role,
             isActive,
             picture,
-            # phoneNumberProf
+            phoneNumberProf
     }
   }
 `;
@@ -78,7 +78,7 @@ export const DELETE_USER = gql`
             role,
             isActive,
             picture,
-            # phoneNumberProf
+            phoneNumberProf
         }
     } 
 `
@@ -93,7 +93,7 @@ export const UPDATE_USER = gql`
     $role: String,
     $isActive: String,
     $picture: String,
-    # $phoneNumberProf: String
+    $phoneNumberProf: String
 ) {
     updateUser(
         id: $id,
@@ -104,7 +104,7 @@ export const UPDATE_USER = gql`
         role: $role,
         isActive: $isActive,
         picture: $picture,
-        # phoneNumberProf: $phoneNumberProf
+        phoneNumberProf: $phoneNumberProf
     ) {
         _id,
         firstname,
@@ -118,7 +118,7 @@ export const UPDATE_USER = gql`
         role,
         isActive,
         picture,
-        # phoneNumberProf
+        phoneNumberProf
     }
 } 
 `

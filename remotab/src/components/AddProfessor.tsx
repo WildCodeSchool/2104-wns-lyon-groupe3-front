@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/neumorphism.css';
 import { makeStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
 import { Button, Avatar } from 'ui-neumorphism';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import CancelIcon from '@material-ui/icons/Cancel';
 import avatar from '../assets/avatar.jpg';
-import { useState } from "react";
 import { useToasts } from 'react-toast-notifications';
 import { useMutation } from '@apollo/client';
 import Buttons from './Buttons';
-import { UPDATE_USER, ALL_PROFS, CREATE_USER } from "./Queries"
+import { UPDATE_USER, ALL_PROFS, CREATE_USER } from "./Queries";
+import shortid from 'shortid';
 
 
 const useStyles = makeStyles(theme => ({
@@ -54,7 +54,6 @@ const useStyles = makeStyles(theme => ({
     myErrorMessage: {
         color: "red",
         fontStyle: "italic",
-        position: "absolute",
         left: "12px",
         bottom: "4px",
         fontSize: "12px"
@@ -63,7 +62,27 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "column",
         marginBottom: "10px"
-    }
+    },
+    dialogContent: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around",
+        height: "500px"
+    },
+    categoryInfo: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around"
+    },
+    titleContent: {
+        color: "#0A2463",
+        marginBottom: "10px"
+    },
+    divInfo: {
+        display: "flex",
+        flexDirection: "column"
+    },
+
 }))
 
 type dataProps = {
@@ -78,8 +97,8 @@ type dataProps = {
     setErrorRole: any,
     errorEmail: boolean,
     setErrorEmail: any,
-    // errorPhoneNumberProf: boolean,
-    // setErrorPhoneNumberProf: any,
+    errorPhoneNumberProf: boolean,
+    setErrorPhoneNumberProf: any,
     errorStreet: boolean,
     setErrorStreet: any,
     errorPostalCode: boolean,
@@ -98,8 +117,8 @@ type dataProps = {
     setRole: any,
     email: string,
     setEmail: any,
-    // phoneNumberProf: string,
-    // setPhoneNumberProf: any,
+    phoneNumberProf: string,
+    setPhoneNumberProf: any,
     street: string,
     setStreet: any,
     postalCode: string,
@@ -120,8 +139,8 @@ export default function AddProfessor({
     setErrorRole,
     errorEmail,
     setErrorEmail,
-    // errorPhoneNumberProf,
-    // setErrorPhoneNumberProf,
+    errorPhoneNumberProf,
+    setErrorPhoneNumberProf,
     errorStreet,
     setErrorStreet,
     errorPostalCode,
@@ -136,8 +155,8 @@ export default function AddProfessor({
     setLastname,
     role,
     setRole,
-    // phoneNumberProf,
-    // setPhoneNumberProf,
+    phoneNumberProf,
+    setPhoneNumberProf,
     email,
     setEmail,
     street,
@@ -150,6 +169,7 @@ export default function AddProfessor({
 
 }: dataProps) {
     const classes = useStyles()
+
     const [open, setOpen] = useState(false)
     const [modalUpdate, setModalUpdate] = useState(false)
     const [idUpdate, setIdUpdate] = useState("")
@@ -157,7 +177,7 @@ export default function AddProfessor({
     const [addButton, setAddButton] = useState(false)
     const [updateButton, setUpdateButton] = useState(false)
     const [deleteButton, setDeleteButton] = useState(false)
-    const [profil, setProfil] = useState(fileSelected || "")
+    const [profil, setProfil] = useState<File>()
 
     const { addToast } = useToasts()
 
@@ -176,7 +196,7 @@ export default function AddProfessor({
             firstname: { value: string },
             lastname: { value: string },
             role: { value: string },
-            // phoneNumberProf: { value: Number },
+            phoneNumberProf: { value: string },
             email: { value: string },
             street: { value: string },
             postalCode: { value: string },
@@ -187,7 +207,7 @@ export default function AddProfessor({
             setFirstname(target.firstname.value)
             setLastname(target.lastname.value)
             setRole(target.role.value)
-            // setPhoneNumberProf(target.phoneNumberProf.value)
+            setPhoneNumberProf(target.phoneNumberProf.value)
             setEmail(target.email.value)
             setStreet(target.street.value)
             setPostalCode(target.postalCode.value)
@@ -214,12 +234,12 @@ export default function AddProfessor({
                 setErrorRole(false)
             }
 
-            // if ((Number(target.phoneNumberProf.value) === 0) || isNaN(Number(target.phoneNumberProf.value))) {
-            //     hasError = true
-            //     setErrorPhoneNumberProf(true)
-            // } else {
-            //     setErrorPhoneNumberProf(false)
-            // }
+            if ((Number(target.phoneNumberProf.value) === 0) || isNaN(Number(target.phoneNumberProf.value))) {
+                hasError = true
+                setErrorPhoneNumberProf(true)
+            } else {
+                setErrorPhoneNumberProf(false)
+            }
 
             if ((target.email.value.length === 0) || (!regex.test(target.email.value))) {
                 hasError = true
@@ -261,16 +281,28 @@ export default function AddProfessor({
 
         const fileList = e.target.files;
 
-        if (fileList) {
-            setFileSelected(fileList[0])
+        // if (fileList) {
+        //     setFileSelected(fileList[0])
+        // }
+
+        if (!fileList) return;
+
+        setFileSelected(fileList[0]);
+
+        if (fileSelected) {
+            const formData = new FormData();
+            formData.append("image", fileSelected, fileSelected.name);
         }
+
+        console.log(fileList, fileSelected)
     }
 
     const handleSend = async () => {
         setOpen(false)
         setFlag(false)
 
-        const picture = profil instanceof File ? URL.createObjectURL(profil) : avatar;
+        // const picture = profil instanceof File ? URL.createObjectURL(profil) : avatar;
+        const picture = fileSelected instanceof File ? URL.createObjectURL(fileSelected) : avatar;
         const isActive = "ACTIVE";
 
         if (updateButton) {
@@ -305,14 +337,14 @@ export default function AddProfessor({
                 setFirstname("")
                 setLastname("")
                 setRole("")
-                // setPhoneNumberProf("")
+                setPhoneNumberProf("")
                 setEmail("")
                 setStreet("")
                 setPostalCode("")
                 setCity("")
-                setFileSelected(avatar)
+                setFileSelected()
                 setUpdateButton(false)
-                setProfil(avatar)
+                setProfil(undefined)
 
             } catch (error) {
                 console.log(error)
@@ -327,8 +359,9 @@ export default function AddProfessor({
                             lastname,
                             role,
                             email,
-                            // phoneNumberProf,
+                            phoneNumberProf,
                             isActive,
+                            picture,
                             addressInput: {
                                 street,
                                 postalCode,
@@ -348,13 +381,13 @@ export default function AddProfessor({
                 setFirstname("")
                 setLastname("")
                 setRole("")
-                // setPhoneNumberProf("")
+                setPhoneNumberProf("")
                 setEmail("")
                 setStreet("")
                 setPostalCode("")
                 setCity("")
-                setFileSelected(avatar)
-                setProfil(avatar)
+                setFileSelected()
+                setProfil(undefined)
             } catch (error) {
                 console.log(error)
                 addToast(`l'adresse mail : ${email} est déjà utilisée`, {
@@ -371,7 +404,7 @@ export default function AddProfessor({
                     <div>
                         <Avatar
                             src={
-                                newData.map((img: any) => img.photoProfil)
+                                newData.map((img: any) => img.picture)
                             }
                             alt="profil-avatar"
                             size={100}
@@ -379,7 +412,7 @@ export default function AddProfessor({
                         />
                         <input
                             type="file"
-                            accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                            accept="image/*"
                             hidden
                             onChange={handleChangeImage}
                             name="imageProfil"
@@ -442,7 +475,7 @@ export default function AddProfessor({
             <div>
                 {
                     newData.map((dataElement: any) =>
-                        <form onSubmit={handleSubmit} className={classes.formBody}>
+                        <form onSubmit={handleSubmit} className={classes.formBody} key={shortid.generate()}>
                             <div style={{ display: "flex", justifyContent: "space-around", marginLeft: "100px" }}>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
                                     <div className={classes.inputBlocks}>
@@ -497,7 +530,7 @@ export default function AddProfessor({
                                             {errorStreet && "Nom de rue obligatoire"}
                                         </span>
                                     </div>
-                                    {/* <div className={classes.inputBlocks}>
+                                    <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
@@ -524,7 +557,7 @@ export default function AddProfessor({
                                         <span className={classes.myErrorMessage}>
                                             {errorPhoneNumberProf && "Numéro de téléphone obligatoire"}
                                         </span>
-                                    </div> */}
+                                    </div>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
                                     <div className={classes.inputBlocks}>
@@ -702,47 +735,39 @@ export default function AddProfessor({
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        <div>
-                            {
-                                profil instanceof File ?
-                                    <Avatar
-                                        src={URL.createObjectURL(profil)}
-                                        size={120}
-                                        style={{ alignSelf: "center" }}
-                                    />
-                                    :
-                                    <Avatar
-                                        src={avatar}
-                                        size={120}
-                                        style={{ alignSelf: "center" }}
-                                    />
-                            }
-
-                            <div>
-                                <h3>Professeur</h3>
-                                <div>
+                        <div className={classes.dialogContent}>
+                            <Avatar
+                                src={fileSelected instanceof File ? URL.createObjectURL(fileSelected) : avatar}
+                                size={120}
+                                style={{ alignSelf: "center" }}
+                            />
+                            <div className={classes.categoryInfo}>
+                                <h3 className={classes.titleContent}>Professeur</h3>
+                                <div className={classes.divInfo}>
                                     <span>Prénom : <strong>{firstname}</strong></span>
                                     <span>Nom: <strong>{lastname}</strong></span>
                                     <span>Titre : <strong>{role}</strong></span>
                                 </div>
                             </div>
-                            <div>
-                                <div>
-                                    {/* <span>Numéro de téléphone : <strong>{phoneNumberProf}</strong></span> */}
+                            <div className={classes.categoryInfo}>
+                            <h3 className={classes.titleContent}>Coordonnées</h3>
+                                <div className={classes.divInfo}>
+                                    <span>Numéro de téléphone : <strong>{phoneNumberProf}</strong></span>
                                     <span>Adresse mail : <strong>{email}</strong></span>
                                 </div>
                             </div>
-                            <h3>Adresse</h3>
-                            <div>
-                                <span>Rue : <strong>{street}</strong></span>
-                                <span>Code postal : <strong>{postalCode}</strong></span>
-                                <span>Ville : <strong>{city}</strong></span>
+                            <div className={classes.categoryInfo}>
+                                <h3 className={classes.titleContent}>Adresse</h3>
+                                <div className={classes.divInfo}>
+                                    <span>Rue : <strong>{street}</strong></span>
+                                    <span>Code postal : <strong>{postalCode}</strong></span>
+                                    <span>Ville : <strong>{city}</strong></span>
+                                </div>
                             </div>
                         </div>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{ display: "flex", justifyContent: "space-around" }}>
-                    <div style={{ display: "flex", flexDirection: "row-reverse", marginRight: "40px" }}>
                         <button
                             onClick={() => setOpen(false)}
                             style={{ background: "#FE5F55", color: "whitesmoke" }}
@@ -758,7 +783,6 @@ export default function AddProfessor({
                         >
                             Oui
                         </button>
-                    </div>
                 </DialogActions>
             </Dialog>
         </div >

@@ -9,7 +9,9 @@ import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
 import { ToastProvider, useToasts } from 'react-toast-notifications';
-import { ALL_PROFS } from '../components/Queries'
+import { ALL_PROFS } from '../components/Queries';
+import shortid from 'shortid';
+
 
 const useStyles = makeStyles(theme => ({
     page: {
@@ -175,7 +177,8 @@ const initialData = {
             "role": "",
             "picture": avatar,
             "email": "",
-            // "phoneNumberProf": "",
+            "isActive": "",
+            "phoneNumberProf": "",
             "addressInput": {
                 "street": "",
                 "postalCode": "",
@@ -188,8 +191,9 @@ const initialData = {
 export default function ProfessorForm() {
     const classes = useStyles();
 
+    const { loading, error, data, refetch } = useQuery(ALL_PROFS, {variables: {role: 'TEACHER'}});
     const [newData, setNewData] = useState([{}]);
-    const { loading, error, data, refetch } = useQuery(ALL_PROFS);
+
     const [dataResult, setDataResult] = useState(initialData);
     const [flag, setFlag] = useState<boolean>(false)
     const [searchData, setSearchData] = useState<string>();
@@ -200,7 +204,7 @@ export default function ProfessorForm() {
     const [errorLastname, setErrorLastname] = useState<boolean>(false)
     const [errorRole, setErrorRole] = useState<boolean>(false)
     const [errorEmail, setErrorEmail] = useState<boolean>(false)
-    // const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
+    const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
     const [errorStreet, setErrorStreet] = useState<boolean>(false)
     const [errorPostalCode, setErrorPostalCode] = useState<boolean>(false)
     const [errorCity, setErrorCity] = useState<boolean>(false)
@@ -208,7 +212,7 @@ export default function ProfessorForm() {
     const [firstname, setFirstname] = useState("")
     const [lastname, setLastname] = useState("")
     const [role, setRole] = useState("TEACHER")
-    // const [phoneNumberProf, setPhoneNumberProf] = useState("")
+    const [phoneNumberProf, setPhoneNumberProf] = useState("")
     const [email, setEmail] = useState("")
     const [street, setStreet] = useState("")
     const [postalCode, setPostalCode] = useState("")
@@ -219,7 +223,7 @@ export default function ProfessorForm() {
     const [loadingTest, setLoadingTest] = useState<boolean>(true)
 
     //Search input
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleSearch = (event: any): void => {
         const searchedProf = event.target.value
         setSearchData(searchedProf)
 
@@ -257,13 +261,14 @@ export default function ProfessorForm() {
     //Details button
     const handleDetails = (id: any) => {
         const filteredData = data.getAllUsers.filter((elem: any) => elem.id === id)
+
         setFlag(true)
         setNewData(filteredData)
         setErrorFirstname(false)
         setErrorLastname(false)
         setErrorRole(true)
         setErrorEmail(false)
-        // setErrorPhoneNumberProf(false)
+        setErrorPhoneNumberProf(false)
         setErrorStreet(false)
         setErrorPostalCode(false)
         setErrorCity(false)
@@ -272,7 +277,7 @@ export default function ProfessorForm() {
         setFirstname("")
         setLastname("")
         setRole("")
-        // setPhoneNumberProf("")
+        setPhoneNumberProf("")
         setEmail("")
         setStreet("")
         setPostalCode("")
@@ -306,7 +311,7 @@ export default function ProfessorForm() {
                                 value={searchData}
                                 onChange={handleSearch}
                             />
-                            <svg className={classes.searchIcon} width="22" height="22" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+                            <svg className={classes.searchIcon} width="22" height="22" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
                                 <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" /></svg>
                         </div>
                     </div>
@@ -321,7 +326,7 @@ export default function ProfessorForm() {
                             </div> :
                             searchData ?
                                 dataResult.getAllUsers.map((elem: any) =>
-                                    <Card className={classes.card}>
+                                    <Card className={classes.card} key={shortid.generate()}>
                                         <CardContent className={classes.cardContent}>
                                             <img src={elem.picture} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
@@ -338,7 +343,7 @@ export default function ProfessorForm() {
                                 )
                                 :
                                 data.getAllUsers.map((elem: any) =>
-                                    <Card className={classes.card} >
+                                    <Card className={classes.card} key={shortid.generate()} >
                                         <CardContent className={classes.cardContent}>
                                             <img src={elem.picture} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
@@ -377,10 +382,10 @@ export default function ProfessorForm() {
                                 setEmail={setEmail}
                                 errorEmail={errorEmail}
                                 setErrorEmail={setErrorEmail}
-                                // phoneNumberProf={phoneNumberProf}
-                                // setPhoneNumberProf={setPhoneNumberProf}
-                                // errorPhoneNumberProf={errorPhoneNumberProf}
-                                // setErrorPhoneNumberProf={setErrorPhoneNumberProf}
+                                phoneNumberProf={phoneNumberProf}
+                                setPhoneNumberProf={setPhoneNumberProf}
+                                errorPhoneNumberProf={errorPhoneNumberProf}
+                                setErrorPhoneNumberProf={setErrorPhoneNumberProf}
                                 street={street}
                                 setStreet={setStreet}
                                 errorStreet={errorStreet}
