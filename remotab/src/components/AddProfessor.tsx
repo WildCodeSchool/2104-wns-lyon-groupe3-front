@@ -5,7 +5,6 @@ import { Button, Avatar } from 'ui-neumorphism';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import CancelIcon from '@material-ui/icons/Cancel';
 import avatar from '../assets/avatar.jpg';
-import gql from "graphql-tag";
 import { useState } from "react";
 import { useToasts } from 'react-toast-notifications';
 import { useMutation } from '@apollo/client';
@@ -79,8 +78,8 @@ type dataProps = {
     setErrorRole: any,
     errorEmail: boolean,
     setErrorEmail: any,
-    errorPhoneNumberProf: boolean,
-    setErrorPhoneNumberProf: any,
+    // errorPhoneNumberProf: boolean,
+    // setErrorPhoneNumberProf: any,
     errorStreet: boolean,
     setErrorStreet: any,
     errorPostalCode: boolean,
@@ -99,8 +98,8 @@ type dataProps = {
     setRole: any,
     email: string,
     setEmail: any,
-    phoneNumberProf: string,
-    setPhoneNumberProf: any,
+    // phoneNumberProf: string,
+    // setPhoneNumberProf: any,
     street: string,
     setStreet: any,
     postalCode: string,
@@ -121,8 +120,8 @@ export default function AddProfessor({
     setErrorRole,
     errorEmail,
     setErrorEmail,
-    errorPhoneNumberProf,
-    setErrorPhoneNumberProf,
+    // errorPhoneNumberProf,
+    // setErrorPhoneNumberProf,
     errorStreet,
     setErrorStreet,
     errorPostalCode,
@@ -137,8 +136,8 @@ export default function AddProfessor({
     setLastname,
     role,
     setRole,
-    phoneNumberProf,
-    setPhoneNumberProf,
+    // phoneNumberProf,
+    // setPhoneNumberProf,
     email,
     setEmail,
     street,
@@ -152,22 +151,23 @@ export default function AddProfessor({
 }: dataProps) {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [idUpdate, setIdUpdate] = useState("") 
+    const [modalUpdate, setModalUpdate] = useState(false)
+    const [idUpdate, setIdUpdate] = useState("")
 
     const [addButton, setAddButton] = useState(false)
     const [updateButton, setUpdateButton] = useState(false)
+    const [deleteButton, setDeleteButton] = useState(false)
+    const [profil, setProfil] = useState(fileSelected || "")
 
     const { addToast } = useToasts()
 
-    const profil = fileSelected || ""
 
     const [createUser, { data }] = useMutation(CREATE_USER)
-    const [updateUserInfo] = useMutation(UPDATE_USER);
+    const [updateUser] = useMutation(UPDATE_USER);
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
         let hasError = false
-
 
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
@@ -176,7 +176,7 @@ export default function AddProfessor({
             firstname: { value: string },
             lastname: { value: string },
             role: { value: string },
-            phoneNumberProf: { value: Number },
+            // phoneNumberProf: { value: Number },
             email: { value: string },
             street: { value: string },
             postalCode: { value: string },
@@ -187,7 +187,7 @@ export default function AddProfessor({
             setFirstname(target.firstname.value)
             setLastname(target.lastname.value)
             setRole(target.role.value)
-            setPhoneNumberProf(target.phoneNumberProf.value)
+            // setPhoneNumberProf(target.phoneNumberProf.value)
             setEmail(target.email.value)
             setStreet(target.street.value)
             setPostalCode(target.postalCode.value)
@@ -214,12 +214,12 @@ export default function AddProfessor({
                 setErrorRole(false)
             }
 
-            if ((Number(target.phoneNumberProf.value) === 0) || isNaN(Number(target.phoneNumberProf.value))) {
-                hasError = true
-                setErrorPhoneNumberProf(true)
-            } else {
-                setErrorPhoneNumberProf(false)
-            }
+            // if ((Number(target.phoneNumberProf.value) === 0) || isNaN(Number(target.phoneNumberProf.value))) {
+            //     hasError = true
+            //     setErrorPhoneNumberProf(true)
+            // } else {
+            //     setErrorPhoneNumberProf(false)
+            // }
 
             if ((target.email.value.length === 0) || (!regex.test(target.email.value))) {
                 hasError = true
@@ -252,7 +252,6 @@ export default function AddProfessor({
             if (hasError === false) {
                 setOpen(true)
             }
-
             setAddButton(false)
         }
     }
@@ -270,67 +269,99 @@ export default function AddProfessor({
     const handleSend = async () => {
         setOpen(false)
         setFlag(false)
-        const photoProfil = profil instanceof URL ? URL.createObjectURL(profil) : avatar
+
+        const picture = profil instanceof File ? URL.createObjectURL(profil) : avatar;
+        const isActive = "ACTIVE";
+
         if (updateButton) {
 
-            const result = await updateUserInfo(
-                {
-                    variables: {
-                        id: idUpdate
+            const id = idUpdate
+            console.log(id)
+            try {
+                await updateUser(
+                    {
+                        variables: {
+                            id,
+                            firstname,
+                            lastname,
+                            email,
+                            address: {
+                                street,
+                                postalCode,
+                                city
+                            },
+                            role,
+                            isActive,
+                            picture
+                        }
                     }
-                }
-            );
+                );
 
-            addToast(`vous avez modifié les informations du professeur : ${firstname} ${lastname}`, {
-                appearance: "warning",
-                autoDismiss: true
-            })
+                addToast(`vous avez modifié les informations du professeur : ${firstname} ${lastname}`, {
+                    appearance: "warning",
+                    autoDismiss: true
+                })
 
-            setFirstname("")
-            setLastname("")
-            setRole("")
-            setPhoneNumberProf(undefined)
-            setEmail("")
-            setStreet("")
-            setPostalCode("")
-            setCity("")
-            setFileSelected(avatar)
-            setUpdateButton(false)
+                setFirstname("")
+                setLastname("")
+                setRole("")
+                // setPhoneNumberProf("")
+                setEmail("")
+                setStreet("")
+                setPostalCode("")
+                setCity("")
+                setFileSelected(avatar)
+                setUpdateButton(false)
+                setProfil(avatar)
 
-        } else {
-            const result = await createUser(
-                {
-                    variables: {
-                        input: {
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        else {
+            try {
+                await createUser(
+                    {
+                        variables: {
                             firstname,
                             lastname,
                             role,
                             email,
-                            phoneNumberProf,
-                            Address: {
+                            // phoneNumberProf,
+                            isActive,
+                            addressInput: {
                                 street,
                                 postalCode,
                                 city,
                             }
                         }
                     }
-                }
-            );
+                );
 
-            addToast(`vous avez ajouté le professeur: ${firstname} ${lastname}`, {
-                appearance: "info",
-                autoDismiss: true
-            })
+                addToast(`vous avez ajouté le professeur: ${firstname} ${lastname}`, {
+                    appearance: "info",
+                    autoDismiss: true
+                })
 
-            setFirstname("")
-            setLastname("")
-            setRole("")
-            setPhoneNumberProf(undefined)
-            setEmail("")
-            setStreet("")
-            setPostalCode("")
-            setCity("")
-            setFileSelected(avatar)
+                refetch()
+
+                setFirstname("")
+                setLastname("")
+                setRole("")
+                // setPhoneNumberProf("")
+                setEmail("")
+                setStreet("")
+                setPostalCode("")
+                setCity("")
+                setFileSelected(avatar)
+                setProfil(avatar)
+            } catch (error) {
+                console.log(error)
+                addToast(`l'adresse mail : ${email} est déjà utilisée`, {
+                    appearance: "error",
+                    autoDismiss: false
+                })
+            }
         }
     }
     return (
@@ -446,8 +477,8 @@ export default function AddProfessor({
                                                 <input
                                                     name="street"
                                                     id="street"
-                                                    placeholder={dataElement.Address.street}
-                                                    value={street ? street : dataElement.Address.street}
+                                                    placeholder={dataElement.address.street}
+                                                    value={street ? street : dataElement.address.street}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setStreet(e.currentTarget.value)
@@ -466,7 +497,7 @@ export default function AddProfessor({
                                             {errorStreet && "Nom de rue obligatoire"}
                                         </span>
                                     </div>
-                                    <div className={classes.inputBlocks}>
+                                    {/* <div className={classes.inputBlocks}>
                                         {
                                             flag ?
                                                 <input
@@ -493,7 +524,7 @@ export default function AddProfessor({
                                         <span className={classes.myErrorMessage}>
                                             {errorPhoneNumberProf && "Numéro de téléphone obligatoire"}
                                         </span>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column" }}>
                                     <div className={classes.inputBlocks}>
@@ -528,8 +559,8 @@ export default function AddProfessor({
                                                 <input
                                                     name="postalCode"
                                                     id="postalCode"
-                                                    placeholder={dataElement.Address.postalCode}
-                                                    value={postalCode ? postalCode : dataElement.Address.postalCode}
+                                                    placeholder={dataElement.address.postalCode}
+                                                    value={postalCode ? postalCode : dataElement.address.postalCode}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setPostalCode(e.currentTarget.value)
@@ -611,8 +642,8 @@ export default function AddProfessor({
                                                 <input
                                                     name="city"
                                                     id="city"
-                                                    placeholder={dataElement.Address.city}
-                                                    value={city ? city : dataElement.Address.city}
+                                                    placeholder={dataElement.address.city}
+                                                    value={city ? city : dataElement.address.city}
                                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setCity(e.currentTarget.value)
@@ -697,7 +728,7 @@ export default function AddProfessor({
                             </div>
                             <div>
                                 <div>
-                                    <span>Numéro de téléphone : <strong>{phoneNumberProf}</strong></span>
+                                    {/* <span>Numéro de téléphone : <strong>{phoneNumberProf}</strong></span> */}
                                     <span>Adresse mail : <strong>{email}</strong></span>
                                 </div>
                             </div>

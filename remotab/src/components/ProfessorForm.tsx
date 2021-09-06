@@ -11,8 +11,6 @@ import avatar from "../assets/avatar.jpg";
 import { ToastProvider, useToasts } from 'react-toast-notifications';
 import { ALL_PROFS } from '../components/Queries'
 
-
-
 const useStyles = makeStyles(theme => ({
     page: {
         background: theme.palette.primary.light,
@@ -177,7 +175,7 @@ const initialData = {
             "role": "",
             "picture": avatar,
             "email": "",
-            "phoneNumberProf": "",
+            // "phoneNumberProf": "",
             "addressInput": {
                 "street": "",
                 "postalCode": "",
@@ -202,7 +200,7 @@ export default function ProfessorForm() {
     const [errorLastname, setErrorLastname] = useState<boolean>(false)
     const [errorRole, setErrorRole] = useState<boolean>(false)
     const [errorEmail, setErrorEmail] = useState<boolean>(false)
-    const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
+    // const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
     const [errorStreet, setErrorStreet] = useState<boolean>(false)
     const [errorPostalCode, setErrorPostalCode] = useState<boolean>(false)
     const [errorCity, setErrorCity] = useState<boolean>(false)
@@ -210,7 +208,7 @@ export default function ProfessorForm() {
     const [firstname, setFirstname] = useState("")
     const [lastname, setLastname] = useState("")
     const [role, setRole] = useState("TEACHER")
-    const [phoneNumberProf, setPhoneNumberProf] = useState("")
+    // const [phoneNumberProf, setPhoneNumberProf] = useState("")
     const [email, setEmail] = useState("")
     const [street, setStreet] = useState("")
     const [postalCode, setPostalCode] = useState("")
@@ -228,7 +226,7 @@ export default function ProfessorForm() {
         if (searchedProf) {
             if (data !== undefined) {
 
-                const filteredSearch = data.allUsers.filter((prof: any) => {
+                const filteredSearch = data.getAllUsers.filter((prof: any) => {
                     prof.firstname.toLowerCase().includes(searchedProf.toLowerCase());
                 })
 
@@ -258,14 +256,14 @@ export default function ProfessorForm() {
 
     //Details button
     const handleDetails = (id: any) => {
-        const filteredData = data.allUsers.filter((elem: any) => elem.id === id)
+        const filteredData = data.getAllUsers.filter((elem: any) => elem.id === id)
         setFlag(true)
         setNewData(filteredData)
         setErrorFirstname(false)
         setErrorLastname(false)
         setErrorRole(true)
         setErrorEmail(false)
-        setErrorPhoneNumberProf(false)
+        // setErrorPhoneNumberProf(false)
         setErrorStreet(false)
         setErrorPostalCode(false)
         setErrorCity(false)
@@ -274,7 +272,7 @@ export default function ProfessorForm() {
         setFirstname("")
         setLastname("")
         setRole("")
-        setPhoneNumberProf("")
+        // setPhoneNumberProf("")
         setEmail("")
         setStreet("")
         setPostalCode("")
@@ -339,7 +337,7 @@ export default function ProfessorForm() {
                                     </Card>
                                 )
                                 :
-                                data.allUsers.map((elem: any) =>
+                                data.getAllUsers.map((elem: any) =>
                                     <Card className={classes.card} >
                                         <CardContent className={classes.cardContent}>
                                             <img src={elem.picture} alt="professor-avatar" className={classes.image} />
@@ -379,10 +377,10 @@ export default function ProfessorForm() {
                                 setEmail={setEmail}
                                 errorEmail={errorEmail}
                                 setErrorEmail={setErrorEmail}
-                                phoneNumberProf={phoneNumberProf}
-                                setPhoneNumberProf={setPhoneNumberProf}
-                                errorPhoneNumberProf={errorPhoneNumberProf}
-                                setErrorPhoneNumberProf={setErrorPhoneNumberProf}
+                                // phoneNumberProf={phoneNumberProf}
+                                // setPhoneNumberProf={setPhoneNumberProf}
+                                // errorPhoneNumberProf={errorPhoneNumberProf}
+                                // setErrorPhoneNumberProf={setErrorPhoneNumberProf}
                                 street={street}
                                 setStreet={setStreet}
                                 errorStreet={errorStreet}

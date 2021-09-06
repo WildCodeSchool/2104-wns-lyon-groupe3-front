@@ -11,7 +11,7 @@ type User {
   email: String @fake(type: email)
   picture: String @fake(type: avatarUrl)
   address:  Address  
-  phoneNumberProf: String @fake(type: phoneNumber, locale: fr)
+  # phoneNumberProf: String @fake(type: phoneNumber, locale: fr)
 }
 type Mutation {
   createUser(inputUser: InputUser): User
@@ -33,7 +33,7 @@ input InputUser {
   email: String!
   picture: String!
   addressInput: InputaddressInput!
-  phoneNumberProf: String! 
+  # phoneNumberProf: String! 
 }
 enum Role {
   student
