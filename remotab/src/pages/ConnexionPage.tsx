@@ -4,7 +4,8 @@ import { Button, Grid, makeStyles } from "@material-ui/core"
 import logo from '../assets/logoRemotab.png';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {useHistory} from "react-router"
+import { useHistory } from "react-router"
+
 
 const useStyles = makeStyles(theme => ({
  
@@ -50,6 +51,7 @@ export default function ConnexionPage() {
     const classes = useStyles()
     const history = useHistory()
 
+
     const [pseudo, setPseudo] = React.useState("")
     const [password, setPassword] = React.useState("")
 
@@ -61,12 +63,21 @@ export default function ConnexionPage() {
             password: { value: string };
         };
         
-        console.log(target.password.value)
+        if (target.pseudo.value === "paola") {
+            history.push({
+                pathname: "/admin",
+                state: {pseudoAdmin : target.pseudo.value}
+            })
+        } else if (target.pseudo.value === "madalina") {
+            history.push({
+                pathname: "/home",
+                state: {pseudoUser : target.pseudo.value}
+            })
+        } else {
+            alert("pseudo inexistant")
+        }
     }
 
-    const connectToPlatform = () => {
-        history.push("/admin")
-    }
     
     return (
         <div className={classes.myBackground}>
@@ -152,7 +163,6 @@ export default function ConnexionPage() {
                                     variant="contained"
                                     className={classes.connexionButton}
                                     type="submit"
-                                    onClick={connectToPlatform}
                                 >
                                     Se connecter
                                 </Button>

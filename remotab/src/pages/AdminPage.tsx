@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core"
 import '../styles/neumorphism.css'
 import Form from '../components/Form';
 import HeaderAdmin from '../components/HeaderAdmin';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     myBackground: {
@@ -11,13 +12,19 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const AdminPage = () => {
+interface LocationState {
+    pseudoAdmin: string
+  }
+
+const AdminPage = (props: any) => {
     const classes = useStyles()
+    const location = useLocation<LocationState>()
+
 
     return (
         <div className={classes.myBackground}>
-            <HeaderAdmin />
-            <Form />
+            <HeaderAdmin name= {location.state.pseudoAdmin}/>
+            <Form name= {location.state.pseudoAdmin} />
         </div> 
     )
 }

@@ -16,6 +16,7 @@ import { ToastProvider } from 'react-toast-notifications'
 
 import { ALL_STUDENT} from '../components/Queries'
 import HeaderAdmin from '../components/HeaderAdmin'
+import { useLocation } from 'react-router-dom'
 
 
 const useStyles = makeStyles(theme => ({
@@ -179,8 +180,14 @@ const initialData = {
   ]
 }
 
+interface LocationState {
+  pseudoAdmin: string
+}
+
 function StudentPage() {
   const classes = useStyles()
+  const  location  = useLocation<LocationState>()
+  
   const { loading, error, data, refetch } = useQuery(ALL_STUDENT, {variables: {role: 'STUDENT'}});
   const [newData, setNewData] = React.useState([{}])
 
@@ -278,7 +285,7 @@ function StudentPage() {
   
   return (
     <div data-testid="content">
-      <HeaderAdmin />
+      <HeaderAdmin name={location.state.pseudoAdmin} />
       {data &&
       <div  className={classes.myBodyCard}>   
         <Card className={classes.myCardPrincipal}>

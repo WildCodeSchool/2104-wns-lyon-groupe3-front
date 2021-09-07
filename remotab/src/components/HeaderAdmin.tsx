@@ -45,7 +45,11 @@ const useStyles = makeStyles(theme => ({
       }
 }))
 
-const HeaderAdmin = () => {
+type nameProto = {
+  name: String
+}
+
+const HeaderAdmin = ({name}:nameProto) => {
     const classes = useStyles()
     const history = useHistory()
 
@@ -69,7 +73,7 @@ const HeaderAdmin = () => {
                 //bordered={true}
                 className="toggleButtonNameAdmin"
             >
-            <span className={classes.mySpan}>Nom admin</span>
+            <span className={classes.mySpan}>{name}</span>
             </button> 
         </div>
     )

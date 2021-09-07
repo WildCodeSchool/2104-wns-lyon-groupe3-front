@@ -564,10 +564,7 @@ function AddStudent({
                 flag ?
                     <div className={classes.changeProfil}>
                         <Avatar
-                            src={
-
-                               newData.map((img: any) => img.picture)
-                            }
+                            src={newData.map((img: any) => img.picture)}
                             alt="profil-avatar"
                             className={classes.profilEleve}
                             size={50}

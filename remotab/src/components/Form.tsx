@@ -63,14 +63,21 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.secondary.light
     }
   }))
+
+  type nameProto = {
+    name: String
+  }
   
 
-function Form(){
+function Form({name}:nameProto){
     const classes = useStyles()
     const history = useHistory()
 
     const myCategory = () => {
-        history.push("/admin/student")
+        history.push({
+            pathname: "/admin/student",
+            state: {pseudoAdmin : name}
+        })
     }
 
    // const { dark } = this.props
