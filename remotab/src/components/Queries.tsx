@@ -1,24 +1,24 @@
 import { gql } from "@apollo/client";
 
 export const ALL_PROFS = gql`
-query GetAllProfessors {
+query User {
     getAllUsers {
-    _id
-    firstname
-    lastname
-    role
-    picture
-    email
-    password
-    phoneNumberProf
-    address {
-      street
-      postalCode
-      city
+        _id
+        firstname
+        lastname
+        role
+        picture
+        email
+        password
+        phoneNumberProf
+        address {
+            street
+            postalCode
+            city
+        }
+        role
+        isActive
     }
-    role
-    isActive
-  }
 }
 `;
 
@@ -41,7 +41,7 @@ mutation createUser(
             role: $role,
             isActive: $isActive,
             picture: $picture,
-        phoneNumberProf: $phoneNumberProf
+            phoneNumberProf: $phoneNumberProf
         ) {
             firstname,
             lastname,
@@ -86,9 +86,9 @@ export const DELETE_USER = gql`
 export const UPDATE_USER = gql`
    mutation updateUser(
     $id: String!,
-    $firstname: String,
-    $lastname: String,
-    $email: String,
+    $firstname: String!,
+    $lastname: String!,
+    $email: String!,
     $address: addressInput!,
     $role: String,
     $isActive: String,

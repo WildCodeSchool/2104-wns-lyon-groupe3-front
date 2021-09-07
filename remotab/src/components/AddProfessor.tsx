@@ -89,6 +89,7 @@ type dataProps = {
     newData: any,
     flag: boolean,
     setFlag: any,
+
     errorFirstname: boolean,
     setErrorFirstname: any,
     errorLastname: boolean,
@@ -168,6 +169,7 @@ export default function AddProfessor({
     refetch
 
 }: dataProps) {
+
     const classes = useStyles()
 
     const [open, setOpen] = useState(false)
@@ -181,8 +183,7 @@ export default function AddProfessor({
 
     const { addToast } = useToasts()
 
-
-    const [createUser, { data }] = useMutation(CREATE_USER)
+    const [createUser, { data }] = useMutation(CREATE_USER);
     const [updateUser] = useMutation(UPDATE_USER);
 
     const handleSubmit = (event: React.SyntheticEvent) => {
@@ -281,10 +282,6 @@ export default function AddProfessor({
 
         const fileList = e.target.files;
 
-        // if (fileList) {
-        //     setFileSelected(fileList[0])
-        // }
-
         if (!fileList) return;
 
         setFileSelected(fileList[0]);
@@ -293,15 +290,12 @@ export default function AddProfessor({
             const formData = new FormData();
             formData.append("image", fileSelected, fileSelected.name);
         }
-
-        console.log(fileList, fileSelected)
     }
 
     const handleSend = async () => {
         setOpen(false)
         setFlag(false)
 
-        // const picture = profil instanceof File ? URL.createObjectURL(profil) : avatar;
         const picture = fileSelected instanceof File ? URL.createObjectURL(fileSelected) : avatar;
         const isActive = "ACTIVE";
 
@@ -397,6 +391,8 @@ export default function AddProfessor({
             }
         }
     }
+
+    console.log(newData)
     return (
         <div className={classes.addProfForm}>
             {
@@ -426,9 +422,9 @@ export default function AddProfessor({
                     :
                     <div className={classes.inputBlocks}>
                         {
-                            profil instanceof File ?
+                            fileSelected instanceof File ?
                                 <Avatar
-                                    src={URL.createObjectURL(profil)}
+                                    src={URL.createObjectURL(fileSelected)}
                                     alt="profil-avatar"
                                     size={100}
                                     className={classes.avatarImage}
@@ -444,7 +440,7 @@ export default function AddProfessor({
 
                         <input
                             type="file"
-                            accept="image/jpeg,image/jpg,image/PNG,application/pdf"
+                            accept="image/*"
                             hidden
                             onChange={handleChangeImage}
                             name="imageProfil"

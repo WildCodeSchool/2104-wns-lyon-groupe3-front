@@ -91,7 +91,8 @@ const useStyles = makeStyles(theme => ({
         textAlign: "justify"
     },
     image: {
-        marginRight: 10
+        marginRight: 10,
+        width: 70
     },
     detailsButton: {
         marginTop: "10px",
@@ -177,6 +178,7 @@ const initialData = {
             "role": "",
             "picture": avatar,
             "email": "",
+            "password": "",
             "isActive": "",
             "phoneNumberProf": "",
             "addressInput": {
@@ -187,11 +189,10 @@ const initialData = {
         }
     ]
 }
-
 export default function ProfessorForm() {
     const classes = useStyles();
 
-    const { loading, error, data, refetch } = useQuery(ALL_PROFS, {variables: {role: 'TEACHER'}});
+    const { loading, error, data, refetch } = useQuery(ALL_PROFS, { variables: { role: 'TEACHER' } });
     const [newData, setNewData] = useState([{}]);
 
     const [dataResult, setDataResult] = useState(initialData);
@@ -220,8 +221,7 @@ export default function ProfessorForm() {
 
     const [fileSelected, setFileSelected] = useState<File>()
 
-    const [loadingTest, setLoadingTest] = useState<boolean>(true)
-
+  
     //Search input
     const handleSearch = (event: any): void => {
         const searchedProf = event.target.value
@@ -259,8 +259,8 @@ export default function ProfessorForm() {
     }
 
     //Details button
-    const handleDetails = (id: any) => {
-        const filteredData = data.getAllUsers.filter((elem: any) => elem.id === id)
+    const handleDetails = (idElement: any) => {
+        const filteredData = data.getAllUsers.filter((elem: any) => elem._id === idElement)
 
         setFlag(true)
         setNewData(filteredData)
@@ -282,7 +282,12 @@ export default function ProfessorForm() {
         setStreet("")
         setPostalCode("")
         setCity("")
+
     }
+
+    const filteredDatas = data.getAllUsers.filter((el: any) => {
+       return el.role === "TEACHER"
+    })
 
     return (
         data &&
@@ -325,35 +330,36 @@ export default function ProfessorForm() {
                                 </Card>
                             </div> :
                             searchData ?
-                                dataResult.getAllUsers.map((elem: any) =>
+                                filteredDatas.map((dataElement: any) =>
                                     <Card className={classes.card} key={shortid.generate()}>
                                         <CardContent className={classes.cardContent}>
-                                            <img src={elem.picture} alt="professor-avatar" className={classes.image} />
+                                            <img src={dataElement.picture} alt="professor-avatar" className={classes.image} />
+
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.firstname}
+                                                    {dataElement.firstname}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.role}
+                                                    {dataElement.role}
                                                 </Subtitle2>
-                                                <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
+                                                <Button className={classes.detailsButton} bordered onClick={() => handleDetails(dataElement._id)}>Détails</Button>
                                             </div>
                                         </CardContent>
                                     </Card>
                                 )
                                 :
-                                data.getAllUsers.map((elem: any) =>
+                                filteredDatas.map((dataElement: any) =>
                                     <Card className={classes.card} key={shortid.generate()} >
                                         <CardContent className={classes.cardContent}>
-                                            <img src={elem.picture} alt="professor-avatar" className={classes.image} />
+                                            <img src={dataElement.picture} alt="professor-avatar" className={classes.image} />
                                             <div className={classes.cardDescription}>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.firstname}
+                                                    {dataElement.firstname}
                                                 </Subtitle2>
                                                 <Subtitle2 secondary className={classes.title} >
-                                                    {elem.role}
+                                                    {dataElement.role}
                                                 </Subtitle2>
-                                                <Button className={classes.detailsButton} bordered onClick={() => handleDetails(elem.id)}>Détails</Button>
+                                                <Button className={classes.detailsButton} bordered onClick={() => handleDetails(dataElement._id)}>Détails</Button>
                                             </div>
                                         </CardContent>
                                     </Card>

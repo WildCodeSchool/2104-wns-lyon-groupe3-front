@@ -1,14 +1,10 @@
-import { makeStyles } from "@material-ui/core"
-import { Button } from 'ui-neumorphism'
-import 'ui-neumorphism/dist/index.css'
+import { makeStyles} from "@material-ui/core";
+import { Button } from 'ui-neumorphism';
+import 'ui-neumorphism/dist/index.css';
 
-import { DELETE_USER, UPDATE_USER } from './Queries'
-import { useMutation, useQuery } from '@apollo/client'
-import { useToasts } from 'react-toast-notifications'
-
-const useStyles = makeStyles(theme => ({
-
-}))
+import { DELETE_USER, UPDATE_USER } from './Queries';
+import { useMutation } from '@apollo/client';
+import { useToasts } from 'react-toast-notifications';
 
 type dataProto = {
     dataElement: String,
@@ -29,9 +25,8 @@ export default function Buttons({
 
 }: dataProto) {
 
-    const classes = useStyles()
     const [deleteUser] = useMutation(DELETE_USER);
-    const [updateUserInfo] = useMutation(UPDATE_USER);
+    const [updateUser] = useMutation(UPDATE_USER);
     const { addToast } = useToasts()
 
     const handleSubmitUpdate = () => {
@@ -49,6 +44,8 @@ export default function Buttons({
                 id
             }
         });
+
+        console.log(result.data.deleteUser.firstname)
 
         addToast(`Vous avez supprimé : ${result.data.deleteUser.firstname} ${result.data.deleteUser.lastname}`, {
             appearance: "error",

@@ -49,7 +49,6 @@ export default function Agenda() {
         <div className={classes.calendarContainer}        >
             <Calendar className={classes.calendarStyle}
                 events={events}
-                // views={allViews}
                 localizer={localizer}
                 step={60}
                 startAccessor="start"
