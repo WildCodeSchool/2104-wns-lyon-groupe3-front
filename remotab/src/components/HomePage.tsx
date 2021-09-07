@@ -8,6 +8,11 @@ import '../styles/toggle.scss'
 import { Avatar } from 'ui-neumorphism';
 
 import defaultImage from '../assets/defaultImage.png'
+import NavBar from './NavBar';
+import Agenda from './Agenda';
+import Messages from './Messages';
+import Setting from './Setting';
+import Class from './Class'
 
 
 const useStyles = makeStyles(theme => ({
@@ -17,8 +22,10 @@ const useStyles = makeStyles(theme => ({
         display: "flex"
     },
     myNav: {
-        backgroundColor: "blue",
-        width: "500px"
+        width: "500px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     },
     myRightBlock: {
         width: "-webkit-fill-available",
@@ -31,7 +38,9 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
     },
     myContenu: {
-        backgroundColor: "yellow",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         height: "-webkit-fill-available"
     },
     myHeaderRightBlock: {
@@ -45,6 +54,11 @@ const useStyles = makeStyles(theme => ({
         width: "85%",
         display: "flex",
         justifyContent: "center"
+    },
+    pseudoUser: {
+        fontWeight: "bold",
+        fontSize: "23px",
+        paddingRight: "15px"
     }
 }))
 
@@ -57,10 +71,24 @@ const HomePage = () => {
     const location = useLocation<LocationState>()
     const [checked, setChecked] = useState(false)
 
+    const [home, setHome] = useState(true)
+    const [myClasses, setMyclasses] = useState(false)
+    const [messages, setMessages] = useState(false)
+    const [setting, setSetting] = useState(false)
+
     return (
         <div className={classes.myDiv}>
             <div className={classes.myNav}>
-                navigation
+                <NavBar
+                    home={home}
+                    myClasses={myClasses}
+                    messages={messages}
+                    setting={setting}
+                    setHome={setHome}
+                    setMyClasses={setMyclasses}
+                    setMessages={setMessages}
+                    setSetting={setSetting}
+                />
             </div>
             <div className={classes.myRightBlock}>
                 <div className={classes.myHeader}>
@@ -81,12 +109,15 @@ const HomePage = () => {
                         </label>
                     </div>
                     <div className={classes.myHeaderRightBlock}>
-                        <span><strong>{location.state.pseudoUser}</strong></span>
+                        <span className={classes.pseudoUser} >{location.state.pseudoUser}</span>
                         <Avatar src={defaultImage} size={70} />
                     </div>
                 </div>
                 <div className={classes.myContenu}>
-                    contenu
+                    {home && <Agenda />}
+                    {myClasses && <Class />}
+                    {messages && <Messages />}
+                    {setting && <Setting/>}
                 </div>
             </div>
         </div>

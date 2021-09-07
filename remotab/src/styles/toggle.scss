@@ -69,3 +69,60 @@ $baseW: 5rem;
 		}
 	}
 }
+
+.myBodyNav{
+	#bodyNav{
+		display: flex;
+		justify-content: center;
+	}
+	ul{
+		height: 60%;
+		margin-top: 30px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		//align-items: center;
+	}
+	li{
+		list-style: none;
+		color: #8AA4C2;
+		display: flex;
+		align-items: center;
+		//background-color: #F7F7FF;
+		//width: 200px;
+		padding-right: 195%;
+		padding-left: 50%;
+		margin-left: -50%;
+		padding-top: 15%;
+		padding-bottom: 10%;
+		
+		span{
+			margin-left: 15px;
+			font-size: 17px;
+		} 
+
+		&:hover{
+			cursor: pointer;
+		}
+
+	}
+
+	.myBadge{
+		margin-left: -10%;
+	}
+
+	li.active{
+		background-color: #F7F7FF;
+
+		span{
+			color: #577399;
+			font-weight: bold;
+			
+		} 
+
+		.myIconNav{
+			color: #FE5F55;
+			font-size: 30px;
+		}
+	}
+}
