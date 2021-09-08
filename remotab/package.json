@@ -25,6 +25,7 @@
     "react": "^17.0.2",
     "react-big-calendar": "^0.33.5",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.15.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-toast-notifications": "^2.4.4",
@@ -59,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@types/date-arithmetic": "^4.1.1",
     "@types/shortid": "0.0.29"
   }
 }

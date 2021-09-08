@@ -82,6 +82,15 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "column"
     },
+    addProfilInput: {
+        position: "absolute",
+        top: "35px",
+        left: 0
+    },
+    addNewProf: {
+        textAlign: "center",
+        marginBottom: "30px"
+    }
 
 }))
 
@@ -125,7 +134,7 @@ type dataProps = {
     postalCode: string,
     setPostalCode: any,
     city: string,
-    setCity: any
+    setCity: any,
 }
 
 export default function AddProfessor({
@@ -166,7 +175,7 @@ export default function AddProfessor({
     setPostalCode,
     city,
     setCity,
-    refetch
+    refetch,
 
 }: dataProps) {
 
@@ -279,7 +288,7 @@ export default function AddProfessor({
 
     const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.persist()
-
+        e.preventDefault()
         const fileList = e.target.files;
 
         if (!fileList) return;
@@ -292,7 +301,9 @@ export default function AddProfessor({
         }
     }
 
-    const handleSend = async () => {
+
+    const handleSend = async (event: any) => {
+        event.preventDefault()
         setOpen(false)
         setFlag(false)
 
@@ -302,7 +313,7 @@ export default function AddProfessor({
         if (updateButton) {
 
             const id = idUpdate
-            console.log(id)
+
             try {
                 await updateUser(
                     {
@@ -318,7 +329,8 @@ export default function AddProfessor({
                             },
                             role,
                             isActive,
-                            picture
+                            picture,
+                            phoneNumberProf
                         }
                     }
                 );
@@ -391,33 +403,32 @@ export default function AddProfessor({
             }
         }
     }
-
-    console.log(newData)
     return (
         <div className={classes.addProfForm}>
             {
                 flag ?
                     <div>
                         <Avatar
-                            src={
-                                newData.map((img: any) => img.picture)
-                            }
+                            src={newData.map((img: any) => img.picture)}
                             alt="profil-avatar"
                             size={100}
                             className={classes.avatarImage}
                         />
-                        <input
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            onChange={handleChangeImage}
-                            name="imageProfil"
-                            id="imageProfil"
-                        />
-                        <AddAPhotoIcon
-                            fontSize="small"
-                            className={classes.avatarImage}
-                        />
+                        <label htmlFor="imageProfil">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                hidden
+                                onChange={handleChangeImage}
+                                name="imageProfil"
+                                id="imageProfil"
+                                className={classes.addProfilInput}
+                            />
+                            <AddAPhotoIcon
+                                fontSize="small"
+                                className={classes.avatarImage}
+                            />
+                        </label>
                     </div>
                     :
                     <div className={classes.inputBlocks}>
@@ -437,19 +448,21 @@ export default function AddProfessor({
                                     className={classes.avatarImage}
                                 />
                         }
-
-                        <input
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            onChange={handleChangeImage}
-                            name="imageProfil"
-                            id="imageProfil"
-                        />
-                        <AddAPhotoIcon
-                            fontSize="small"
-                            className={classes.avatarImage}
-                        />
+                        <label htmlFor="imageProfil">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                hidden
+                                onChange={handleChangeImage}
+                                name="imageProfil"
+                                id="imageProfil"
+                                className={classes.addProfilInput}
+                            />
+                            <AddAPhotoIcon
+                                fontSize="small"
+                                className={classes.avatarImage}
+                            />
+                        </label>
                     </div>
             }
 
@@ -458,7 +471,7 @@ export default function AddProfessor({
                     flag ?
                         <span>Fiche de renseignement de <strong>{newData.map((element: any) => element.lastName)}</strong></span>
                         :
-                        <h3 style={{ textAlign: "center", marginBottom: "30px" }}>Ajouter un nouveau professeur</h3>
+                        <h3 className={classes.addNewProf}>Ajouter un nouveau professeur</h3>
                 }
             </div>
             {
@@ -746,7 +759,7 @@ export default function AddProfessor({
                                 </div>
                             </div>
                             <div className={classes.categoryInfo}>
-                            <h3 className={classes.titleContent}>Coordonnées</h3>
+                                <h3 className={classes.titleContent}>Coordonnées</h3>
                                 <div className={classes.divInfo}>
                                     <span>Numéro de téléphone : <strong>{phoneNumberProf}</strong></span>
                                     <span>Adresse mail : <strong>{email}</strong></span>
@@ -764,21 +777,21 @@ export default function AddProfessor({
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{ display: "flex", justifyContent: "space-around" }}>
-                        <button
-                            onClick={() => setOpen(false)}
-                            style={{ background: "#FE5F55", color: "whitesmoke" }}
-                            className="validButton"
-                        >
-                            Non
-                        </button>
-                        <button
-                            onClick={handleSend}
-                            color="secondary"
-                            className="validButton"
-                            style={{ color: "#FE5F55" }}
-                        >
-                            Oui
-                        </button>
+                    <button
+                        onClick={() => setOpen(false)}
+                        style={{ background: "#FE5F55", color: "whitesmoke" }}
+                        className="validButton"
+                    >
+                        Non
+                    </button>
+                    <button
+                        onClick={handleSend}
+                        color="secondary"
+                        className="validButton"
+                        style={{ color: "#FE5F55" }}
+                    >
+                        Oui
+                    </button>
                 </DialogActions>
             </Dialog>
         </div >

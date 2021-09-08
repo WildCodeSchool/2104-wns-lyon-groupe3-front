@@ -3,13 +3,12 @@ import '../styles/neumorphism.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import 'moment/locale/fr'; 
 import events from "../../src/utils/events";
 import * as dates from '../../src/utils/dates';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Button } from 'ui-neumorphism';
 import GroupIcon from '@material-ui/icons/Group';
-
-// const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
 interface Event {
     start: any,
@@ -56,6 +55,23 @@ export default function Agenda() {
                 max={dates.add(dates.endOf(new Date(2021, 17, 1), 'day'), -1, 'hours')}
                 defaultDate={new Date(2021, 3, 14, 17, 0, 0)}
                 defaultView={Views.DAY}
+                messages={{
+                    next: 'Suivant',
+                    previous: 'Précédent',
+                    today: "Aujourd'hui",
+                    month: 'Mois',
+                    week: 'Semaine',
+                    day: 'Jour',
+                    allDay: 'Toute la journée',
+                    yesterday: 'Hier',
+                    tomorrow: 'Demain',
+                    noEventsInRange: 'Aucun événement prévu',
+                    showMore: function showMore(total) {
+                      return '+' + total + ' de plus';
+                    },
+                    time: "Heures",
+                    event: "Evénement"
+          }}
             />
 
             <Button className={classes.buttonStyle}>

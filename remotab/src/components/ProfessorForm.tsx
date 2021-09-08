@@ -194,6 +194,7 @@ export default function ProfessorForm() {
 
     const { loading, error, data, refetch } = useQuery(ALL_PROFS, { variables: { role: 'TEACHER' } });
     const [newData, setNewData] = useState([{}]);
+    const value= "";
 
     const [dataResult, setDataResult] = useState(initialData);
     const [flag, setFlag] = useState<boolean>(false)

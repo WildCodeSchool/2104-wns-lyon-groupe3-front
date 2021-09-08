@@ -33,7 +33,7 @@ input InputUser {
   email: String!
   picture: String!
   addressInput: InputaddressInput!
-  phoneNumberProf: String! 
+  phoneNumberProf: String
 }
 enum Role {
   student
