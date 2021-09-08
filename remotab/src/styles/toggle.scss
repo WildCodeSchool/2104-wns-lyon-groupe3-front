@@ -126,3 +126,80 @@ $baseW: 5rem;
 		}
 	}
 }
+
+.bodyCardClass{
+	position: relative;
+
+	h2{
+		text-align: center;
+	}
+
+	.cardClass{
+		position: absolute;
+		top: 12%;
+    	left: 14%;
+	}
+
+	.cardName{
+		font-style: italic;
+		font-family: monospace;
+		font-size: 14px;
+		margin-top: 5px;
+	}
+
+	.cardTeach{
+		display: flex;
+		flex-direction: column;
+		margin: 15px;
+		align-items: center;
+	}
+
+}
+
+.myModalCard{
+	position: absolute;
+	top: 5%;
+	bottom: 12%;
+	right: 5%;
+	left: 5%;
+	border-radius: 10px;
+	background: #F7F7FF;
+	box-shadow:  20px 20px 60px #d2d2d9,
+				-10px -10px 60px #d2d2d9;
+	z-index: 2;
+
+	
+	._18bV3 {
+		--badge-height: 12px;
+	}
+
+	.myModalCardInfo{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		position: absolute;
+		top: -5%;
+		bottom: 5%;
+		right: 5%;
+		left:5%;
+		align-items: center;
+		margin-top: 10%;
+		//background-color: red;
+	}
+
+	.myTotalCardInfoAvatar{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 30%;
+	}
+
+	.myTotalCardInfo{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-evenly;
+		height: 110px;
+		margin-top: 10px;
+	}
+}

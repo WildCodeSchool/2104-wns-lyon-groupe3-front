@@ -41,7 +41,8 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "-webkit-fill-available"
+        height: "-webkit-fill-available",
+        position: "relative"
     },
     myHeaderRightBlock: {
         display: "flex",

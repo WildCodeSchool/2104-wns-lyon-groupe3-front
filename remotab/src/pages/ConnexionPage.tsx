@@ -173,7 +173,7 @@ export default function ConnexionPage() {
                         item
                         xs={6}
                     >
-                        <img src={connexionIcon} alt=""/>
+                        <img src={connexionIcon} alt="connexion"/>
                     </Grid>
                 </Grid>          
             </Box>       
