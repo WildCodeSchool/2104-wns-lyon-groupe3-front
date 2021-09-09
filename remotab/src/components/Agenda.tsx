@@ -43,7 +43,8 @@ const localizer = momentLocalizer(moment)
 export default function Agenda() {
 
     const classes = appStyles();
-
+    const today = new Date();
+ 
     return (
         <div className={classes.calendarContainer}        >
             <Calendar className={classes.calendarStyle}
@@ -52,6 +53,14 @@ export default function Agenda() {
                 step={60}
                 startAccessor="start"
                 endAccessor="end"
+                min={
+                    new Date(
+                      today.getFullYear(), 
+                      today.getMonth(), 
+                      today.getDate(), 
+                      8
+                    )
+                  }
                 max={dates.add(dates.endOf(new Date(2021, 17, 1), 'day'), -1, 'hours')}
                 defaultDate={new Date(2021, 3, 14, 17, 0, 0)}
                 defaultView={Views.DAY}

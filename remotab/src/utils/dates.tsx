@@ -123,9 +123,6 @@ export function duration(start: any, end: any, unit: any, firstOfWeek: any) {
 export function diff(dateA: any, dateB: any, unit: any) {
   if (!unit || unit === 'milliseconds') return Math.abs(+dateA - +dateB)
 
-  // the .round() handles an edge case
-  // with DST where the total won't be exact
-  // since one day in the range may be shorter/longer by an hour
   return Math.round(
     Math.abs(
       +dates.startOf(dateA, unit) / MILLI[unit] -

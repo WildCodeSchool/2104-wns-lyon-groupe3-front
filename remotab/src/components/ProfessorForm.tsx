@@ -192,9 +192,8 @@ const initialData = {
 export default function ProfessorForm() {
     const classes = useStyles();
 
-    const { loading, error, data, refetch } = useQuery(ALL_PROFS, { variables: { role: 'TEACHER' } });
+    const { loading, error, data, refetch } = useQuery(ALL_PROFS);
     const [newData, setNewData] = useState([{}]);
-    const value= "";
 
     const [dataResult, setDataResult] = useState(initialData);
     const [flag, setFlag] = useState<boolean>(false)
@@ -213,7 +212,7 @@ export default function ProfessorForm() {
 
     const [firstname, setFirstname] = useState("")
     const [lastname, setLastname] = useState("")
-    const [role, setRole] = useState("TEACHER")
+    const [role, setRole] = useState("")
     const [phoneNumberProf, setPhoneNumberProf] = useState("")
     const [email, setEmail] = useState("")
     const [street, setStreet] = useState("")
