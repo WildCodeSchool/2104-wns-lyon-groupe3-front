@@ -10,14 +10,12 @@ query User {
         picture
         email
         password
-        phoneNumberProf
+        isActive
         address {
             street
             postalCode
             city
         }
-        role
-        isActive
     }
 }
 `;
@@ -61,24 +59,18 @@ mutation createUser(
 
 export const DELETE_USER = gql`
      mutation deleteUser(
-        $id: String!,
+        $id: String!
     ) {
-        deleteUser(
-            id: $id,
-        ) {
+        deleteUser(id: $id) 
+        {
             _id,
             firstname,
             lastname,
             email,
-            address{
-                street,
-                postalCode,
-                city
-            },
+            address{ street, postalCode, city},
             role,
             isActive,
-            picture,
-            phoneNumberProf
+            picture
         }
     } 
 `
@@ -122,3 +114,22 @@ export const UPDATE_USER = gql`
     }
 } 
 `
+
+export const PROF = gql`
+    query UserProf(
+        $role: String!
+    ){
+        getUsersByRole(role: $role)
+        {
+            _id
+            firstname
+            lastname
+            email
+            password
+            address{street, postalCode, city}
+            role
+            isActive
+            picture
+        }
+    }
+`;

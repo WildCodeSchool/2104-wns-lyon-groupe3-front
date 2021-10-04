@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core";
 import { UPDATE_USER, ALL_PROFS } from '../components/Queries';
 import { useQuery, useMutation } from "@apollo/client";
 import { Avatar, Button } from 'ui-neumorphism';
-import avatar from "../assets/avatar.jpg";
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import showPwdImg from '../assets/show-password.svg';
 import hidePwdImg from '../assets/hide-password.svg';
@@ -81,7 +80,7 @@ const initialData = {
             "firstname": "",
             "lastname": "",
             "role": "",
-            "picture": avatar,
+            "picture": "",
             "email": "",
             "password": "",
             "isActive": "",
@@ -95,15 +94,17 @@ const initialData = {
     ]
 }
 
+
 export default function ProfSettings() {
 
     const classes = useStyles();
 
     const [pwd, setPwd] = useState('');
     const [isRevealPwd, setIsRevealPwd] = useState(false);
+    const [fileSelected, setFileSelected] = useState<File>();
 
 
-    const { loading, error, data, refetch } = useQuery(ALL_PROFS);
+    const { loading, error, data, refetch } = useQuery(ALL_PROFS, { variables: { role: 'STUDENT' } });
 
     if (loading) {
         return <div data-testid="loading-message">Chargement en cours...</div>
@@ -117,6 +118,24 @@ export default function ProfSettings() {
         return el.role === "TEACHER"
     })
 
+    const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.persist()
+
+        const fileList = e.target.files;
+
+        if (!fileList) return;
+
+        setFileSelected(fileList[0]);
+        
+        if (fileSelected) {
+            const formData = new FormData();
+            formData.append("image", fileSelected, fileSelected.name);
+        }
+
+        console.log(fileList, fileSelected)
+      
+    }
+
     return (
         data &&
         <div className={classes.bigContainer}>
@@ -128,14 +147,14 @@ export default function ProfSettings() {
                             <span className={classes.fieldStyle}>Adresse mail  <strong><input value={dataElement.email} className={classes.inputCustom} /></strong></span>
                             <span className={classes.fieldStyle}>Mot de passe
                                 <div className={classes.pwdContainer}>
-                                    <input value={dataElement.password} className={classes.inputCustom} 
-                                    type={isRevealPwd ? "text" : "password"}
+                                    <input value={dataElement.password} className={classes.inputCustom}
+                                        type={isRevealPwd ? "text" : "password"}
                                         onChange={(e: any) => setPwd(e.target.value)} />
-                                        <img 
-                                         className={classes.pwdContainerImg} 
+                                    <img
+                                        className={classes.pwdContainerImg}
                                         title={isRevealPwd ? "Hide password" : "Show password"}
                                         src={isRevealPwd ? hidePwdImg : showPwdImg}
-                                        onClick={() => setIsRevealPwd(prevState => !prevState)}/>
+                                        onClick={() => setIsRevealPwd(prevState => !prevState)} />
                                 </div>
                             </span>
                         </div>
@@ -144,10 +163,20 @@ export default function ProfSettings() {
                             <span className={classes.fieldStyle}>Numéro de téléphone  <strong><input value={dataElement.phoneNumberProf} className={classes.inputCustom} /></strong></span>
                             <div className={classes.avatarStyle}>
                                 <Avatar><img src={dataElement.picture} /></Avatar>
-                                <div className={classes.photoUpdate}>
-                                    <span>Modifier ma photo</span>
-                                    <CameraAltIcon className={classes.iconStyle} />
-                                </div>
+                                <label htmlFor="imageProfil">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        hidden
+                                        onChange={handleChangeImage}
+                                        name="imageProfil"
+                                        id="imageProfil"
+                                    />
+                                    <div className={classes.photoUpdate}>
+                                        <span>Modifier ma photo</span>
+                                        <CameraAltIcon className={classes.iconStyle} />
+                                    </div>
+                                </label>
                             </div>
                         </div>
                     </div>

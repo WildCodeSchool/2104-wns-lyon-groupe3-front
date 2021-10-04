@@ -1,44 +1,44 @@
-type Adress {
-  id: ID
+type Address {
 	street: String @fake(type: streetName)
   postalCode: String @fake(type: zipCode)
-  town: String @fake(type: city)
+  city: String @fake(type: city)
 }
-
 type User {
   id: ID
-  firstName: String @fake(type: firstName)
-  lastName: String @fake(type: lastName)
-  titre: String @fake(type: jobTitle)
-  emailAddress: String @fake(type: email)
-  photoProfil: String @fake(type: avatarUrl)
-  Adress:  Adress 
-  phoneNumber: String @fake(type: phoneNumber, locale: fr)
-  
+  firstname: String @fake(type: firstName)
+  lastname: String @fake(type: lastName)
+  role: Role
+  email: String @fake(type: email)
+  picture: String @fake(type: avatarUrl)
+  address:  Address  
+  phoneNumberProf: String @fake(type: phoneNumber, locale: fr)
 }
-
-input InputAdress {
-  street: String!
-  postalCode: String!
-  town: String!
-}
-
-input InputUser {
-  firstName: String!
-  lastName: String!
-  emailAddress: String!
-  photoProfil: String!
-  Adress: InputAdress!
-  phoneNumber: String!
-}
-
 type Mutation {
   createUser(inputUser: InputUser): User
   removeUser(id: String): User
   updateUserInfo(id: String): User
 }
-
 type Query {
   allUsers: [User] @listLength(min:2, max:10)
 }
+input InputaddressInput  {
+  street: String!
+  postalCode: String!
+  city: String!
+}
+input InputUser {
+  firstname: String!
+  lastname: String!
+  role: String!
+  email: String!
+  picture: String!
+  addressInput: InputaddressInput!
+  phoneNumberProf: String
+}
+enum Role {
+  student
+  teacher
+  admin
+}
+
 

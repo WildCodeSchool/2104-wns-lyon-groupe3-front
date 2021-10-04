@@ -9,7 +9,7 @@ import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
 import { ToastProvider, useToasts } from 'react-toast-notifications';
-import { ALL_PROFS } from '../components/Queries';
+import { PROF } from '../components/Queries';
 import shortid from 'shortid';
 
 
@@ -170,40 +170,38 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const initialData = {
-    "getAllUsers": [
+    "getUsersByRole": [
         {
             "_id": "",
             "firstname": "",
             "lastname": "",
-            "role": "",
-            "picture": avatar,
-            "email": "",
-            "password": "",
-            "isActive": "",
-            "phoneNumberProf": "",
             "addressInput": {
                 "street": "",
                 "postalCode": "",
                 "city": ""
-            }
+            },
+            "role": "",
+            "isActive": "",
+            "picture": avatar,
         }
     ]
 }
+
+
 export default function ProfessorForm() {
     const classes = useStyles();
 
-    const { loading, error, data, refetch } = useQuery(ALL_PROFS);
+    const { loading, error, data, refetch } = useQuery(PROF, { variables: { role: 'TEACHER' } });
     const [newData, setNewData] = useState([{}]);
 
     const [dataResult, setDataResult] = useState(initialData);
     const [flag, setFlag] = useState<boolean>(false)
-    const [searchData, setSearchData] = useState<string>();
+    const [searchData, setSearchData] = useState();
     const [emptySearchData, setEmptySearchData] = useState<boolean>(false);
 
     //Error handling
     const [errorFirstname, setErrorFirstname] = useState<boolean>(false)
     const [errorLastname, setErrorLastname] = useState<boolean>(false)
-    const [errorRole, setErrorRole] = useState<boolean>(false)
     const [errorEmail, setErrorEmail] = useState<boolean>(false)
     const [errorPhoneNumberProf, setErrorPhoneNumberProf] = useState<boolean>(false)
     const [errorStreet, setErrorStreet] = useState<boolean>(false)
@@ -212,26 +210,30 @@ export default function ProfessorForm() {
 
     const [firstname, setFirstname] = useState("")
     const [lastname, setLastname] = useState("")
-    const [role, setRole] = useState("")
+    const [role, setRole] = useState("TEACHER")
     const [phoneNumberProf, setPhoneNumberProf] = useState("")
     const [email, setEmail] = useState("")
     const [street, setStreet] = useState("")
     const [postalCode, setPostalCode] = useState("")
     const [city, setCity] = useState("")
 
+
     const [fileSelected, setFileSelected] = useState<File>()
 
-  
+
     //Search input
     const handleSearch = (event: any): void => {
-        const searchedProf = event.target.value
+        const searchedProf = (event.target.value).toLowerCase()
         setSearchData(searchedProf)
 
         if (searchedProf) {
             if (data !== undefined) {
 
-                const filteredSearch = data.getAllUsers.filter((prof: any) => {
-                    prof.firstname.toLowerCase().includes(searchedProf.toLowerCase());
+                const filteredSearch = data.getUsersByRole.filter((prof: any) => {
+                    return (
+                    prof.firstname.toLowerCase().includes(searchedProf) ||
+                    prof.lastname.toLowerCase().includes(searchedProf)
+                    )
                 })
 
                 if (filteredSearch.length === 0) {
@@ -239,7 +241,7 @@ export default function ProfessorForm() {
                 }
 
                 else {
-                    setDataResult({ getAllUsers: filteredSearch })
+                    setDataResult({ getUsersByRole: filteredSearch })
                     setEmptySearchData(false)
                 }
             }
@@ -260,13 +262,12 @@ export default function ProfessorForm() {
 
     //Details button
     const handleDetails = (idElement: any) => {
-        const filteredData = data.getAllUsers.filter((elem: any) => elem._id === idElement)
+        const filteredData = data.getUsersByRole.filter((elem: any) => elem._id === idElement)
 
         setFlag(true)
         setNewData(filteredData)
         setErrorFirstname(false)
         setErrorLastname(false)
-        setErrorRole(true)
         setErrorEmail(false)
         setErrorPhoneNumberProf(false)
         setErrorStreet(false)
@@ -276,7 +277,6 @@ export default function ProfessorForm() {
 
         setFirstname("")
         setLastname("")
-        setRole("")
         setPhoneNumberProf("")
         setEmail("")
         setStreet("")
@@ -284,10 +284,6 @@ export default function ProfessorForm() {
         setCity("")
 
     }
-
-    const filteredDatas = data.getAllUsers.filter((el: any) => {
-       return el.role === "TEACHER"
-    })
 
     return (
         data &&
@@ -328,9 +324,10 @@ export default function ProfessorForm() {
                                         <Subtitle2 secondary className={classes.title}>Votre recherche n'a donné aucun résultat...</Subtitle2>
                                     </CardContent>
                                 </Card>
-                            </div> :
+                            </div>
+                            :
                             searchData ?
-                                filteredDatas.map((dataElement: any) =>
+                                dataResult.getUsersByRole.map((dataElement: any) =>
                                     <Card className={classes.card} key={shortid.generate()}>
                                         <CardContent className={classes.cardContent}>
                                             <img src={dataElement.picture} alt="professor-avatar" className={classes.image} />
@@ -348,7 +345,7 @@ export default function ProfessorForm() {
                                     </Card>
                                 )
                                 :
-                                filteredDatas.map((dataElement: any) =>
+                                data.getUsersByRole.map((dataElement: any) =>
                                     <Card className={classes.card} key={shortid.generate()} >
                                         <CardContent className={classes.cardContent}>
                                             <img src={dataElement.picture} alt="professor-avatar" className={classes.image} />
@@ -382,8 +379,6 @@ export default function ProfessorForm() {
                                 setErrorLastname={setErrorLastname}
                                 role={role}
                                 setRole={setRole}
-                                errorRole={errorRole}
-                                setErrorRole={setErrorRole}
                                 email={email}
                                 setEmail={setEmail}
                                 errorEmail={errorEmail}

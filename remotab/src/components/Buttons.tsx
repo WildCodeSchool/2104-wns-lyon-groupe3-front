@@ -1,10 +1,12 @@
-import { makeStyles} from "@material-ui/core";
 import { Button } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
 
-import { DELETE_USER, UPDATE_USER } from './Queries';
+import { DELETE_USER } from './Queries';
 import { useMutation } from '@apollo/client';
 import { useToasts } from 'react-toast-notifications';
+import { gql } from "@apollo/client";
+
+
 
 type dataProto = {
     dataElement: String,
@@ -25,12 +27,19 @@ export default function Buttons({
 
 }: dataProto) {
 
+    const GET_USER = gql`
+    query GetUser($id: String!) {
+      user(id: $id) {
+        firstname
+        lastname
+      }
+    }
+  `;
+
     const [deleteUser] = useMutation(DELETE_USER);
-    const [updateUser] = useMutation(UPDATE_USER);
     const { addToast } = useToasts()
 
     const handleSubmitUpdate = () => {
-        
         setIdUpdate(dataElement)
         setAddButton(true)
         setUpdateButton(true)
@@ -40,18 +49,19 @@ export default function Buttons({
 
         const id = dataElement;
 
-        const result = await deleteUser({
-            variables: {
-                id
-            }
-        });
+        try {
+            const result = await deleteUser({
+                variables: { id }
+            });
 
-        console.log(result.data.deleteUser.firstname)
-
-        addToast(`Vous avez supprimé : ${result.data.deleteUser.firstname} ${result.data.deleteUser.lastname}`, {
-            appearance: "error",
-            autoDismiss: true
-        })
+            addToast(`Vous avez supprimé : ${result.data.deleteUser.firstname} ${result.data.deleteUser.lastname}`, {
+                appearance: "error",
+                autoDismiss: true
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
 
         refetch()
 

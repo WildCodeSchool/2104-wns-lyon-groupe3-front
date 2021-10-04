@@ -103,8 +103,6 @@ type dataProps = {
     setErrorFirstname: any,
     errorLastname: boolean,
     setErrorLastname: any,
-    errorRole: boolean,
-    setErrorRole: any,
     errorEmail: boolean,
     setErrorEmail: any,
     errorPhoneNumberProf: boolean,
@@ -145,8 +143,6 @@ export default function AddProfessor({
     setErrorFirstname,
     errorLastname,
     setErrorLastname,
-    errorRole,
-    setErrorRole,
     errorEmail,
     setErrorEmail,
     errorPhoneNumberProf,
@@ -235,13 +231,6 @@ export default function AddProfessor({
                 setErrorLastname(true)
             } else {
                 setErrorLastname(false)
-            }
-
-            if (target.role.value.length === 0) {
-                hasError = true
-                setErrorRole(true)
-            } else {
-                setErrorRole(false)
             }
 
             if ((Number(target.phoneNumberProf.value) === 0) || isNaN(Number(target.phoneNumberProf.value))) {
@@ -403,6 +392,14 @@ export default function AddProfessor({
             }
         }
     }
+
+    const [test, setTest] = useState("")
+    const handleTest = (id: any) => {
+        setTest(id);
+        console.log(test)
+    }
+
+
     return (
         <div className={classes.addProfForm}>
             {
@@ -655,33 +652,6 @@ export default function AddProfessor({
                                         {
                                             flag ?
                                                 <input
-                                                    name="role"
-                                                    id="title"
-                                                    placeholder={dataElement.role}
-                                                    value={role ? role : dataElement.role}
-                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                        e.persist()
-                                                        setRole(e.currentTarget.value)
-                                                    }
-                                                    }
-                                                    className="inputCustom" />
-                                                :
-                                                <input
-                                                    name="role"
-                                                    id="title"
-                                                    placeholder="Entrez un titre"
-                                                    value={role}
-                                                    onChange={(e: any) => setRole(e.currentTarget.value)}
-                                                    className="inputCustom" />
-                                        }
-                                        <span className={classes.myErrorMessage}>
-                                            {errorRole && "Titre obligatoire"}
-                                        </span>
-                                    </div>
-                                    <div className={classes.inputBlocks}>
-                                        {
-                                            flag ?
-                                                <input
                                                     name="city"
                                                     id="city"
                                                     placeholder={dataElement.address.city}
@@ -710,13 +680,14 @@ export default function AddProfessor({
                                 flag ?
                                     <div style={{ display: "inline-flex", justifyContent: "space-around", marginTop: "30px", marginBottom: "30px" }}>
                                         <Buttons
-                                            dataElement={dataElement.id}
+                                            dataElement={dataElement._id}
                                             setFlag={setFlag}
                                             setAddButton={setAddButton}
                                             setUpdateButton={setUpdateButton}
                                             setIdUpdate={setIdUpdate}
                                             refetch={refetch}
                                         />
+
                                     </div>
                                     :
                                     <div style={{ display: "flex", flexDirection: "row-reverse", marginRight: "20px", marginTop: "30px" }}>
