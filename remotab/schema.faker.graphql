@@ -11,42 +11,42 @@
 #
 # Developed with ❤️ by APIs.guru | https://github.com/APIs-guru/graphql-faker
 
-type Adress {
+type addressInput {
   id: ID
 	street: String @fake(type: streetName)
   postalCode: String @fake(type: zipCode)
-  town: String @fake(type: city)
+  city: String @fake(type: city)
 }
 
 type User {
   id: ID
-  firstNameStudent: String @fake(type: firstName)
-  lastNameStudent: String @fake(type: lastName)
+  firstname: String @fake(type: firstName)
+  lastname: String @fake(type: lastName)
   classStudent:Int @fake(type: number, options:{maxNumber:6, minNumber:1})
-  photoProfil: String @fake(type: avatarUrl)
+  picture: String @fake(type: avatarUrl)
   
   nameParent:String @fake(type: fullName)
   numberParent:String @fake(type: phoneNumber, locale: fr)
-  emailParent:String @fake(type: email)
+  email:String @fake(type: email)
   
-  Adress:  Adress 
+  addressInput:  addressInput 
 }
 
-input InputAdress {
+input InputaddressInput {
   street: String!
   postalCode: String!
-  town: String!
+  city: String!
 }
 
 input InputUser {
-  firstNameStudent: String!
-  lastNameStudent: String!
+  firstname: String!
+  lastname: String!
   classStudent: Int!
-  photoProfil: String!
+  picture: String!
   nameParent: String!
   numberParent: String!
-  emailParent: String!
-  Adress: InputAdress!
+  email: String!
+  addressInput: InputaddressInput!
 }
 
 type Mutation {

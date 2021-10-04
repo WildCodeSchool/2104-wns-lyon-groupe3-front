@@ -33,16 +33,16 @@ type User {
   passWord: String @fake(type: password) 
   classes:[Int] @fake(type: number, options:{maxNumber:6, minNumber:1}) 
   classRoom: Int @fake(type: number, options:{maxNumber:6, minNumber:1})
-  photoProfil: String @fake(type: avatarUrl)
+  picture: String @fake(type: avatarUrl)
   legalRepresentatives: LegalRepresentatives
   address:  Address 
 }
 
 
-input InputAdress {
+input InputaddressInput {
   street: String!
   postalCode: String!
-  town: String!
+  city: String!
 }
 
 input InputLegalRepresentatives {
@@ -50,7 +50,7 @@ input InputLegalRepresentatives {
   lastName: String!
   email:String!
   number:String!
-  address:  InputAdress
+  address:  InputaddressInput
 }
 
 enum Role {
@@ -67,9 +67,9 @@ input InputUser {
   passWord: String
   classes:[Int]
   classRoom: Int
-  photoProfil: String!
+  picture: String!
   legalRepresentatives: InputLegalRepresentatives
-  address:  InputAdress
+  address:  InputaddressInput
 }
 
 type Mutation {

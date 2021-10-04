@@ -1,17 +1,16 @@
 import React from 'react';
-import logo from './assets/logoRemotab.png';
-//import './App.css';
 import theme from "./styles/theme";
 import { makeStyles } from "@material-ui/core"
 import { ThemeProvider } from '@material-ui/core/styles';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import 'ui-neumorphism/dist/index.css'
 
 import './styles/neumorphism.css'
-//import {  BrowserRouter as Router, Route,Switch } from 'react-router-dom';
+import {  BrowserRouter, Redirect, Route,Switch } from 'react-router-dom';
 import StudentPage from './pages/StudentForm';
-import Form from './components/Form'
-import gql from 'graphql-tag';
+import ConnexionPage from './pages/ConnexionPage';
+import AdminPage from './pages/AdminPage';
+import HomePage from './components/HomePage';
+
 
 const useStyles = makeStyles(theme => ({
  
@@ -54,40 +53,20 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function App() {
-  const classes = useStyles()
-
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <Router> */}
-      <div className={classes.myBackground}>
-        <div className={classes.myNav}>
-          <div className={classes.myDivExitButton}>
-            <span className={classes.mySpan}>Se déconnecter</span>
-            <ExitToAppIcon  className={classes.exitButton}/>
-          </div>
-            
-          <img src={logo} alt="logo" className={classes.logo}/>
-          <button
-            //color="#0A2463 "
-            //bordered={true}
-            className="toggleButtonNameAdmin"
-          >
-          <span className={classes.mySpan}>Nom admin</span>
-          </button>
-        
-        </div>
-        <StudentPage />
-      </div>
-
-
-        {/* <Switch>
-         <Route path="/studentForm" component={StudentPage}/>
-        </Switch> */}
-        
-{/*        
-      </Router> */}
-    </ThemeProvider>);
+      <BrowserRouter> 
+        <Switch>
+          <Route exact path="/" component={ConnexionPage} />
+          <Route exact path="/admin" component={AdminPage} />
+          <Route exact path="/admin/student" component={StudentPage} />
+          <Route exact path="/home" component={HomePage} />
+          <Redirect to="/" />
+        </Switch>
+      </BrowserRouter>  
+    </ThemeProvider>
+  );
 }
 
 export default App;

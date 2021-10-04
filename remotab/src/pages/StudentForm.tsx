@@ -14,7 +14,9 @@ import { useQuery } from '@apollo/client'
 import Loading from '../components/Loading'
 import { ToastProvider } from 'react-toast-notifications'
 
-import {ALL_USERS} from '../components/Queries'
+import { ALL_STUDENT} from '../components/Queries'
+import HeaderAdmin from '../components/HeaderAdmin'
+import { useLocation } from 'react-router-dom'
 
 
 const useStyles = makeStyles(theme => ({
@@ -160,29 +162,33 @@ arrowForward: {
 }))
 
 const initialData = {
-  "allUsers": [
+  "getUsersByRole": [
     {
-      "id": "",
-      "firstNameStudent": "",
-      "lastNameStudent": "",
-      "classStudent": "",
-      "photoProfil": defaultImage,
-      "nameParent": "",
-      "numberParent":"",
-      "emailParent":"",
-      "Adress":{
-        "id":"",
+      "_id": "",
+      "firstname": "",
+      "lastname": "",
+      "birthday": "",
+      "addressInput":{
         "street":"",
         "postalCode":"",
-        "town":""
-      }
+        "city":""
+      },
+      "role":"",
+      "isActive":"",
+      "picture":defaultImage,
     }
   ]
 }
 
+interface LocationState {
+  pseudoAdmin: string
+}
+
 function StudentPage() {
   const classes = useStyles()
-  const { loading, error, data, refetch } = useQuery(ALL_USERS);
+  const  location  = useLocation<LocationState>()
+  
+  const { loading, error, data, refetch } = useQuery(ALL_STUDENT, {variables: {role: 'STUDENT'}});
   const [newData, setNewData] = React.useState([{}])
 
   const [dataResult, setDataResult] = React.useState(initialData)
@@ -190,55 +196,58 @@ function StudentPage() {
   const [searchData, setSearchData] = React.useState()
   const [emptySearchData, setEmptySearchData] = React.useState<boolean>(false)
   
-  const [errorFirstNameStudent, setErrorFirstNameStudent] = React.useState<boolean>(false)
-  const [errorLastNameStudent, setErrorLastNameStudent] = React.useState<boolean>(false)
+  const [errorfirstname, setErrorfirstname] = React.useState<boolean>(false)
+  const [errorlastname, setErrorlastname] = React.useState<boolean>(false)
   const [errorClassStudent, setErrorClassStudent] = React.useState<boolean>(false)
   const [errorNameParent, setErrorNameParent] = React.useState<boolean>(false)
   const [errorNumberParent, setErrorNumberParent] = React.useState<boolean>(false)
-  const [errorEmailParent, setErrorEmailParent] = React.useState<boolean>(false)
+  const [erroremail, setErroremail] = React.useState<boolean>(false)
   const [errorStreet, setErrorStreet] = React.useState<boolean>(false)
   const [errorPostalCode, setErrorPostalCode] = React.useState<boolean>(false)
-  const [errorTown, setErrorTown] = React.useState<boolean>(false)
+  const [errorcity, setErrorcity] = React.useState<boolean>(false)
 
-  const [firstNameStudent, setFirstNameStudent] = React.useState("")
-  const [lastNameStudent, setLastNameStudent] = React.useState("")
+  const [firstname, setfirstname] = React.useState("")
+  const [lastname, setlastname] = React.useState("")
   const [classStu, setClassStu] = React.useState("")
-  const [nameParent, setNameParent] = React.useState("")
-  const [numberParent, setNumberParent] = React.useState("")
-  const [emailParent, setEmailParent] = React.useState("")
+  const [nameParent, setNameParent] = React.useState("Paul")
+  const [numberParent, setNumberParent] = React.useState("0786120987")
+  const [email, setemail] = React.useState("")
   const [street, setStreet] = React.useState("")
   const [postalCode, setPostalCode] = React.useState("")
-  const [town, setTown] = React.useState("")
+  const [city, setcity] = React.useState("")
+  const [role, setRole] = React.useState("STUDENT")
 
   const [fileSelected, setFileSelected] = React.useState<File>()
 
   const [loadingTest, setLoadingTest] = React.useState<boolean>(true)
 
 
-  const handleCard = (idElement:any) => {
-    const filtered = data.allUsers.filter((e:any) => e.id === idElement)
+  const handleCard = (idElement: any) => {
+    
+    const filtered = data.getUsersByRole.filter((e:any) => e._id === idElement)
+
     setFlag(true)
     setNewData(filtered)
-    setErrorFirstNameStudent(false)
-    setErrorLastNameStudent(false)
+    setErrorfirstname(false)
+    setErrorlastname(false)
     setErrorClassStudent(false)
     setErrorNameParent(false)
     setErrorNumberParent(false)
-    setErrorEmailParent(false)
+    setErroremail(false)
     setErrorStreet(false)
     setErrorPostalCode(false)
-    setErrorTown(false)
+    setErrorcity(false)
     setFileSelected(undefined)
 
-    setFirstNameStudent("")
-    setLastNameStudent("")
+    setfirstname("")
+    setlastname("")
     setClassStu("")
     setNameParent("")
     setNumberParent("")
-    setEmailParent("")
+    setemail("")
     setStreet("")
     setPostalCode("")
-    setTown("")
+    setcity("")
   }
 
   const handleSearch = (event: any): void => {
@@ -247,7 +256,7 @@ function StudentPage() {
 
     if (mySearchItem) {
       if (data !== undefined) {
-        const searchFiltered = data.allUsers.filter((element: any) => element.classStudent === Number(mySearchItem))
+        const searchFiltered = data.getUsersByRole.filter((element: any) => element.classStudent === Number(mySearchItem))
         //return element.classStudent.toLowerCase().indexOf(mySearchItem.toLowerCase()) >= 0
         //console.log(mySearchItem)
         
@@ -255,7 +264,7 @@ function StudentPage() {
           console.log("mes data2: ",dataResult)
           setEmptySearchData(true)
         } else {
-          setDataResult({allUsers: searchFiltered})
+          setDataResult({getUsersByRole: searchFiltered})
           setEmptySearchData(false)
         }
       }
@@ -276,6 +285,7 @@ function StudentPage() {
   
   return (
     <div data-testid="content">
+      <HeaderAdmin name={location.state.pseudoAdmin} />
       {data &&
       <div  className={classes.myBodyCard}>   
         <Card className={classes.myCardPrincipal}>
@@ -309,19 +319,19 @@ function StudentPage() {
                     </div>
                   :
                   searchData ?
-                    dataResult.allUsers.map((dataElement: any) =>
-                      <Card  className={classes.card} key={dataElement.id}>
+                    dataResult.getUsersByRole.map((dataElement: any) =>
+                      <Card  className={classes.card} key={dataElement._id}>
                         <CardContent  className={classes.cardContent}>
-                          <Avatar src={dataElement.photoProfil} alt="professor-avatar" className={classes.image} />
+                          <Avatar src={dataElement.picture} alt="professor-avatar" className={classes.image} />
                           <div  className={classes.cardDescription}>
                             <Subtitle2 secondary className={classes.title} >
-                              {dataElement.lastNameStudent}
+                            { `${dataElement.firstname} ${dataElement.lastname}`}
                             </Subtitle2>
-                            <Subtitle1 secondary className={classes.title} >
-                              {dataElement.classStudent}
-                            </Subtitle1>
+                            {/* <Subtitle1 secondary className={classes.title} >
+                              {dataElement.birthday}
+                            </Subtitle1> */}
                             <button
-                              onClick={() => handleCard(dataElement.id)}
+                              onClick={() => handleCard(dataElement._id)}
                               className="moreDetailsButton"
                             >Détails</button>
                           </div>
@@ -329,19 +339,19 @@ function StudentPage() {
                       </Card>
                     )
                     :
-                    data.allUsers.map((dataElement: any) =>
-                    <Card className={classes.card} key={dataElement.id} >
+                    data.getUsersByRole.map((dataElement: any) =>
+                    <Card className={classes.card} key={dataElement._id} >
                       <CardContent className={classes.cardContent}>
-                        <Avatar src={dataElement.photoProfil} alt="professor-avatar" className={classes.image} />
+                        <Avatar src={dataElement.picture} alt="professor-avatar" className={classes.image} />
                         <div className={classes.cardDescription}>
                           <Subtitle2 secondary className={classes.title} >
-                            {dataElement.lastNameStudent}
+                           { `${dataElement.firstname} ${dataElement.lastname}`}
                           </Subtitle2>
-                          <Subtitle1 secondary className={classes.title} >
-                            {dataElement.classStudent}
-                          </Subtitle1>
+                          {/* <Subtitle1 secondary className={classes.title} >
+                            {dataElement.birthday}
+                          </Subtitle1> */}
                           <button
-                            onClick={() => handleCard(dataElement.id)}
+                            onClick={() => handleCard(dataElement._id)}
                             className="moreDetailsButton"
                           >Détails</button>
                         </div>
@@ -354,49 +364,53 @@ function StudentPage() {
             <div>
               <ToastProvider>
                 <AddStudent
+                  refetch={refetch}
                   newData={newData}
                   flag={flag}
                   setFlag={setFlag}
                 
-                  errorFirstNameStudent={errorFirstNameStudent}
-                  setErrorFirstNameStudent={setErrorFirstNameStudent}
-                  errorLastNameStudent={errorLastNameStudent}
-                  setErrorLastNameStudent={setErrorLastNameStudent}
+                  errorfirstname={errorfirstname}
+                  setErrorfirstname={setErrorfirstname}
+                  errorlastname={errorlastname}
+                  setErrorlastname={setErrorlastname}
                   errorClassStudent={errorClassStudent}
                   setErrorClassStudent={setErrorClassStudent}
                   errorNameParent={errorNameParent}
                   setErrorNameParent={setErrorNameParent}
                   errorNumberParent={errorNumberParent}
                   setErrorNumberParent={setErrorNumberParent}
-                  errorEmailParent={errorEmailParent}
-                  setErrorEmailParent={setErrorEmailParent}
+                  erroremail={erroremail}
+                  setErroremail={setErroremail}
                   errorStreet={errorStreet}
                   setErrorStreet={setErrorStreet}
                   errorPostalCode={errorPostalCode}
                   setErrorPostalCode={setErrorPostalCode}
-                  errorTown={errorTown}
-                  setErrorTown={setErrorTown}
+                  errorcity={errorcity}
+                  setErrorcity={setErrorcity}
                   fileSelected={fileSelected}
                   setFileSelected={setFileSelected}
                 
-                  firstNameStudent={firstNameStudent}
-                  setFirstNameStudent={setFirstNameStudent}
-                  lastNameStudent={lastNameStudent}
-                  setLastNameStudent={setLastNameStudent}
+                  firstname={firstname}
+                  setfirstname={setfirstname}
+                  lastname={lastname}
+                  setlastname={setlastname}
                   classStu={classStu}
                   setClassStu={setClassStu}
                   nameParent={nameParent}
                   setNameParent={setNameParent}
                   numberParent={numberParent}
                   setNumberParent={setNumberParent}
-                  emailParent={emailParent}
-                  setEmailParent={setEmailParent}
+                  email={email}
+                  setemail={setemail}
                   street={street}
                   setStreet={setStreet}
                   postalCode={postalCode}
                   setPostalCode={setPostalCode}
-                  town={town}
-                  setTown={setTown}
+                  city={city}
+                  setcity={setcity}
+
+                  role={role}
+                  setRole={setRole}
                 />
               </ToastProvider>
             </div>

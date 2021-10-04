@@ -18,9 +18,9 @@ const GET_USERS_SUCCESS_MOCK = {
     data: {
         allUsers: [
         {
-            lastNameStudent: "tata",
+            lastname: "tata",
             classStudent: 2,
-            photoProfil: defaultImage
+            picture: defaultImage
         }
       ],
     },
