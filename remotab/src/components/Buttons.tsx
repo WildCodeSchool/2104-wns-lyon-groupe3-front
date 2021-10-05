@@ -4,7 +4,6 @@ import { DELETE_USER } from './Queries';
 import { useMutation, useQuery } from '@apollo/client'
 import { useToasts } from 'react-toast-notifications';
 import { gql } from "@apollo/client";
-import React from 'react'
 import { DialogActions, DialogTitle, makeStyles } from "@material-ui/core"
 import defaultImage from '../assets/defaultImage.png'
   

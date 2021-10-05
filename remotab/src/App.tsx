@@ -1,5 +1,4 @@
 
-import React from 'react';
 import './App.css';
 import theme from "./styles/theme";
 import './styles/neumorphism.css';

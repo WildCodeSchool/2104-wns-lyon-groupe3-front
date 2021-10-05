@@ -1,4 +1,3 @@
-import React from 'react'
 import { makeStyles } from "@material-ui/core"
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import logo from '../assets/logoRemotab.png';

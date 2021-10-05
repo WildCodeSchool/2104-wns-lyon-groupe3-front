@@ -1,4 +1,3 @@
-import React from 'react'
 import { makeStyles } from "@material-ui/core"
 import { Badge, Body2, Button, Card, CardAction, CardContent, H5 } from 'ui-neumorphism'
 import {useHistory} from "react-router"
