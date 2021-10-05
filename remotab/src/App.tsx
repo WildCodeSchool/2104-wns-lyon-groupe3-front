@@ -1,4 +1,3 @@
-
 import './App.css';
 import theme from "./styles/theme";
 import './styles/neumorphism.css';
@@ -54,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function App() {
+export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
@@ -74,5 +73,3 @@ function App() {
     </ThemeProvider>
   );
 }
-
-export default App;

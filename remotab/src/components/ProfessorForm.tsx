@@ -231,8 +231,8 @@ export default function ProfessorForm() {
 
                 const filteredSearch = data.getUsersByRole.filter((prof: any) => {
                     return (
-                    prof.firstname.toLowerCase().includes(searchedProf) ||
-                    prof.lastname.toLowerCase().includes(searchedProf)
+                        prof.firstname.toLowerCase().includes(searchedProf) ||
+                        prof.lastname.toLowerCase().includes(searchedProf)
                     )
                 })
 
@@ -425,8 +425,7 @@ export default function ProfessorForm() {
                                 content={0}
                                 bordered
                                 overlap
-                                borderColor='transparent'
-                            >
+                                borderColor='transparent' >
                                 Gestion des messages
                             </Badge>
                         </CardContent>

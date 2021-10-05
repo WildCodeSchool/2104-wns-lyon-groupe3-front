@@ -135,8 +135,6 @@ export const PROF = gql`
     }
 `;
 
-
-
 //Paola
 
 export const ALL_USERS = gql`

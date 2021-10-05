@@ -1,19 +1,19 @@
-import React from 'react'
-import { makeStyles } from "@material-ui/core"
-import { Avatar, Badge, Card, Subtitle1, Subtitle2, CardContent, H5, TextArea } from 'ui-neumorphism'
-import 'ui-neumorphism/dist/index.css'
-import AddStudent from '../components/AddStudent'
-import '../styles/neumorphism.css'
-import { Search } from '@material-ui/icons'
+import React from 'react';
+import { makeStyles } from "@material-ui/core";
+import { Avatar, Badge, Card, Subtitle2, CardContent, H5, TextArea } from 'ui-neumorphism';
+import 'ui-neumorphism/dist/index.css';
+import AddStudent from '../components/AddStudent';
+import '../styles/neumorphism.css';
+import { Search } from '@material-ui/icons';
 
-import defaultImage from '../assets/defaultImage.png'
-import { useQuery } from '@apollo/client'
-import Loading from '../components/Loading'
-import { ToastProvider } from 'react-toast-notifications'
+import defaultImage from '../assets/defaultImage.png';
+import { useQuery } from '@apollo/client';
+import Loading from '../components/Loading';
+import { ToastProvider } from 'react-toast-notifications';
 
-import { ALL_STUDENT } from '../components/Queries'
-import HeaderAdmin from '../components/HeaderAdmin'
-import { useLocation } from 'react-router-dom'
+import { ALL_STUDENT } from '../components/Queries';
+import HeaderAdmin from '../components/HeaderAdmin';
+import { useLocation } from 'react-router-dom';
 
 
 const useStyles = makeStyles(theme => ({
@@ -181,7 +181,7 @@ interface LocationState {
   pseudoAdmin: string
 }
 
-function StudentPage() {
+export default function StudentPage() {
   const classes = useStyles()
   const location = useLocation<LocationState>()
 
@@ -435,5 +435,3 @@ function StudentPage() {
     </div>
   )
 }
-
-export default StudentPage

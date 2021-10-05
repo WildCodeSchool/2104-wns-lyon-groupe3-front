@@ -20,14 +20,7 @@ const appStyles = makeStyles(theme => ({
     calendarStyle: {
         backgroundColor: theme.palette.primary.light,
         color: 'black',
-/* addUser
-        display: 'block',
         border: '1px solid black',
-        padding: '10px',
-        margin: "0 auto",
-        marginTop: "50px",
-*/
-      border: '1px solid black',
         padding: '10px',
         margin: "0 auto",
         marginTop: "-10px",

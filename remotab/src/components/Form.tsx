@@ -1,22 +1,22 @@
-import { makeStyles } from "@material-ui/core"
-import { Badge, Body2, Button, Card, CardAction, CardContent, H5 } from 'ui-neumorphism'
-import {useHistory} from "react-router"
-import 'ui-neumorphism/dist/index.css'
+import { makeStyles } from "@material-ui/core";
+import { Badge, Body2, Button, Card, CardAction, CardContent, H5 } from 'ui-neumorphism';
+import { useHistory } from "react-router";
+import 'ui-neumorphism/dist/index.css';
 
 const useStyles = makeStyles(theme => ({
- 
+
     toggleButtonNameAdmin: {
-      position: "absolute",
-      top: "20px",
-      right: "80px",
-      width: "150px"
+        position: "absolute",
+        top: "20px",
+        right: "80px",
+        width: "150px"
     },
     logo: {
-      width: "200px",
+        width: "200px",
     },
     myCardPrincipal: {
         background: theme.palette.primary.main,
-        position:"relative",
+        position: "relative",
         height: "40vh",
         width: "48vh",
         display: "flex",
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
-        height:"130px"
+        height: "130px"
     },
     myCardActionPrincipal: {
         background: theme.palette.primary.main,
@@ -61,28 +61,28 @@ const useStyles = makeStyles(theme => ({
     myBadgePrincipal: {
         color: theme.palette.secondary.light
     }
-  }))
+}))
 
-  type nameProto = {
+type nameProto = {
     name: String
-  }
-  
+}
 
-function Form({name}:nameProto){
+
+export default function Form({ name }: nameProto) {
     const classes = useStyles()
     const history = useHistory()
 
     const myCategory = () => {
         history.push({
             pathname: "/admin/student",
-            state: {pseudoAdmin : name}
+            state: { pseudoAdmin: name }
         })
     }
 
-   // const { dark } = this.props
-      return (
-        <div className={classes.myBodyCard}>   
-              <Card className={classes.myCardPrincipal}>
+    // const { dark } = this.props
+    return (
+        <div className={classes.myBodyCard}>
+            <Card className={classes.myCardPrincipal}>
                 <CardContent className={classes.myCardContentPrincipal}>
                     <H5 className={classes.myH5Principal}>
                         GESTION DES PROFESSEURS
@@ -96,33 +96,33 @@ function Form({name}:nameProto){
                         Accéder
                     </Button>
                 </CardAction>
-              </Card>
-              <Card className={classes.myCardPrincipal}>
+            </Card>
+            <Card className={classes.myCardPrincipal}>
                 <CardContent className={classes.myCardContentPrincipal}>
                     <H5 className={classes.myH5Principal}>
                         GESTION DES ELEVES
                     </H5>
-                      <Body2 className={classes.myBody2Principal}>
+                    <Body2 className={classes.myBody2Principal}>
                         Liste, ajout, modification et suppression des informations des élèves
-                        
+
                     </Body2>
                 </CardContent>
                 <CardAction className={classes.myCardActionPrincipal}>
-                      <Button
-                          onClick={ myCategory}
-                          className={classes.myButtonPrincipal}
-                      >
+                    <Button
+                        onClick={myCategory}
+                        className={classes.myButtonPrincipal}
+                    >
                         Accéder
                     </Button>
                 </CardAction>
-              </Card>
-              <Card className={classes.myCardPrincipal}>
+            </Card>
+            <Card className={classes.myCardPrincipal}>
                 <CardContent className={classes.myCardContentPrincipal}>
                     <H5 className={classes.myH5Principal}>
                         GESTION DES CLASSES
                     </H5>
                     <Body2 className={classes.myBody2Principal}>
-                     Liste, ajout, modification, suppression des classes et emploi du temps
+                        Liste, ajout, modification, suppression des classes et emploi du temps
                     </Body2>
                 </CardContent>
                 <CardAction className={classes.myCardActionPrincipal}>
@@ -130,23 +130,21 @@ function Form({name}:nameProto){
                         Accéder
                     </Button>
                 </CardAction>
-              </Card>
-              <Card className={classes.myCardPrincipal}>
-                  <CardContent className={classes.myCardContentPrincipal}>
-                      <Badge
-                          bgColor='var(--error)'
-                          color='var(--white)'
-                          content={0}
-                          bordered
-                          overlap
-                          borderColor='var(--error)'
-                          
-                      //    className={classes.myBadgePrincipal}
-                      >
+            </Card>
+            <Card className={classes.myCardPrincipal}>
+                <CardContent className={classes.myCardContentPrincipal}>
+                    <Badge
+                        bgColor='var(--error)'
+                        color='var(--white)'
+                        content={0}
+                        bordered
+                        overlap
+                        borderColor='var(--error)'
+                    >
                         <H5 className={classes.myH5Principal}>
                             GESTION DES MESSAGES
-                        </H5>                         
-                      </Badge>
+                        </H5>
+                    </Badge>
 
                     <Body2 className={classes.myBody2Principal}>
                         Communication par message avec l'ensemble de la vie sociale de l'école, ainsi que des professeurs
@@ -157,10 +155,8 @@ function Form({name}:nameProto){
                         Accéder
                     </Button>
                 </CardAction>
-              </Card>
+            </Card>
         </div>
     )
 
 }
-
-export default Form

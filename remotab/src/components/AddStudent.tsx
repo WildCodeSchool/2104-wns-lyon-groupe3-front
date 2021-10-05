@@ -1,27 +1,18 @@
-import React from 'react'
-import {
-    makeStyles,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-} from "@material-ui/core"
-import CancelIcon from '@material-ui/icons/Cancel'
-import '../styles/neumorphism.css'
-import { Avatar, Button, TextField } from 'ui-neumorphism'
+import React from 'react';
+import '../styles/neumorphism.css';
+import { Avatar, Button } from 'ui-neumorphism'
+import { makeStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, } from "@material-ui/core";
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
-import defaultImage from '../assets/defaultImage.png'
-import AddAPhotoIcon from '@material-ui/icons/AddAPhoto'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/client'
+import defaultImage from '../assets/defaultImage.png';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import { useMutation } from '@apollo/client';
 
-import Buttons from './Buttons'
-import { useToasts } from 'react-toast-notifications'
-import merge from 'ts-deepmerge'
+import Buttons from './Buttons';
+import { useToasts } from 'react-toast-notifications';
 
-import {UPDATE_USER, ALL_USERS, CREATE_USER} from "./Queries"
+import { UPDATE_USER, ALL_USERS, CREATE_USER } from "./Queries";
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -39,7 +30,6 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.primary.contrastText
     },
     formBody: {
-        //marginTop: 20,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
@@ -62,7 +52,6 @@ const useStyles = makeStyles(theme => ({
     },
     addInfoRepresentantBlock: {
         display: "flex",
-        //flexDirection: "column",
         justifyContent: "space-around"
     },
     addButton: {
@@ -110,16 +99,13 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "column"
     },
-    profilEleve: {
-       // width: "100px"
-    },
     changeProfil: {
         position: "absolute",
         top: "5px",
-        left:"5px"
+        left: "5px"
     },
     addProfil: {
-        position:"absolute",
+        position: "absolute",
         top: "35px",
         right: "-7px",
         color: "red",
@@ -129,7 +115,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     addProfilInput: {
-        position:"absolute",
+        position: "absolute",
         top: "35px",
         left: 0,
 
@@ -150,42 +136,6 @@ type FormValues = {
     postalCode: number,
     city: string
 }
-// const initialString = {
-//     returnString: ""
-// }
-
-// type State = {
-//     returnString: string;
-// }
-
-// type Action = {
-//     type: "firstname" | "lastname"| "nameParent"| "numberParent"| "email"| "street"| "postalCode"| "city";
-// }
-
-// function reducer(state:State, action:Action) {
-//     switch (action.type) {
-//         case 'firstname':
-//             return {returnString: "Prénom obligatoire"};  
-//         case 'lastname':
-//             return {returnString: "Nom obligatoire"};
-//         case 'nameParent':
-//             return {returnString: "Nom obligatoire"};
-//         case 'numberParent':
-//             return {returnString: "Numéro obligatoire"};
-//         case 'email':
-//             return {returnString: "Email obligatoire"};
-//         case 'street':
-//             return {returnString: "Nom de rue obligatoire"};
-//         case 'postalCode':
-//             return {returnString: "Code postal obligatoire"};
-//         case 'city':
-//             return {returnString: "Nom de ville obligatoire"};
-//       default:
-//         return state;
-//     }
-//   }
-
-//const CREATE
 
 type dataProps = {
     newData: any,
@@ -194,25 +144,25 @@ type dataProps = {
 
     errorfirstname: boolean,
     setErrorfirstname: any
-    errorlastname:boolean,
-    setErrorlastname:any,
-    errorClassStudent:boolean,
-    setErrorClassStudent:any,
-    errorNameParent:boolean,
-    setErrorNameParent:any,
-    errorNumberParent:boolean,
-    setErrorNumberParent:any,
-    erroremail:boolean,
-    setErroremail:any,
-    errorStreet:boolean,
-    setErrorStreet:any,
-    errorPostalCode:boolean,
-    setErrorPostalCode:any,
-    errorcity:boolean,
+    errorlastname: boolean,
+    setErrorlastname: any,
+    errorClassStudent: boolean,
+    setErrorClassStudent: any,
+    errorNameParent: boolean,
+    setErrorNameParent: any,
+    errorNumberParent: boolean,
+    setErrorNumberParent: any,
+    erroremail: boolean,
+    setErroremail: any,
+    errorStreet: boolean,
+    setErrorStreet: any,
+    errorPostalCode: boolean,
+    setErrorPostalCode: any,
+    errorcity: boolean,
     setErrorcity: any,
-    fileSelected:any,
+    fileSelected: any,
     setFileSelected: any,
-    
+
     firstname: string,
     setfirstname: any,
     lastname: string,
@@ -289,8 +239,6 @@ function AddStudent({
 }: dataProps) {
 
     const classes = useStyles()
-    //const { formState: { errors }, register } = useForm<FormValues>()
-    //const [state, dispatch] = React.useReducer(reducer, initialString)
     const [open, setOpen] = React.useState(false)
     const [modalUpdate, setModalUpdate] = React.useState(false)
     const [idUpdate, setIdUpdate] = React.useState("")
@@ -299,16 +247,11 @@ function AddStudent({
     const [addButton, setAddButton] = React.useState(false)
     const [updateButton, setUpdateButton] = React.useState(false)
 
-    const {addToast} = useToasts()
+    const { addToast } = useToasts()
 
-    const [profil, setProfil] = React.useState<File>() 
+    const [profil, setProfil] = React.useState<File>()
 
     const [createUser, { data }] = useMutation(CREATE_USER,
-        // {
-        // refetchQueries: [
-        //     {query: ALL_USERS}
-        // ]
-        // }
     )
 
     console.log(profil)
@@ -317,22 +260,22 @@ function AddStudent({
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
         let hasError = false
-        
+
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
         const target = event.target as typeof event.target & {
 
-            firstname: {value: string},
-            lastname: {value: string},
-            classStu: {value: Number},
-        
-            nameParent: {value: string},
-            numberParent: {value: string},
-            email: {value: string},
-        
-            street: {value: string},
-            postalCode: {value: string},
-            city: {value: string}
+            firstname: { value: string },
+            lastname: { value: string },
+            classStu: { value: Number },
+
+            nameParent: { value: string },
+            numberParent: { value: string },
+            email: { value: string },
+
+            street: { value: string },
+            postalCode: { value: string },
+            city: { value: string }
         }
 
         if (addButton) {
@@ -345,118 +288,112 @@ function AddStudent({
             setStreet(target.street.value)
             setPostalCode(target.postalCode.value)
             setcity(target.city.value)
-    
+
             if (target.firstname.value.length === 0) {
                 hasError = true
                 setErrorfirstname(true)
             } else {
                 setErrorfirstname(false)
             }
-    
+
             if (target.lastname.value.length === 0) {
                 hasError = true
                 setErrorlastname(true)
             } else {
                 setErrorlastname(false)
             }
-    
-            if ((Number(target.classStu.value) === 0) || isNaN(Number(target.classStu.value)))  {
+
+            if ((Number(target.classStu.value) === 0) || isNaN(Number(target.classStu.value))) {
                 hasError = true
                 setErrorClassStudent(true)
             } else {
                 setErrorClassStudent(false)
             }
-    
+
             if (target.nameParent.value.length === 0) {
                 hasError = true
                 setErrorNameParent(true)
             } else {
                 setErrorNameParent(false)
             }
-    
+
             if ((target.email.value.length === 0) || (!regex.test(target.email.value))) {
                 hasError = true
                 setErroremail(true)
             } else {
                 setErroremail(false)
             }
-    
+
             if ((Number(target.numberParent.value) === 0) || isNaN(Number(target.numberParent.value)) || (target.numberParent.value.length !== 10)) {
                 hasError = true
                 setErrorNumberParent(true)
             } else {
                 setErrorNumberParent(false)
             }
-    
+
             if (target.street.value.length === 0) {
                 hasError = true
                 setErrorStreet(true)
             } else {
                 setErrorStreet(false)
             }
-    
+
             if (target.city.value.length === 0) {
                 hasError = true
                 setErrorcity(true)
             } else {
                 setErrorcity(false)
             }
-    
+
             if ((Number(target.postalCode.value) === 0) || isNaN(Number(target.postalCode.value)) || (target.postalCode.value.length !== 5)) {
                 hasError = true
                 setErrorPostalCode(true)
             } else {
                 setErrorPostalCode(false)
             }
-            
+
             if (hasError === false) {
-                // if (updateButton) {
-                //     setModalUpdate(true)
-                //     setUpdateButton(false)
-                // } else {
-                    setOpen(true)
-                //}  
+                setOpen(true)
             }
             setAddButton(false)
-        } 
+        }
 
     }
 
     const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.persist()
-        console.log("profil",profil)
+        console.log("profil", profil)
 
         const fileList = e.target.files;
 
         if (!fileList) return;
 
         setFileSelected(fileList[0]);
-        
+
         if (fileSelected) {
             const formData = new FormData();
             formData.append("image", fileSelected, fileSelected.name);
         }
 
         console.log(fileList, fileSelected)
-      
+
     }
 
-    const handleSend = async() => {
+    const handleSend = async () => {
         setOpen(false)
         setFlag(false)
-       // alert("envoyé")
-       
+
         const picture = fileSelected instanceof File ? URL.createObjectURL(fileSelected) : defaultImage
         const classStudent = Number(classStu)
         const isActive = "ACTIVE"
         const birthday = "01/01/1994"
-        
+
 
         if (updateButton) {
             const id = idUpdate
             console.log(id)
             try {
-                 await updateUser(
+                await updateUser(
                     {
                         variables: {
                             id,
@@ -464,7 +401,7 @@ function AddStudent({
                             lastname,
                             email,
                             address: {
-                               street,
+                                street,
                                 postalCode,
                                 city
                             },
@@ -474,65 +411,65 @@ function AddStudent({
                             picture
                         }
                     }
-               );
-   
-               addToast(`vous avez modifié les informations de l'élève : ${firstname} ${lastname}`, {
-                   appearance: "warning",
-                   autoDismiss: true
-               })
-   
-               setfirstname("")
-               setlastname("")
-               setClassStu("")
-               setNameParent("")
-               setNumberParent("")
-               setemail("")
-               setStreet("")
-               setPostalCode("")
-               setcity("")
-               setFileSelected()
+                );
+
+                addToast(`vous avez modifié les informations de l'élève : ${firstname} ${lastname}`, {
+                    appearance: "warning",
+                    autoDismiss: true
+                })
+
+                setfirstname("")
+                setlastname("")
+                setClassStu("")
+                setNameParent("")
+                setNumberParent("")
+                setemail("")
+                setStreet("")
+                setPostalCode("")
+                setcity("")
+                setFileSelected()
                 setUpdateButton(false)
                 setProfil(undefined)
-                
+
             } catch (error) {
                 console.log(error)
             }
 
 
 
-        }else {
+        } else {
 
             try {
 
                 await createUser(
                     {
                         variables: {
-           
-                                firstname,
-                                lastname,
-                                email,
-                                addressInput: {
-                                    street,
-                                    postalCode,
-                                    city,
-                                },
-                                role,
-                                isActive,
-                                birthday,
-                                picture
-                            
-        
+
+                            firstname,
+                            lastname,
+                            email,
+                            addressInput: {
+                                street,
+                                postalCode,
+                                city,
+                            },
+                            role,
+                            isActive,
+                            birthday,
+                            picture
+
+
                         }
                     }
                 );
-                    
+
                 addToast(`vous avez ajouté l'élève: ${firstname} ${lastname}`, {
                     appearance: "info",
                     autoDismiss: true
                 })
-    
+
                 refetch()
-        
+
                 setfirstname("")
                 setlastname("")
                 setClassStu("")
@@ -544,9 +481,9 @@ function AddStudent({
                 setcity("")
                 setFileSelected()
                 setProfil(undefined)
-                
 
-            }catch(error){
+
+            } catch (error) {
                 console.log(error)
                 addToast(`l'adresse mail : ${email} est déjà utilisée`, {
                     appearance: "error",
@@ -557,7 +494,7 @@ function AddStudent({
         }
 
     }
-    
+
     return (
         <div className="myAddStudentForm">
             {
@@ -566,12 +503,10 @@ function AddStudent({
                         <Avatar
                             src={newData.map((img: any) => img.picture)}
                             alt="profil-avatar"
-                            className={classes.profilEleve}
                             size={50}
                         />
                         <label htmlFor="imageProfil">
                             <input
-                                //style={{background: "black", height: 20, width: 20}}
                                 type="file"
                                 accept="image/*"
                                 hidden
@@ -594,21 +529,18 @@ function AddStudent({
                                 <Avatar
                                     src={URL.createObjectURL(fileSelected)}
                                     alt="profil-avatar"
-                                    className={classes.profilEleve}
                                     size={50}
                                 />
                                 :
                                 <Avatar
                                     src={defaultImage}
                                     alt="profil-avatar"
-                                    className={classes.profilEleve}
                                     size={50}
                                 />
                         }
 
                         <label htmlFor="imageProfil">
                             <input
-                                //style={{background: "black", height: 20, width: 20}}
                                 type="file"
                                 accept="image/*"
                                 hidden
@@ -624,26 +556,26 @@ function AddStudent({
                         </label>
                     </div>
             }
-            
+
             <div className={classes.addProf}>
                 {
                     flag ?
-                        <span>Fiche de renseignement de <strong>{newData.map((element:any) => element.lastname) }</strong></span>
+                        <span>Fiche de renseignement de <strong>{newData.map((element: any) => element.lastname)}</strong></span>
                         :
                         <h3>Ajouter un élève</h3>
                 }
-                
+
             </div>
             {
                 flag &&
                 <CancelIcon
                     className="cancelButton"
-                    onClick={()=>setFlag(false)}
+                    onClick={() => setFlag(false)}
                 />
             }
             <div>
                 {
-                    newData.map((dataElement:any) => 
+                    newData.map((dataElement: any) =>
                         <form
                             onSubmit={handleSubmit}
                             className={classes.formBody}
@@ -656,9 +588,8 @@ function AddStudent({
                                             <input
                                                 name="firstname"
                                                 id="firstname"
-                                                //placeholder={dataElement.firstname}
-                                                value={firstname ? firstname : dataElement.firstname }
-                                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                value={firstname ? firstname : dataElement.firstname}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                     e.persist()
                                                     setfirstname(e.currentTarget.value)
                                                 }}
@@ -670,7 +601,7 @@ function AddStudent({
                                                 id="firstname"
                                                 placeholder="Entrez un prénom"
                                                 value={firstname}
-                                                onChange={(e)=>setfirstname(e.currentTarget.value)}
+                                                onChange={(e) => setfirstname(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
                                     }
@@ -685,21 +616,20 @@ function AddStudent({
                                             <input
                                                 name="lastname"
                                                 id="lastname"
-                                                //placeholder={dataElement.lastname}
-                                                value={lastname ? lastname : dataElement.lastname }
-                                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                value={lastname ? lastname : dataElement.lastname}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                     e.persist()
                                                     setlastname(e.currentTarget.value)
                                                 }}
                                                 className="inputCustom"
                                             />
-                                            : 
+                                            :
                                             <input
                                                 name="lastname"
                                                 id="lastname"
                                                 placeholder="Entrez un nom"
                                                 value={lastname}
-                                                onChange={(e)=>setlastname(e.currentTarget.value)}
+                                                onChange={(e) => setlastname(e.currentTarget.value)}
                                                 className="inputCustom"
                                             />
                                     }
@@ -714,9 +644,8 @@ function AddStudent({
                                             <input
                                                 name="classStu"
                                                 id="classStu"
-                                                //placeholder={dataElement.classStudent}
-                                                value={classStu ? classStu : dataElement.classStudent }
-                                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                value={classStu ? classStu : dataElement.classStudent}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                     e.persist()
                                                     setClassStu(e.currentTarget.value)
                                                 }}
@@ -728,7 +657,7 @@ function AddStudent({
                                                 id="classStu"
                                                 placeholder="Entrez la classe"
                                                 value={classStu}
-                                                onChange={(e)=>setClassStu(Number(e.currentTarget.value))}
+                                                onChange={(e) => setClassStu(Number(e.currentTarget.value))}
                                                 className="inputCustom"
                                             />
                                     }
@@ -747,9 +676,8 @@ function AddStudent({
                                                 <input
                                                     name="nameParent"
                                                     id="nameParent"
-                                                    //placeholder={dataElement.nameParent}
                                                     value={nameParent ? nameParent : dataElement.nameParent}
-                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setNameParent(e.currentTarget.value)
                                                     }}
@@ -761,7 +689,7 @@ function AddStudent({
                                                     id="nameParent"
                                                     placeholder="Entrez le nom"
                                                     value={nameParent}
-                                                    onChange={(e)=>setNameParent(e.currentTarget.value)}
+                                                    onChange={(e) => setNameParent(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -776,9 +704,8 @@ function AddStudent({
                                                 <input
                                                     name="numberParent"
                                                     id="numberParent"
-                                                    //placeholder={dataElement.numberParent}
                                                     value={numberParent ? numberParent : dataElement.numberParent}
-                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setNumberParent(e.currentTarget.value)
                                                     }}
@@ -790,7 +717,7 @@ function AddStudent({
                                                     id="numberParent"
                                                     placeholder="Entrez un numéro"
                                                     value={numberParent}
-                                                    onChange={(e)=>setNumberParent(e.currentTarget.value)}
+                                                    onChange={(e) => setNumberParent(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -805,9 +732,8 @@ function AddStudent({
                                                 <input
                                                     name="email"
                                                     id="email"
-                                                    //placeholder={dataElement.email}
                                                     value={email ? email : dataElement.email}
-                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setemail(e.currentTarget.value)
                                                     }}
@@ -819,7 +745,7 @@ function AddStudent({
                                                     id="email"
                                                     placeholder="Entrez l'email"
                                                     value={email}
-                                                    onChange={(e)=>setemail(e.currentTarget.value)}
+                                                    onChange={(e) => setemail(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -836,9 +762,8 @@ function AddStudent({
                                                 <input
                                                     name="street"
                                                     id="street"
-                                                   // placeholder={dataElement.addressInput.street}
                                                     value={street ? street : dataElement.address.street}
-                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setStreet(e.currentTarget.value)
                                                     }}
@@ -850,7 +775,7 @@ function AddStudent({
                                                     id="street"
                                                     placeholder="Entrez la rue"
                                                     value={street}
-                                                    onChange={(e)=>setStreet(e.currentTarget.value)}
+                                                    onChange={(e) => setStreet(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -865,9 +790,8 @@ function AddStudent({
                                                 <input
                                                     name="postalCode"
                                                     id="postalCode"
-                                                   // placeholder={dataElement.addressInput.postalCode}
                                                     value={postalCode ? postalCode : dataElement.address.postalCode}
-                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setPostalCode(e.currentTarget.value)
                                                     }}
@@ -879,7 +803,7 @@ function AddStudent({
                                                     id="postalCode"
                                                     placeholder="Entrez un code postal"
                                                     value={postalCode}
-                                                    onChange={(e)=>setPostalCode(e.currentTarget.value)}
+                                                    onChange={(e) => setPostalCode(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -894,9 +818,8 @@ function AddStudent({
                                                 <input
                                                     name="city"
                                                     id="city"
-                                                    //placeholder={dataElement.addressInput.city}
                                                     value={city ? city : dataElement.address.city}
-                                                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                         e.persist()
                                                         setcity(e.currentTarget.value)
                                                     }}
@@ -908,7 +831,7 @@ function AddStudent({
                                                     id="city"
                                                     placeholder="Entrez une ville"
                                                     value={city}
-                                                    onChange={(e)=>setcity(e.currentTarget.value)}
+                                                    onChange={(e) => setcity(e.currentTarget.value)}
                                                     className="inputCustom"
                                                 />
                                         }
@@ -948,11 +871,11 @@ function AddStudent({
                         </form>
                     )
                 }
-        
+
             </div>
             <Dialog
                 open={open}
-                onClose={()=>setOpen(false)}
+                onClose={() => setOpen(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -965,15 +888,15 @@ function AddStudent({
                             <Avatar
                                 src={fileSelected instanceof File ? URL.createObjectURL(fileSelected) : defaultImage}
                                 size={120}
-                                style={{alignSelf:"center"}}
+                                style={{ alignSelf: "center" }}
                             />
-                            
+
                             <div className={classes.categoryInfo} >
                                 <h3 className={classes.titleContent} >Elève</h3>
                                 <div className={classes.divInfo} >
                                     <span>Prénom de l'élève : <strong>{firstname}</strong></span>
                                     <span>Nom de l'élève : <strong>{lastname}</strong></span>
-                                    <span>Classe de l'élève : <strong>{classStu}</strong></span>                                   
+                                    <span>Classe de l'élève : <strong>{classStu}</strong></span>
                                 </div>
                             </div>
                             <div className={classes.categoryInfo} >
@@ -989,18 +912,18 @@ function AddStudent({
                                 <div className={classes.divInfo}>
                                     <span>Rue : <strong>{street}</strong></span>
                                     <span>Code postal : <strong>{postalCode}</strong></span>
-                                    <span>Ville : <strong>{ city}</strong></span>
+                                    <span>Ville : <strong>{city}</strong></span>
                                 </div>
                             </div>
                         </div>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions
-                    style={{display:"flex", justifyContent:"space-around"}}
+                    style={{ display: "flex", justifyContent: "space-around" }}
                 >
                     <button
                         onClick={() => setOpen(false)}
-                        style={{background:"#FE5F55",color:"whitesmoke"}}
+                        style={{ background: "#FE5F55", color: "whitesmoke" }}
                         className="validButton"
                     >
                         Non
@@ -1009,7 +932,7 @@ function AddStudent({
                         onClick={handleSend}
                         color="secondary"
                         className="validButton"
-                        style={{color:"#FE5F55"}}
+                        style={{ color: "#FE5F55" }}
                     >
                         Oui
                     </button>
