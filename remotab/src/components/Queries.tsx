@@ -1,23 +1,25 @@
+import {gql} from "@apollo/client";
+
 //Mada
-//export const ALL_PROFS = gql`
-// query User {
-//     getAllUsers {
-//         _id
-//         firstname
-//         lastname
-//         role
-//         picture
-//         email
-//         password
-//         isActive
-//         address {
-//             street
-//             postalCode
-//             city
-//         }
-//     }
-// }
-// `;
+export const ALL_PROFS = gql`
+query User {
+    getAllUsers {
+        _id
+        firstname
+        lastname
+        role
+        picture
+        email
+        password
+        isActive
+        address {
+            street
+            postalCode
+            city
+        }
+    }
+}
+`;
 
 // export const CREATE_USER = gql`
 // mutation createUser(
@@ -114,29 +116,28 @@
 // } 
 // `
 
-// export const PROF = gql`
-//     query UserProf(
-//         $role: String!
-//     ){
-//         getUsersByRole(role: $role)
-//         {
-//             _id
-//             firstname
-//             lastname
-//             email
-//             password
-//             address{street, postalCode, city}
-//             role
-//             isActive
-//             picture
-//         }
-//     }
-// `;
+export const PROF = gql`
+    query UserProf(
+        $role: String!
+    ){
+        getUsersByRole(role: $role)
+        {
+            _id
+            firstname
+            lastname
+            email
+            password
+            address{street, postalCode, city}
+            role
+            isActive
+            picture
+        }
+    }
+`;
 
 
 
 //Paola
-import {gql} from "@apollo/client";
 
 export const ALL_USERS = gql`
     query User{

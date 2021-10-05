@@ -1,13 +1,11 @@
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { makeStyles } from "@material-ui/core"
 import { useLocation } from 'react-router'
 import Brightness5Icon from '@material-ui/icons/Brightness5';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
-
 import '../styles/toggle.scss'
 import { Avatar } from 'ui-neumorphism';
-
 import defaultImage from '../assets/defaultImage.png'
 import NavBar from './NavBar';
 import Agenda from './Agenda';
@@ -111,7 +109,7 @@ const HomePage = () => {
                         </label>
                     </div>
                     <div className={classes.myHeaderRightBlock}>
-                        <span className={classes.pseudoUser} >{location.state.pseudoUser}</span>
+                        {/* <span className={classes.pseudoUser} >{location.state.pseudoUser}</span> */}
                         <Avatar src={defaultImage} size={70} />
                     </div>
                 </div>

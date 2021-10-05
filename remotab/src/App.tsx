@@ -13,7 +13,7 @@ import StudentPage from './pages/StudentForm';
 import ConnexionPage from './pages/ConnexionPage';
 import AdminPage from './pages/AdminPage';
 import ProfSettings from './components/ProfSettings';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
  
