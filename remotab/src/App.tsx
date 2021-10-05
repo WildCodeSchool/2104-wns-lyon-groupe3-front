@@ -1,16 +1,19 @@
-import React from 'react';
-import theme from "./styles/theme";
-import { makeStyles } from "@material-ui/core"
-import { ThemeProvider } from '@material-ui/core/styles';
-import 'ui-neumorphism/dist/index.css'
 
-import './styles/neumorphism.css'
-import {  BrowserRouter, Redirect, Route,Switch } from 'react-router-dom';
+import React from 'react';
+import './App.css';
+import theme from "./styles/theme";
+import './styles/neumorphism.css';
+import 'ui-neumorphism/dist/index.css';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core";
+import ProfessorForm from './components/ProfessorForm';
+import HomePage from './components/HomePage';
+import Agenda from './components/Agenda';
 import StudentPage from './pages/StudentForm';
 import ConnexionPage from './pages/ConnexionPage';
 import AdminPage from './pages/AdminPage';
-import HomePage from './components/HomePage';
-
+import ProfSettings from './components/ProfSettings';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
  
@@ -58,11 +61,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter> 
         <Switch>
-          <Route exact path="/" component={ConnexionPage} />
+          <Route exact path='/'><HomePage /></Route>
+         // <Route exact path="/home" component={HomePage} />
+          <Route path='/professorform' component={ProfessorForm} />
+          <Route path='/agenda' component={Agenda} />
+          <Route path='/profsettings' component={ProfSettings} />
+           <Route exact path="/" component={ConnexionPage} />
           <Route exact path="/admin" component={AdminPage} />
           <Route exact path="/admin/student" component={StudentPage} />
-          <Route exact path="/home" component={HomePage} />
-          <Redirect to="/" />
+        <Redirect to="/" />
         </Switch>
       </BrowserRouter>  
     </ThemeProvider>
@@ -70,8 +77,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-

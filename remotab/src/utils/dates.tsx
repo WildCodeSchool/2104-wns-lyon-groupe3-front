@@ -123,9 +123,6 @@ export function duration(start: any, end: any, unit: any, firstOfWeek: any) {
 export function diff(dateA: any, dateB: any, unit: any) {
   if (!unit || unit === 'milliseconds') return Math.abs(+dateA - +dateB)
 
-  // the .round() handles an edge case
-  // with DST where the total won't be exact
-  // since one day in the range may be shorter/longer by an hour
   return Math.round(
     Math.abs(
       +dates.startOf(dateA, unit) / MILLI[unit] -
@@ -161,6 +158,7 @@ export function total(date: any, unit: any) {
 
 export function week(date: any) {
   var d: any = new Date(date)
+ // addUser d.setHours(0, 0, 0)
   d.setHours(6, 6, 6)
   d.setDate(d.getDate() + 4 - (d.getDay() || 7))
   let fullYear: any = new Date(d.getFullYear(), 0, 1)

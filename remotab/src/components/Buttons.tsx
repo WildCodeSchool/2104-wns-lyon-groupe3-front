@@ -1,17 +1,12 @@
+import { Button } from 'ui-neumorphism';
+import 'ui-neumorphism/dist/index.css';
+import { DELETE_USER } from './Queries';
+import { useMutation, useQuery } from '@apollo/client'
+import { useToasts } from 'react-toast-notifications';
+import { gql } from "@apollo/client";
 import React from 'react'
 import { DialogActions, DialogTitle, makeStyles } from "@material-ui/core"
-import {  Button} from 'ui-neumorphism'
-import 'ui-neumorphism/dist/index.css'
-
-import { DELETE_USER } from './Queries'
-import { useMutation, useQuery } from '@apollo/client'
-import { useToasts } from 'react-toast-notifications'
-
 import defaultImage from '../assets/defaultImage.png'
-
-const useStyles = makeStyles(theme => ({
- 
-}))
   
 type dataProto = {
     dataElement: String,
@@ -22,7 +17,7 @@ type dataProto = {
     refetch: any
 }
 
-function Buttons({
+export default function Buttons({
     dataElement,
     setFlag,
     setAddButton,
@@ -32,10 +27,42 @@ function Buttons({
 
 }: dataProto) {
 
-    const classes = useStyles()
-    const [deleteUser ] = useMutation(DELETE_USER);
+    const GET_USER = gql`
+    query GetUser($id: String!) {
+      user(id: $id) {
+        firstname
+        lastname
+      }
+    }
+  `;
+
+    const [deleteUser] = useMutation(DELETE_USER);
     const { addToast } = useToasts()
-    
+
+    const handleSubmitUpdate = () => {
+        setIdUpdate(dataElement)
+        setAddButton(true)
+        setUpdateButton(true)
+    }
+
+    const handleSubmitDelete = async () => {
+
+        const id = dataElement;
+
+        try {
+            const result = await deleteUser({
+                variables: { id }
+            });
+
+            addToast(`Vous avez supprimé : ${result.data.deleteUser.firstname} ${result.data.deleteUser.lastname}`, {
+                appearance: "error",
+                autoDismiss: true
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+/* Paola   
     const handleSubmitupdate = () => {
         setIdUpdate(dataElement)
         setAddButton(true)
@@ -55,34 +82,36 @@ function Buttons({
             }
         });
 
-        console.log(result.data.deleteUser.firstname)
-
         // set
 
         addToast(`vous avez supprimé : ${result.data.deleteUser.firstname} ${result.data.deleteUser.lastname}`, {
             appearance: "error",
             autoDismiss: true
         })
-
+*/
         refetch()
 
         setFlag(false)
     }
 
-   // const { dark } = this.props
-      return (
-        <>   
+    return (
+        <>
             <Button
                 bgColor='#FE5F55'
                 color='#F7F7FF'
-                  style={{ height: "25px", margin: "5px" }}
-                  onClick={handleSubmitupdate}
-            >
+                style={{ height: "35px", margin: "5px" }}
+                onClick={handleSubmitUpdate}
+              // const { dark } = this.props>
                 Enrégistrer les modifications
             </Button>
             <Button
                 bgColor='#FE5F55'
                 color='#F7F7FF'
+                style={{ height: "35px", margin: "5px" }}
+                onClick={handleSubmitDelete}
+            >
+                Supprimer le professeur
+            </Button>
                 style={{ height: "25px", margin: "5px" }}
                 onClick={handleSubmitDelete}
             >
@@ -125,5 +154,3 @@ function Buttons({
     )
 
 }
-
-export default Buttons

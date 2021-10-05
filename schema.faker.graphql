@@ -1,3 +1,4 @@
+
 # This is sample SDL schema for GraphQL Faker.
 #
 # There are two directives you can use to enhance fake data:
@@ -10,6 +11,7 @@
 # This tool also supports extending existing APIs. Check graphql-faker --help
 #
 # Developed with ❤️ by APIs.guru | https://github.com/APIs-guru/graphql-faker
+
 type Address {
 	street: String @fake(type: streetName)
   postalCode: String @fake(type: zipCode)
@@ -81,4 +83,3 @@ type Mutation {
 type Query {
   allUsers: [User] @listLength(min:2, max:10)
 }
-

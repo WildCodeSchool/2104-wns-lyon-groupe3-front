@@ -1,62 +1,42 @@
-# This is sample SDL schema for GraphQL Faker.
-#
-# There are two directives you can use to enhance fake data:
-#   - @fake
-#   - @examples
-# Each directive has autocompletion working so start by typing @
-#
-# Press save or Cmd+Enter to apply the changes and update server. Switch to GraphiQL
-# on the left panel to immediately test your changes.
-# This tool also supports extending existing APIs. Check graphql-faker --help
-#
-# Developed with ❤️ by APIs.guru | https://github.com/APIs-guru/graphql-faker
-
-type addressInput {
-  id: ID
+type Address {
 	street: String @fake(type: streetName)
   postalCode: String @fake(type: zipCode)
   city: String @fake(type: city)
 }
-
 type User {
   id: ID
   firstname: String @fake(type: firstName)
   lastname: String @fake(type: lastName)
-  classStudent:Int @fake(type: number, options:{maxNumber:6, minNumber:1})
+  role: Role
+  email: String @fake(type: email)
   picture: String @fake(type: avatarUrl)
-  
-  nameParent:String @fake(type: fullName)
-  numberParent:String @fake(type: phoneNumber, locale: fr)
-  email:String @fake(type: email)
-  
-  addressInput:  addressInput 
+  address:  Address  
+  phoneNumberProf: String @fake(type: phoneNumber, locale: fr)
 }
-
-input InputaddressInput {
-  street: String!
-  postalCode: String!
-  city: String!
-}
-
-input InputUser {
-  firstname: String!
-  lastname: String!
-  classStudent: Int!
-  picture: String!
-  nameParent: String!
-  numberParent: String!
-  email: String!
-  addressInput: InputaddressInput!
-}
-
 type Mutation {
   createUser(inputUser: InputUser): User
   removeUser(id: String): User
   updateUserInfo(id: String): User
 }
-
 type Query {
   allUsers: [User] @listLength(min:2, max:10)
 }
-
-
+input InputaddressInput  {
+  street: String!
+  postalCode: String!
+  city: String!
+}
+input InputUser {
+  firstname: String!
+  lastname: String!
+  role: String!
+  email: String!
+  picture: String!
+  addressInput: InputaddressInput!
+  phoneNumberProf: String
+}
+enum Role {
+  student
+  teacher
+  admin
+}

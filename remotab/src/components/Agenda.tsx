@@ -20,7 +20,14 @@ const appStyles = makeStyles(theme => ({
     calendarStyle: {
         backgroundColor: theme.palette.primary.light,
         color: 'black',
+/* addUser
+        display: 'block',
         border: '1px solid black',
+        padding: '10px',
+        margin: "0 auto",
+        marginTop: "50px",
+*/
+      border: '1px solid black',
         padding: '10px',
         margin: "0 auto",
         marginTop: "-10px",
@@ -30,10 +37,9 @@ const appStyles = makeStyles(theme => ({
     calendarContainer: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
-        
+        alignItems: "center"
     },
+
     buttonStyle: {
         backgroundColor: '#F7F7FF',
         color: theme.palette.secondary.light,
@@ -47,7 +53,7 @@ const localizer = momentLocalizer(moment)
 export default function Agenda() {
 
     const classes = appStyles();
-
+    const today = new Date();
     return (
         <div className={classes.calendarContainer}        >
             <Calendar className={classes.calendarStyle}
@@ -56,6 +62,14 @@ export default function Agenda() {
                 step={60}
                 startAccessor="start"
                 endAccessor="end"
+                min={
+                    new Date(
+                      today.getFullYear(), 
+                      today.getMonth(), 
+                      today.getDate(), 
+                      8
+                    )
+                  }
                 max={dates.add(dates.endOf(new Date(2021, 17, 1), 'day'), -1, 'hours')}
                 defaultDate={new Date(2021, 3, 14, 17, 0, 0)}
                 defaultView={Views.DAY}
