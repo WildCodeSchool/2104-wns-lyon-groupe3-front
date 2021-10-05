@@ -158,7 +158,8 @@ export function total(date: any, unit: any) {
 
 export function week(date: any) {
   var d: any = new Date(date)
-  d.setHours(0, 0, 0)
+ // addUser d.setHours(0, 0, 0)
+  d.setHours(6, 6, 6)
   d.setDate(d.getDate() + 4 - (d.getDay() || 7))
   let fullYear: any = new Date(d.getFullYear(), 0, 1)
   let differenceYearToDate: any = d - fullYear

@@ -20,21 +20,31 @@ const appStyles = makeStyles(theme => ({
     calendarStyle: {
         backgroundColor: theme.palette.primary.light,
         color: 'black',
+/* addUser
         display: 'block',
         border: '1px solid black',
         padding: '10px',
         margin: "0 auto",
         marginTop: "50px",
+*/
+      border: '1px solid black',
+        padding: '10px',
+        margin: "0 auto",
+        marginTop: "-10px",
+        width: "90%",
+        height: "550px"
     },
     calendarContainer: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
     },
+
     buttonStyle: {
         backgroundColor: '#F7F7FF',
-        color: '#577399',
-        marginTop: '10px'
+        color: theme.palette.secondary.light,
+        marginTop: '10px',
+        
     }
 }))
 
@@ -44,7 +54,6 @@ export default function Agenda() {
 
     const classes = appStyles();
     const today = new Date();
- 
     return (
         <div className={classes.calendarContainer}        >
             <Calendar className={classes.calendarStyle}
@@ -83,7 +92,7 @@ export default function Agenda() {
           }}
             />
 
-            <Button className={classes.buttonStyle}>
+            <Button className={classes.buttonStyle} size="large">
                 <GroupIcon style={{ marginRight: "5px" }} />
                 Accéder à ma classe
             </Button>

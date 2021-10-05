@@ -1,44 +1,85 @@
+
+# This is sample SDL schema for GraphQL Faker.
+#
+# There are two directives you can use to enhance fake data:
+#   - @fake
+#   - @examples
+# Each directive has autocompletion working so start by typing @
+#
+# Press save or Cmd+Enter to apply the changes and update server. Switch to GraphiQL
+# on the left panel to immediately test your changes.
+# This tool also supports extending existing APIs. Check graphql-faker --help
+#
+# Developed with ❤️ by APIs.guru | https://github.com/APIs-guru/graphql-faker
+
 type Address {
 	street: String @fake(type: streetName)
   postalCode: String @fake(type: zipCode)
   city: String @fake(type: city)
 }
+
+type LegalRepresentatives {
+  firstName: String @fake(type: firstName)
+  lastName: String @fake(type: lastName)
+  email:String @fake(type: email)
+  number:String @fake(type: phoneNumber, locale: fr)
+  address:  Address
+}
+
 type User {
   id: ID
-  firstname: String @fake(type: firstName)
-  lastname: String @fake(type: lastName)
-  role: Role
-  email: String @fake(type: email)
+  firstName: String @fake(type: firstName)
+  lastName: String @fake(type: lastName)
+  email:String @fake(type: email)
+  role: Role 
+  passWord: String @fake(type: password) 
+  classes:[Int] @fake(type: number, options:{maxNumber:6, minNumber:1}) 
+  classRoom: Int @fake(type: number, options:{maxNumber:6, minNumber:1})
   picture: String @fake(type: avatarUrl)
-  address:  Address  
-  phoneNumberProf: String @fake(type: phoneNumber, locale: fr)
+  legalRepresentatives: LegalRepresentatives
+  address:  Address 
 }
-type Mutation {
-  createUser(inputUser: InputUser): User
-  removeUser(id: String): User
-  updateUserInfo(id: String): User
-}
-type Query {
-  allUsers: [User] @listLength(min:2, max:10)
-}
-input InputaddressInput  {
+
+
+input InputaddressInput {
   street: String!
   postalCode: String!
   city: String!
 }
-input InputUser {
-  firstname: String!
-  lastname: String!
-  role: String!
-  email: String!
-  picture: String!
-  addressInput: InputaddressInput!
-  phoneNumberProf: String
+
+input InputLegalRepresentatives {
+  firstName: String!
+  lastName: String!
+  email:String!
+  number:String!
+  address:  InputaddressInput
 }
+
 enum Role {
   student
   teacher
   admin
 }
 
+input InputUser {
+  firstName: String!
+  lastName: String!
+  email:String
+  role: String 
+  passWord: String
+  classes:[Int]
+  classRoom: Int
+  picture: String!
+  legalRepresentatives: InputLegalRepresentatives
+  address:  InputaddressInput
+}
 
+type Mutation {
+  createUser(inputUser: InputUser): User
+  removeUser(id: String): User
+  updateUserInfo(id: String): User
+}
+
+type Query {
+  allUsers: [User] @listLength(min:2, max:10)
+}
