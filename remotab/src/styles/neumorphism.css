@@ -174,3 +174,7 @@
 .myLi{
     list-style: none;
 }
+
+.rbc-toolbar{
+    flex-wrap: nowrap !important;
+}

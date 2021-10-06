@@ -24,8 +24,6 @@ const appStyles = makeStyles(theme => ({
         padding: '10px',
         margin: "0 auto",
         marginTop: "-10px",
-        width: "90%",
-        height: "550px"
     },
     calendarContainer: {
         display: "flex",

@@ -12,7 +12,7 @@ import { useMutation } from '@apollo/client';
 import Buttons from './Buttons';
 import { useToasts } from 'react-toast-notifications';
 
-import { UPDATE_USER, ALL_USERS, CREATE_USER } from "./Queries";
+import { UPDATE_PROF, ALL_USERS, CREATE_PROF } from "./Queries";
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -251,11 +251,11 @@ function AddStudent({
 
     const [profil, setProfil] = React.useState<File>()
 
-    const [createUser, { data }] = useMutation(CREATE_USER,
+    const [createUser, { data }] = useMutation(CREATE_PROF,
     )
 
     console.log(profil)
-    const [updateUser] = useMutation(UPDATE_USER)
+    const [updateUser] = useMutation(UPDATE_PROF)
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();

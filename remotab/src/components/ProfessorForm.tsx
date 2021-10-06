@@ -8,7 +8,7 @@ import AddProfessor from '../components/AddProfessor';
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
-import { ToastProvider, useToasts } from 'react-toast-notifications';
+import { ToastProvider } from 'react-toast-notifications';
 import { PROF } from '../components/Queries';
 import shortid from 'shortid';
 
