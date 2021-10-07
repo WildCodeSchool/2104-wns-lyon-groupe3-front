@@ -3,7 +3,7 @@ version: "3.8"
 services:
   app:
     container_name: remotab-front
-    image: remotab-front
+    image: express-docker
     build:
       context: .
       target: development
@@ -11,3 +11,8 @@ services:
       - ./src:/app/src
     ports:
       - 3000:3000
+
+  backend:
+    image: remotab-back
+    ports:
+      - 4000:4000

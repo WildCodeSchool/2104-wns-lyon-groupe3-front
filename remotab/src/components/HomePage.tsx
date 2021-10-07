@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core"
 import { useLocation } from 'react-router'
 import Brightness5Icon from '@material-ui/icons/Brightness5';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
-import '../styles/toggle.css'
+import '../styles/toggle.scss'
 import { Avatar } from 'ui-neumorphism';
 import defaultImage from '../assets/defaultImage.png'
 import NavBar from './NavBar';

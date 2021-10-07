@@ -1,4 +1,4 @@
-FROM happymonkey/node-sass
+FROM node:14.17-alpine3.11 as build-stage
 
 RUN mkdir /app
 WORKDIR /app
