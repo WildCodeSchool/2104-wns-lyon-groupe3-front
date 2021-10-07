@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM catchdigital/node-sass
 
 RUN mkdir /app
 WORKDIR /app
