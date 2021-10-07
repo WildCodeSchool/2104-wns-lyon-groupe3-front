@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core"
 import teacherIcon from "../assets/teacherClasses.svg"
 import classesIcon from "../assets/cadreClasses.svg"
 
-import '../styles/toggle.scss'
+import '../styles/toggle.css'
 
 import {data} from "./defaultDataClass"
 import ModalTrombinoscope from './ModalTrombinoscope'

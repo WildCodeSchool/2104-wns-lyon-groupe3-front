@@ -8,7 +8,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import logo from '../assets/logoRemotab.png'
 import { useHistory } from 'react-router';
 import HomeIcon from '@material-ui/icons/Home';
-import '../styles/toggle.scss'
+import '../styles/toggle.css'
 import { Badge } from 'ui-neumorphism';
 
 
