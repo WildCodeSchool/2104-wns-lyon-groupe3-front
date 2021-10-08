@@ -1,19 +1,17 @@
 
-import React, { useState } from 'react'
-import { makeStyles } from "@material-ui/core"
-import { useLocation } from 'react-router'
+import { useState } from 'react';
+import { makeStyles } from "@material-ui/core";
+import { useLocation } from 'react-router';
 import Brightness5Icon from '@material-ui/icons/Brightness5';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
-
-import '../styles/toggle.scss'
+import '../styles/toggle.scss';
 import { Avatar } from 'ui-neumorphism';
-
-import defaultImage from '../assets/defaultImage.png'
+import defaultImage from '../assets/defaultImage.png';
 import NavBar from './NavBar';
 import Agenda from './Agenda';
 import Messages from './Messages';
-import Setting from './Setting';
-import Class from './Class'
+import Settings from './Settings';
+import Class from './Class';
 
 
 const useStyles = makeStyles(theme => ({
@@ -111,7 +109,7 @@ const HomePage = () => {
                         </label>
                     </div>
                     <div className={classes.myHeaderRightBlock}>
-                        <span className={classes.pseudoUser} >{location.state.pseudoUser}</span>
+                        {/* <span className={classes.pseudoUser} >{location.state.pseudoUser}</span> */}
                         <Avatar src={defaultImage} size={70} />
                     </div>
                 </div>
@@ -119,7 +117,7 @@ const HomePage = () => {
                     {home && <Agenda />}
                     {myClasses && <Class />}
                     {messages && <Messages />}
-                    {setting && <Setting/>}
+                    {setting && <Settings/>}
                 </div>
             </div>
         </div>

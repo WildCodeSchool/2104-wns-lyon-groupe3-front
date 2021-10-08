@@ -32,7 +32,6 @@
     "typescript-plugin-css-modules": "^3.2.0",
     "@types/react-image-crop": "^8.1.2",
     "@types/react-router-dom": "^5.1.7",
-    "graphql": "^15.5.0",
     "node-sass": "^4.14.1",
     "moment": "^2.29.1",
     "react": "^17.0.2",
@@ -66,6 +65,7 @@
   },
   "devDependencies": {
     "@types/date-arithmetic": "^4.1.1",
+    "@types/react-big-calendar": "^0.36.0",
     "@types/shortid": "0.0.29"
   }
 }

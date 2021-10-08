@@ -15,17 +15,12 @@ const useStyles = makeStyles(theme => ({
   }))
   
 
-function Setting(
-   // { setDataResult, data ,dataResult}: LoadingProto
-) {
+export default function Settings() {
     const classes = useStyles()
-     
     return (
         <div >   
-            Setting
+            Settings
         </div>
     )
 
 }
-
-export default Setting

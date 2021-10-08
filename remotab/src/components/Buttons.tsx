@@ -4,7 +4,6 @@ import { DELETE_USER } from './Queries';
 import { useMutation, useQuery } from '@apollo/client'
 import { useToasts } from 'react-toast-notifications';
 import { gql } from "@apollo/client";
-import React from 'react'
 import { DialogActions, DialogTitle, makeStyles } from "@material-ui/core"
 import defaultImage from '../assets/defaultImage.png'
   
@@ -101,7 +100,8 @@ export default function Buttons({
                 color='#F7F7FF'
                 style={{ height: "35px", margin: "5px" }}
                 onClick={handleSubmitUpdate}
-              // const { dark } = this.props>
+              // const { dark } = this.props
+              >
                 Enrégistrer les modifications
             </Button>
             <Button
@@ -112,6 +112,7 @@ export default function Buttons({
             >
                 Supprimer le professeur
             </Button>
+            <Button
                 style={{ height: "25px", margin: "5px" }}
                 onClick={handleSubmitDelete}
             >

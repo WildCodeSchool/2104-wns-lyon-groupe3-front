@@ -1,5 +1,3 @@
-
-import React from 'react';
 import './App.css';
 import theme from "./styles/theme";
 import './styles/neumorphism.css';
@@ -13,10 +11,10 @@ import StudentPage from './pages/StudentForm';
 import ConnexionPage from './pages/ConnexionPage';
 import AdminPage from './pages/AdminPage';
 import ProfSettings from './components/ProfSettings';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
- 
+
   myBackground: {
     background: "#F7F7FF",
     minHeight: "100vh"
@@ -55,25 +53,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function App() {
+export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter> 
+      <BrowserRouter>
         <Switch>
-          <Route exact path='/'><HomePage /></Route>
-         // <Route exact path="/home" component={HomePage} />
+          <Route exact path="/" component={ConnexionPage} />
+          <Route exact path="/home" component={HomePage} />
           <Route path='/professorform' component={ProfessorForm} />
-          <Route path='/agenda' component={Agenda} />
           <Route path='/profsettings' component={ProfSettings} />
-           <Route exact path="/" component={ConnexionPage} />
           <Route exact path="/admin" component={AdminPage} />
           <Route exact path="/admin/student" component={StudentPage} />
-        <Redirect to="/" />
+          <Redirect to="/" />
         </Switch>
-      </BrowserRouter>  
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
-
-export default App;
