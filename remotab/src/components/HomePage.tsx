@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center"
     },
     myRightBlock: {
-        width: "-webkit-fill-available",
+        width: "100%",
         display: "flex",
         flexDirection: "column"
     },
@@ -36,11 +36,11 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         alignItems: "center",
     },
-    myContenu: {
+    myContent: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "-webkit-fill-available",
+        height: "100%",
         position: "relative"
     },
     myHeaderRightBlock: {
@@ -113,7 +113,7 @@ const HomePage = () => {
                         <Avatar src={defaultImage} size={70} />
                     </div>
                 </div>
-                <div className={classes.myContenu}>
+                <div className={classes.myContent}>
                     {home && <Agenda />}
                     {myClasses && <Class />}
                     {messages && <Messages />}

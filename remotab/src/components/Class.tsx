@@ -38,7 +38,6 @@ const useStyles = makeStyles(theme => ({
     myCardTeacherIcon: {
         position: "absolute",
         right: "10%",
-        bottom: "0",
         zIndex: 0,
     }
 
