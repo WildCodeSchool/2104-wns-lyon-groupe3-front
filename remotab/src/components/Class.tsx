@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { makeStyles } from "@material-ui/core"
+import React, { useState } from 'react';
+import { makeStyles } from "@material-ui/core";
 
-import teacherIcon from "../assets/teacherClasses.svg"
-import classesIcon from "../assets/cadreClasses.svg"
+import teacherIcon from "../assets/teacherClasses.svg";
+import classesIcon from "../assets/cadreClasses.svg";
 
-import '../styles/toggle.scss'
+import '../styles/toggle.scss';
 
-import {data} from "./defaultDataClass"
-import ModalTrombinoscope from './ModalTrombinoscope'
+import { data } from "./defaultDataClass";
+import ModalTrombinoscope from './ModalTrombinoscope';
 
 const useStyles = makeStyles(theme => ({
 
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     myClassIcon: {
         width: "250px",
 
-        "&:hover":{
+        "&:hover": {
             cursor: "pointer",
             opacity: "0.5"
         }
@@ -37,27 +37,25 @@ const useStyles = makeStyles(theme => ({
     },
     myCardTeacherIcon: {
         position: "absolute",
-        /* top: 0; */
         right: "10%",
         bottom: "0",
         zIndex: 0,
     }
 
-  }))
-  
+}))
 
-function Class(
-   // { setDataResult, data ,dataResult}: LoadingProto
+
+export default function Class(
 ) {
     const classes = useStyles()
     const [appearModal, setAppearModal] = useState(false)
     const [idClass, setIdClass] = useState()
 
-    const handleModal = (id : any) => {
+    const handleModal = (id: any) => {
         setIdClass(id)
         setAppearModal(true)
     }
-     
+
     return (
         <div className={classes.myBodyCard} >
             <div className={classes.cardAlign}>
@@ -72,14 +70,14 @@ function Class(
                                 </div>
                                 <div className="cardTeach">
                                     <span>Délégué :</span>
-                                    <span className="cardName">{ element.Délégué}</span>
+                                    <span className="cardName">{element.Délégué}</span>
                                 </div>
                             </div>
                             <img
                                 src={classesIcon}
                                 alt="classes"
                                 className={classes.myClassIcon}
-                                onClick={()=>handleModal(element.id)}
+                                onClick={() => handleModal(element.id)}
                             />
                         </div>
                     ))
@@ -101,4 +99,3 @@ function Class(
 
 }
 
-export default Class

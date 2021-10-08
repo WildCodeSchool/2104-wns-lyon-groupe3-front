@@ -8,7 +8,7 @@ import AddProfessor from '../components/AddProfessor';
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
-import { ToastProvider, useToasts } from 'react-toast-notifications';
+import { ToastProvider } from 'react-toast-notifications';
 import { PROF } from '../components/Queries';
 import shortid from 'shortid';
 
@@ -231,8 +231,8 @@ export default function ProfessorForm() {
 
                 const filteredSearch = data.getUsersByRole.filter((prof: any) => {
                     return (
-                    prof.firstname.toLowerCase().includes(searchedProf) ||
-                    prof.lastname.toLowerCase().includes(searchedProf)
+                        prof.firstname.toLowerCase().includes(searchedProf) ||
+                        prof.lastname.toLowerCase().includes(searchedProf)
                     )
                 })
 
@@ -425,8 +425,7 @@ export default function ProfessorForm() {
                                 content={0}
                                 bordered
                                 overlap
-                                borderColor='transparent'
-                            >
+                                borderColor='transparent' >
                                 Gestion des messages
                             </Badge>
                         </CardContent>
