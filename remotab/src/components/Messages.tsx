@@ -1,5 +1,4 @@
-import React from 'react'
-import { makeStyles } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 
@@ -12,20 +11,14 @@ const useStyles = makeStyles(theme => ({
         placeItems: "center"
     },
 
-  }))
-  
+}))
 
-function Messages(
-   // { setDataResult, data ,dataResult}: LoadingProto
-) {
+export default function Messages() {
     const classes = useStyles()
-     
     return (
-        <div >   
+        <div>
             Messages
         </div>
     )
-
 }
 
-export default Messages

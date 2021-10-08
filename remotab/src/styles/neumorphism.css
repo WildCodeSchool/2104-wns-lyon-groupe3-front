@@ -58,6 +58,8 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
+/* Cancel button */
+
 .cancelButton{
     position: absolute;
     right: 10px;
@@ -83,6 +85,9 @@
     box-shadow: inset 8px 8px 8px #c3c3c9, inset -8px -8px 8px #ffffff;
 }
 
+/* Validate button */
+
+
 .validButton{
     border-radius: 7px;
     background: #ffffff;
@@ -101,6 +106,9 @@
     box-shadow: inset -2px -2px 5px var(--light-bg-light-shadow),
     inset 2px 2px 5px var(--light-bg-dark-shadow);
 }
+
+/* Details button */
+
 
 .moreDetailsButton{
     border-radius: 2px;
@@ -165,4 +173,8 @@
 
 .myLi{
     list-style: none;
+}
+
+.rbc-toolbar{
+    flex-wrap: nowrap !important;
 }

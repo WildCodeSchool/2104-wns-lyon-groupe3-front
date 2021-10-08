@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { makeStyles } from "@material-ui/core"
+import React, { useState } from 'react';
+import { makeStyles } from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleIcon from '@material-ui/icons/People';
 import MessageIcon from '@material-ui/icons/Message';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import logo from '../assets/logoRemotab.png'
+import logo from '../assets/logoRemotab.png';
 import { useHistory } from 'react-router';
 import HomeIcon from '@material-ui/icons/Home';
-import '../styles/toggle.scss'
+import '../styles/toggle.scss';
 import { Badge } from 'ui-neumorphism';
 
 
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
         alignSelf: "center"
     },
     myUL: {
-        
+
     },
     bodyNav: {
         height: "80%",
@@ -36,12 +36,11 @@ const useStyles = makeStyles(theme => ({
     },
     footerIcon: {
         color: theme.palette.primary.main,
-        "&:hover":{
+        "&:hover": {
             cursor: "pointer"
         }
     }
 }))
-  
 
 type navProto = {
     home: boolean,
@@ -50,14 +49,12 @@ type navProto = {
     setting: boolean,
     setHome: any,
     setMyClasses: any,
-    setMessages:any,
+    setMessages: any,
     setSetting: any
 }
-  
 
-function NavBar(
-    { home, myClasses, messages, setting, setHome, setMyClasses ,setMessages, setSetting}: navProto
-) {
+
+export default function NavBar({ home, myClasses, messages, setting, setHome, setMyClasses, setMessages, setSetting }: navProto) {
     const classes = useStyles()
     const history = useHistory()
     const [homeIsActive, setHomeIsActive] = useState(true)
@@ -112,11 +109,11 @@ function NavBar(
         setMessageIsActive(false)
         setSettingIsActive(true)
     }
-     
+
     return (
-        <div className="myBodyNav">   
+        <div className="myBodyNav">
             <div>
-                <img className={classes.imageLogo} src={logo} alt="logo"/>
+                <img className={classes.imageLogo} src={logo} alt="logo" />
             </div>
             <div className={classes.bodyNav} id="bodyNav">
                 <ul className={classes.myUL}>
@@ -124,7 +121,7 @@ function NavBar(
                         <HomeIcon className="myIconNav" />
                         <span>Accueil</span>
                     </li>
-                    <li onClick={handleClass} className={classIsActive ? "active" : "" } >
+                    <li onClick={handleClass} className={classIsActive ? "active" : ""} >
                         <PeopleIcon className="myIconNav" />
                         <span> Classes </span>
                     </li>
@@ -133,29 +130,22 @@ function NavBar(
                             bgColor='var(--error)'
                             color='var(--white)'
                             content={0}
-                            // bordered
-                            // overlap
-                            // borderColor='var(--error)'
-                            className="myBadge"
-                        >
+                            className="myBadge">
                             <MessageIcon className="myIconNav" />
                         </Badge>
-                        
                         <span>Messages</span>
                     </li>
                     <li onClick={handleSetting} className={settingIsActive ? "active" : ""}>
                         <SettingsIcon className="myIconNav" />
-                        <span>Paramètre</span>
+                        <span>Paramètres</span>
                     </li>
                 </ul>
             </div>
             <div className={classes.footerLogOut}>
-                <ExitToAppIcon  className={classes.footerIcon} onClick={()=>history.push("/")} />
+                <ExitToAppIcon className={classes.footerIcon} onClick={() => history.push("/")} />
                 <span className={classes.footerSpan}>Se déconnecter</span>
             </div>
         </div>
     )
 
 }
-
-export default NavBar

@@ -1,14 +1,14 @@
-import React from 'react'
-import connexionIcon from "../assets/connexionIcon.svg"
-import { Button, Grid, makeStyles } from "@material-ui/core"
+import React from 'react';
+import connexionIcon from "../assets/connexionIcon.svg";
+import { Button, Grid, makeStyles } from "@material-ui/core";
 import logo from '../assets/logoRemotab.png';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { useHistory } from "react-router"
+import { useHistory } from "react-router";
 
 
 const useStyles = makeStyles(theme => ({
- 
+
     myBackground: {
         background: "#BDD5EA",
         minHeight: "100vh",
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         textTransform: "none"
     },
     titleConnect: {
-     //   marginBottom: "revert"
+        //   marginBottom: "revert"
         marginLeft: "-50px",
         fontWeight: "bold"
     },
@@ -37,15 +37,15 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "column",
         //justifyContent: "space-evenly",
-       // marginTop: "-32px"
+        // marginTop: "-32px"
     },
-    textPasswordForget:{
+    textPasswordForget: {
         marginTop: "-25px",
         marginBottom: "22px",
         color: theme.palette.secondary.light,
     }
-    
-  }))
+
+}))
 
 export default function ConnexionPage() {
     const classes = useStyles()
@@ -62,23 +62,23 @@ export default function ConnexionPage() {
             pseudo: { value: string };
             password: { value: string };
         };
-        
+
         if (target.pseudo.value === "paola") {
             history.push({
                 pathname: "/admin",
-                state: {pseudoAdmin : target.pseudo.value}
+                state: { pseudoAdmin: target.pseudo.value }
             })
         } else if (target.pseudo.value === "madalina") {
             history.push({
                 pathname: "/home",
-                state: {pseudoUser : target.pseudo.value}
+                state: { pseudoUser: target.pseudo.value }
             })
         } else {
             alert("pseudo inexistant")
         }
     }
 
-    
+
     return (
         <div className={classes.myBackground}>
             <Box
@@ -95,12 +95,12 @@ export default function ConnexionPage() {
                         xs={12}
                         className={classes.headerLogo}
                     >
-                        <img src={logo} alt="logo" className={classes.logo}/>
+                        <img src={logo} alt="logo" className={classes.logo} />
                     </Grid>
                     <Grid
                         item
                         xs={6}
-                       // className={classes.headerLogo}
+                    // className={classes.headerLogo}
                     >
                         <Box
                             display="flex"
@@ -122,19 +122,19 @@ export default function ConnexionPage() {
                                     display="flex"
                                     flexDirection="column"
                                     height="80%"
-                                    justifyContent= "space-evenly"
+                                    justifyContent="space-evenly"
                                 >
                                     <Box
                                         display="flex"
                                         flexDirection="column"
-                                       // marginBottom={35}
+                                    // marginBottom={35}
                                     >
-                                        <label htmlFor="pseudo" style={{marginBottom: 10}}>Pseudo ou email</label>
+                                        <label htmlFor="pseudo" style={{ marginBottom: 10 }}>Pseudo ou email</label>
                                         <input
                                             name="pseudo"
                                             id="pseudo"
                                             value={pseudo}
-                                            onChange={(e)=>setPseudo(e.currentTarget.value)}
+                                            onChange={(e) => setPseudo(e.currentTarget.value)}
                                             className="inputConnexionCustom"
                                         />
                                     </Box>
@@ -142,13 +142,13 @@ export default function ConnexionPage() {
                                         display="flex"
                                         flexDirection="column"
                                     >
-                                        <label htmlFor="password" style={{marginBottom: 10}}>Mot de passe</label>
+                                        <label htmlFor="password" style={{ marginBottom: 10 }}>Mot de passe</label>
                                         <input
                                             name="password"
                                             id="password"
                                             type="password"
                                             value={password}
-                                            onChange={(e)=>setPassword(e.currentTarget.value)}
+                                            onChange={(e) => setPassword(e.currentTarget.value)}
                                             className="inputConnexionCustom"
                                         />
                                     </Box>
@@ -173,10 +173,10 @@ export default function ConnexionPage() {
                         item
                         xs={6}
                     >
-                        <img src={connexionIcon} alt="connexion"/>
+                        <img src={connexionIcon} alt="connexion" />
                     </Grid>
-                </Grid>          
-            </Box>       
-        </div>   
+                </Grid>
+            </Box>
+        </div>
     )
 }

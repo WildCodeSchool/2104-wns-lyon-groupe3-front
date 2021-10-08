@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/theme';
 import 'ui-neumorphism/dist/index.css';
 import { makeStyles } from "@material-ui/core";
-import { UPDATE_USER, ALL_PROFS } from '../components/Queries';
+import { UPDATE_PROF, ALL_PROFS } from '../components/Queries';
 import { useQuery, useMutation } from "@apollo/client";
 import { Avatar, Button } from 'ui-neumorphism';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
@@ -126,16 +126,16 @@ export default function ProfSettings() {
         if (!fileList) return;
 
         setFileSelected(fileList[0]);
-        
+
         if (fileSelected) {
             const formData = new FormData();
             formData.append("image", fileSelected, fileSelected.name);
         }
 
         console.log(fileList, fileSelected)
-      
-    }
 
+    }
+console.log(data)
     return (
         data &&
         <div className={classes.bigContainer}>
@@ -183,9 +183,7 @@ export default function ProfSettings() {
                 </div >
             )
             }
-            <Button
-                className={classes.buttonStyle}
-            >
+            <Button className={classes.buttonStyle}>
                 Enregistrer les modifications
             </Button>
         </div >
