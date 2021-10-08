@@ -3,7 +3,7 @@ version: "3.8"
 services:
   app:
     container_name: remotab-front
-    image: express-docker
+    image: remotab-front
     build:
       context: .
       target: development
