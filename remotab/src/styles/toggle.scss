@@ -81,15 +81,12 @@ $baseW: 5rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
-		//align-items: center;
 	}
 	li{
 		list-style: none;
 		color: #8AA4C2;
 		display: flex;
 		align-items: center;
-		//background-color: #F7F7FF;
-		//width: 200px;
 		padding-right: 195%;
 		padding-left: 50%;
 		margin-left: -50%;
@@ -113,6 +110,7 @@ $baseW: 5rem;
 
 	li.active{
 		background-color: #F7F7FF;
+		border-radius: 5px;
 
 		span{
 			color: #577399;
@@ -153,7 +151,6 @@ $baseW: 5rem;
 		margin: 15px;
 		align-items: center;
 	}
-
 }
 
 .myModalCard{
@@ -184,7 +181,6 @@ $baseW: 5rem;
 		left:5%;
 		align-items: center;
 		margin-top: 10%;
-		//background-color: red;
 	}
 
 	.myTotalCardInfoAvatar{

@@ -93,7 +93,6 @@ const useStyles = makeStyles(theme => ({
   },
   mySearchItem: {
     position: "absolute",
-    /* left: 0; */
     right: "10px",
     top: "15px",
     fontSize: "22px",
@@ -101,8 +100,6 @@ const useStyles = makeStyles(theme => ({
   },
   profCards: {
     position: "relative",
-    //padding: 40,
-    //margin: 20,
     width: "890px",
     border: "1px solid #F7F7FF",
     borderRadius: 10
@@ -135,14 +132,35 @@ const useStyles = makeStyles(theme => ({
     fontSize: 16,
   },
   image: {
-    // width: 60,
     marginRight: 5
   },
   mySearchBlock: {
     display: "flex",
-    flexDirection: "row-reverse",
-    height: "40px",
-    position: "relative"
+    justifyContent: "flex-end",
+    alignContent: "stretch",
+    alignItems: "center",
+    borderRadius: "10px",
+    backgroundColor: "#fff",
+    padding: "5px",
+    margin: " 15px",
+    width: "50%",
+    boxShadow: ".3rem .3rem .6rem #c3c3c3, -.2rem -.2rem .5rem #fff"
+  },
+  searchIcon: {
+    position: "absolute",
+    display: "flex",
+    fill: theme.palette.secondary.light,
+    marginRight: " 2px"
+  },
+  searchInput: {
+    padding: "10px",
+    width: "100%",
+    borderRadius: "10px",
+    border: "none",
+    marginBottom: "0",
+    boxShadow: "inset .2rem .2rem .5rem #c3c3c3, inset -.2rem -.2rem .5rem #fff",
+    color: " #c3c3c3",
+    outline: "none"
   },
   arrowBack: {
     position: "absolute",
@@ -292,14 +310,18 @@ export default function StudentPage() {
           </Card>
           <Card className={classes.myCardPrincipalStudent}>
             <div className={classes.myCardContentPrincipalStudent}>
-              <div className={classes.mySearchBlock} >
-                <TextArea
-                  name="searchData"
-                  onChange={handleSearch}
-                  value={searchData}
-                  placeholder="Je recherche par classe"
-                />
-                <Search className={classes.mySearchItem} />
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div className={classes.mySearchBlock} >
+                  <input
+                    name="searchData"
+                    onChange={handleSearch}
+                    value={searchData}
+                    placeholder="Je recherche par classe"
+                    className={classes.searchInput}
+                  />
+                  <svg className={classes.searchIcon} width="22" height="22" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
+                    <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" /></svg>
+                </div>
               </div>
               <div className={classes.profCards}>
                 <div className={classes.studentCards} >
