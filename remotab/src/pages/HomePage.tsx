@@ -7,13 +7,22 @@ import Brightness3Icon from '@material-ui/icons/Brightness3';
 import '../styles/toggle.scss';
 import { Avatar } from 'ui-neumorphism';
 import defaultImage from '../assets/defaultImage.png';
+<<<<<<< Updated upstream:remotab/src/components/HomePage.tsx
 import NavBar from './NavBar';
 import Agenda from './Agenda';
 import Messages from './Messages';
 import Settings from './Settings';
 import Class from './Class';
 
+=======
+import NavBar from '../components/NavBar';
+import Agenda from '../components/Agenda';
+import Messages from '../components/Messages';
+import ProfSettings from '../components/ProfSettings';
+import Class from '../components/Classes';
+>>>>>>> Stashed changes:remotab/src/pages/HomePage.tsx
 
+//TODO: introduire context et enlever les states
 const useStyles = makeStyles(theme => ({
     myDiv: {
         background: theme.palette.primary.light,
@@ -113,12 +122,13 @@ const HomePage = () => {
                         <Avatar src={defaultImage} size={70} />
                     </div>
                 </div>
-                <div className={classes.myContent}>
+                {/* TODO: faire un composant pour le contenu qui change dynamiquement en fonction de l'User et du clic sur l'onglet */}
+                {/* <div className={classes.myContent}>
                     {home && <Agenda />}
                     {myClasses && <Class />}
                     {messages && <Messages />}
-                    {setting && <Settings/>}
-                </div>
+                    {setting && <ProfSettings/>}
+                </div> */}
             </div>
         </div>
     )

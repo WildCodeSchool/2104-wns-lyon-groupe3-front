@@ -1,9 +1,12 @@
 import { makeStyles } from "@material-ui/core"
-import { ALL_STUDENT } from './Queries';
+import { ALL_STUDENT } from '../utils/Queries';
 import { useQuery } from '@apollo/client';
 import { Avatar, Badge } from 'ui-neumorphism';
 import Loading from './Loading';
 
+
+//TODO: faire un écran et pas une modale. Changer la croix en flêche de retour.
+//Composant à utiliser pour les élèves aussi
 import defaultImage from "../assets/defaultImage.png";
 
 import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';
@@ -37,7 +40,7 @@ type idClassProto = {
 }
 
 
-export default function ModalTrombinoscope({ idClass, setAppearModal, appearModal }: idClassProto) {
+export default function ClassDetails({ idClass, setAppearModal, appearModal }: idClassProto) {
     const classes = useStyles()
 
     const handleClose = () => {

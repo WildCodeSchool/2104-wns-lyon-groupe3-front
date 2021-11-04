@@ -55,6 +55,7 @@ type navProto = {
 
 
 export default function NavBar({ home, myClasses, messages, setting, setHome, setMyClasses, setMessages, setSetting }: navProto) {
+<<<<<<< Updated upstream
     const classes = useStyles()
     const history = useHistory()
     const [homeIsActive, setHomeIsActive] = useState(true)
@@ -109,6 +110,65 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
         setMessageIsActive(false)
         setSettingIsActive(true)
     }
+=======
+    const classes = useStyles();
+    const history = useHistory();
+    const [homeIsActive, setHomeIsActive] = useState(true);
+    const [classIsActive, setClassIsActive] = useState(false);
+    const [messageIsActive, setMessageIsActive] = useState(false);
+    const [settingIsActive, setSettingIsActive] = useState(false);
+    const [userRole, setUserRole] = useState("student");
+
+    //TODO:
+    // Une fonction dymanique qui gère l'affichage des onglets
+    // const handleHome = () => {
+    //     setHome(true)
+    //     setMyClasses(false)
+    //     setMessages(false)
+    //     setSetting(false)
+
+    //     setHomeIsActive(true)
+    //     setClassIsActive(false)
+    //     setMessageIsActive(false)
+    //     setSettingIsActive(false)
+    // }
+
+    // const handleClass = () => {
+    //     setHome(false)
+    //     setMyClasses(true)
+    //     setMessages(false)
+    //     setSetting(false)
+
+    //     setHomeIsActive(false)
+    //     setClassIsActive(true)
+    //     setMessageIsActive(false)
+    //     setSettingIsActive(false)
+    // }
+
+    // const handleMessage = () => {
+    //     setHome(false)
+    //     setMyClasses(false)
+    //     setMessages(true)
+    //     setSetting(false)
+
+    //     setHomeIsActive(false)
+    //     setClassIsActive(false)
+    //     setMessageIsActive(true)
+    //     setSettingIsActive(false)
+    // }
+
+    // const handleSetting = () => {
+    //     setHome(false)
+    //     setMyClasses(false)
+    //     setMessages(false)
+    //     setSetting(true)
+
+    //     setHomeIsActive(false)
+    //     setClassIsActive(false)
+    //     setMessageIsActive(false)
+    //     setSettingIsActive(true)
+    // }
+>>>>>>> Stashed changes
 
     return (
         <div className="myBodyNav">
@@ -116,7 +176,8 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
                 <img className={classes.imageLogo} src={logo} alt="logo" />
             </div>
             <div className={classes.bodyNav} id="bodyNav">
-                <ul className={classes.myUL}>
+                {/* Dynamic mapping */}
+                {/* <ul className={classes.myUL}>
                     <li onClick={handleHome} className={homeIsActive ? "active" : ""}>
                         <HomeIcon className="myIconNav" />
                         <span>Accueil</span>
@@ -135,11 +196,24 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
                         </Badge>
                         <span>Messages</span>
                     </li>
+<<<<<<< Updated upstream
                     <li onClick={handleSetting} className={settingIsActive ? "active" : ""}>
                         <SettingsIcon className="myIconNav" />
                         <span>Paramètres</span>
                     </li>
                 </ul>
+=======
+                    { 
+                        userRole === "teacher"?
+                            <li onClick={handleSetting} className={settingIsActive ? "active" : ""}>
+                                <SettingsIcon className="myIconNav" />
+                                <span>Paramètres</span>
+                            </li>
+                            :
+                            <></>
+                    }
+                </ul> */}
+>>>>>>> Stashed changes
             </div>
             <div className={classes.footerLogOut}>
                 <ExitToAppIcon className={classes.footerIcon} onClick={() => history.push("/")} />

@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
+//TODO: messagerie
 const useStyles = makeStyles(theme => ({
 
     myBodyCard: {

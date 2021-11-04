@@ -1,11 +1,10 @@
 import { Button } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
-import { DELETE_USER } from './Queries';
-import { useMutation, useQuery } from '@apollo/client'
+import { DELETE_USER } from '../utils/Queries';
+import { useMutation } from '@apollo/client'
 import { useToasts } from 'react-toast-notifications';
 import { gql } from "@apollo/client";
-import { DialogActions, DialogTitle, makeStyles } from "@material-ui/core"
-import defaultImage from '../assets/defaultImage.png'
+
   
 type dataProto = {
     dataElement: String,

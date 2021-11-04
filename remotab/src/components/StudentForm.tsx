@@ -11,7 +11,7 @@ import { useQuery } from '@apollo/client';
 import Loading from '../components/Loading';
 import { ToastProvider } from 'react-toast-notifications';
 
-import { ALL_STUDENT } from '../components/Queries';
+import { ALL_STUDENT } from '../utils/Queries';
 import HeaderAdmin from '../components/HeaderAdmin';
 import { useLocation } from 'react-router-dom';
 

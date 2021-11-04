@@ -5,8 +5,12 @@ import 'ui-neumorphism/dist/index.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { makeStyles } from "@material-ui/core";
 import ProfessorForm from './components/ProfessorForm';
+<<<<<<< Updated upstream
 import HomePage from './components/HomePage';
 import Agenda from './components/Agenda';
+=======
+import HomePage from './pages/HomePage';
+>>>>>>> Stashed changes
 import StudentPage from './pages/StudentForm';
 import ConnexionPage from './pages/ConnexionPage';
 import AdminPage from './pages/AdminPage';
@@ -61,10 +65,10 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={ConnexionPage} />
           <Route exact path="/home" component={HomePage} />
-          <Route path='/professorform' component={ProfessorForm} />
+          {/* <Route path='/professorform' component={ProfessorForm} />
           <Route path='/profsettings' component={ProfSettings} />
-          <Route exact path="/admin" component={AdminPage} />
-          <Route exact path="/admin/student" component={StudentPage} />
+          <Route exact path="/admin" component={HomePage} />
+          <Route exact path="/admin/student" component={StudentPage} /> */}
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

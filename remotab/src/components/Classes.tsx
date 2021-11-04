@@ -6,8 +6,8 @@ import classesIcon from "../assets/cadreClasses.svg";
 
 import '../styles/toggle.scss';
 
-import { data } from "./defaultDataClass";
-import ModalTrombinoscope from './ModalTrombinoscope';
+import { data } from "../utils/defaultDataClass";
+import ModalTrombinoscope from './ClassDetails';
 
 const useStyles = makeStyles(theme => ({
 
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-export default function Class(
+export default function Classes(
 ) {
     const classes = useStyles()
     const [appearModal, setAppearModal] = useState(false)
