@@ -55,12 +55,14 @@ type navProto = {
 
 
 export default function NavBar({ home, myClasses, messages, setting, setHome, setMyClasses, setMessages, setSetting }: navProto) {
-    const classes = useStyles()
-    const history = useHistory()
-    const [homeIsActive, setHomeIsActive] = useState(true)
-    const [classIsActive, setClassIsActive] = useState(false)
-    const [messageIsActive, setMessageIsActive] = useState(false)
-    const [settingIsActive, setSettingIsActive] = useState(false)
+    const classes = useStyles();
+    const history = useHistory();
+    const [homeIsActive, setHomeIsActive] = useState(true);
+    const [classIsActive, setClassIsActive] = useState(false);
+    const [messageIsActive, setMessageIsActive] = useState(false);
+    const [settingIsActive, setSettingIsActive] = useState(false);
+    const [userRole, setUserRole] = useState("student");
+
 
     const handleHome = () => {
         setHome(true)
@@ -135,10 +137,15 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
                         </Badge>
                         <span>Messages</span>
                     </li>
-                    <li onClick={handleSetting} className={settingIsActive ? "active" : ""}>
-                        <SettingsIcon className="myIconNav" />
-                        <span>Paramètres</span>
-                    </li>
+                    { 
+                        userRole === "teacher"?
+                            <li onClick={handleSetting} className={settingIsActive ? "active" : ""}>
+                                <SettingsIcon className="myIconNav" />
+                                <span>Paramètres</span>
+                            </li>
+                            :
+                            <></>
+                    }
                 </ul>
             </div>
             <div className={classes.footerLogOut}>

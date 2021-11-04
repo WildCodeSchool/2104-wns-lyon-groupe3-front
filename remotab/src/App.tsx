@@ -6,7 +6,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { makeStyles } from "@material-ui/core";
 import ProfessorForm from './components/ProfessorForm';
 import HomePage from './components/HomePage';
-import Agenda from './components/Agenda';
 import StudentPage from './pages/StudentForm';
 import ConnexionPage from './pages/ConnexionPage';
 import AdminPage from './pages/AdminPage';

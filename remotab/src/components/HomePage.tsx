@@ -7,11 +7,11 @@ import Brightness3Icon from '@material-ui/icons/Brightness3';
 import '../styles/toggle.scss';
 import { Avatar } from 'ui-neumorphism';
 import defaultImage from '../assets/defaultImage.png';
-import NavBar from './NavBar';
-import Agenda from './Agenda';
-import Messages from './Messages';
-import Settings from './Settings';
-import Class from './Class';
+import NavBar from '../components/NavBar';
+import Agenda from '../components/Agenda';
+import Messages from '../components/Messages';
+import Settings from '../components/Settings';
+import Class from '../components/Class';
 
 
 const useStyles = makeStyles(theme => ({
