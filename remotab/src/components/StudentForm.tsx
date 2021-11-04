@@ -199,7 +199,7 @@ interface LocationState {
   pseudoAdmin: string
 }
 
-export default function StudentPage() {
+export default function StudentForm() {
   const classes = useStyles()
   const location = useLocation<LocationState>()
 

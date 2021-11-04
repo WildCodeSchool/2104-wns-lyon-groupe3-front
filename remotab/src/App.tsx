@@ -5,13 +5,13 @@ import 'ui-neumorphism/dist/index.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { makeStyles } from "@material-ui/core";
 import ProfessorForm from './components/ProfessorForm';
-import HomePage from './components/HomePage';
+import HomePage from './pages/HomePage';
 import Agenda from './components/Agenda';
-import StudentPage from './pages/StudentForm';
+import StudentForm from './components/StudentForm';
 import ConnexionPage from './pages/ConnexionPage';
 import AdminPage from './pages/AdminPage';
 import ProfSettings from './components/ProfSettings';
-import { BrowserRouter as BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 
@@ -59,12 +59,19 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
+          {/* 1-Checker le context de connexion
+          si pas connecté: */}
           <Route exact path="/" component={ConnexionPage} />
+          {/* si connecté
+          2- checker type de user dans le context
+          si prof ou student*/}
           <Route exact path="/home" component={HomePage} />
-          <Route path='/professorform' component={ProfessorForm} />
+          {/* si prof */}
           <Route path='/profsettings' component={ProfSettings} />
+          {/* si admin */}
+          <Route path='admin/professorform' component={ProfessorForm} />
+          <Route exact path="/admin/studentform" component={StudentForm} />
           <Route exact path="/admin" component={AdminPage} />
-          <Route exact path="/admin/student" component={StudentPage} />
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

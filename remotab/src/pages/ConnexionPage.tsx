@@ -63,6 +63,11 @@ export default function ConnexionPage() {
             password: { value: string };
         };
 
+
+        //1 - envoyer un getUser
+        //2 - si user existe et que c'est le bon pseudo + pw on rempli useContext avec le user en question
+        //3 - on redirige vers la page correspondante: home/admin ou home/prof ou home/student
+
         if (target.pseudo.value === "paola") {
             history.push({
                 pathname: "/admin",
