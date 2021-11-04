@@ -4,7 +4,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleIcon from '@material-ui/icons/People';
 import MessageIcon from '@material-ui/icons/Message';
 import SettingsIcon from '@material-ui/icons/Settings';
-
+import Brightness5Icon from '@material-ui/icons/Brightness5';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
+import { Avatar } from 'ui-neumorphism';
+import defaultImage from '../assets/defaultImage.png';
 import logo from '../assets/logoRemotab.png';
 import { useHistory } from 'react-router';
 import HomeIcon from '@material-ui/icons/Home';
@@ -14,18 +17,14 @@ import { Badge } from 'ui-neumorphism';
 
 const useStyles = makeStyles(theme => ({
 
-    imageLogo: {
-        width: "150px",
-        alignSelf: "center"
-    },
+
     myUL: {
 
     },
     bodyNav: {
-        height: "80%",
-        width: "95%",
+        height: "100vh",
+        width: "100vw",
         background: theme.palette.primary.main,
-        borderRadius: "5px"
     },
     footerLogOut: {
         display: "flex",
@@ -39,7 +38,13 @@ const useStyles = makeStyles(theme => ({
         "&:hover": {
             cursor: "pointer"
         }
-    }
+    },
+    myHeaderLeftBlock: {
+        
+    },
+    myHeaderRightBlock: {
+        width: "15%",
+    },
 }))
 
 type navProto = {
@@ -55,62 +60,6 @@ type navProto = {
 
 
 export default function NavBar({ home, myClasses, messages, setting, setHome, setMyClasses, setMessages, setSetting }: navProto) {
-<<<<<<< Updated upstream
-    const classes = useStyles()
-    const history = useHistory()
-    const [homeIsActive, setHomeIsActive] = useState(true)
-    const [classIsActive, setClassIsActive] = useState(false)
-    const [messageIsActive, setMessageIsActive] = useState(false)
-    const [settingIsActive, setSettingIsActive] = useState(false)
-
-    const handleHome = () => {
-        setHome(true)
-        setMyClasses(false)
-        setMessages(false)
-        setSetting(false)
-
-        setHomeIsActive(true)
-        setClassIsActive(false)
-        setMessageIsActive(false)
-        setSettingIsActive(false)
-    }
-
-    const handleClass = () => {
-        setHome(false)
-        setMyClasses(true)
-        setMessages(false)
-        setSetting(false)
-
-        setHomeIsActive(false)
-        setClassIsActive(true)
-        setMessageIsActive(false)
-        setSettingIsActive(false)
-    }
-
-    const handleMessage = () => {
-        setHome(false)
-        setMyClasses(false)
-        setMessages(true)
-        setSetting(false)
-
-        setHomeIsActive(false)
-        setClassIsActive(false)
-        setMessageIsActive(true)
-        setSettingIsActive(false)
-    }
-
-    const handleSetting = () => {
-        setHome(false)
-        setMyClasses(false)
-        setMessages(false)
-        setSetting(true)
-
-        setHomeIsActive(false)
-        setClassIsActive(false)
-        setMessageIsActive(false)
-        setSettingIsActive(true)
-    }
-=======
     const classes = useStyles();
     const history = useHistory();
     const [homeIsActive, setHomeIsActive] = useState(true);
@@ -168,14 +117,28 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
     //     setMessageIsActive(false)
     //     setSettingIsActive(true)
     // }
->>>>>>> Stashed changes
 
     return (
         <div className="myBodyNav">
-            <div>
-                <img className={classes.imageLogo} src={logo} alt="logo" />
-            </div>
             <div className={classes.bodyNav} id="bodyNav">
+                <div className={classes.myHeaderLeftBlock}>
+                    <input
+                        type="checkbox"
+                        id="toggle-input"
+                    //checked={checked}
+                    />
+                    <label className="myLabel" htmlFor="toggle-input">
+                        <Brightness5Icon className="lu" fontSize="small" />
+                        <span className="mySpan">
+                            <svg width="10px" height="10px">
+                            </svg>
+                        </span>
+                        <Brightness3Icon fontSize="small" className="lo" />
+                    </label>
+                </div>
+                <div className={classes.myHeaderRightBlock}>
+                    <Avatar src={defaultImage} size={70} />
+                </div>
                 {/* Dynamic mapping */}
                 {/* <ul className={classes.myUL}>
                     <li onClick={handleHome} className={homeIsActive ? "active" : ""}>
@@ -196,24 +159,12 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
                         </Badge>
                         <span>Messages</span>
                     </li>
-<<<<<<< Updated upstream
                     <li onClick={handleSetting} className={settingIsActive ? "active" : ""}>
                         <SettingsIcon className="myIconNav" />
                         <span>Paramètres</span>
                     </li>
-                </ul>
-=======
-                    { 
-                        userRole === "teacher"?
-                            <li onClick={handleSetting} className={settingIsActive ? "active" : ""}>
-                                <SettingsIcon className="myIconNav" />
-                                <span>Paramètres</span>
-                            </li>
-                            :
-                            <></>
-                    }
-                </ul> */}
->>>>>>> Stashed changes
+                </ul>*/
+                }
             </div>
             <div className={classes.footerLogOut}>
                 <ExitToAppIcon className={classes.footerIcon} onClick={() => history.push("/")} />
@@ -221,5 +172,4 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
             </div>
         </div>
     )
-
 }

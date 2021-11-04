@@ -9,7 +9,7 @@ import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
 import { ToastProvider } from 'react-toast-notifications';
-import { PROF } from '../components/Queries';
+import { PROF } from '../utils/Queries';
 import shortid from 'shortid';
 
 

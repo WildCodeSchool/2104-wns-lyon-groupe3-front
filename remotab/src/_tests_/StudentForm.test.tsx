@@ -3,8 +3,8 @@ import { MockedProvider } from '@apollo/client/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import React from 'react';
 
-import StudentForm from '../pages/StudentForm'
-import {ALL_USERS} from '../components/Queries'
+import StudentForm from '../components/StudentForm'
+import {ALL_USERS} from '../utils/Queries'
 import Loading from '../components/Loading';
 
 import defaultImage from '../assets/defaultImage.png'
@@ -79,7 +79,7 @@ describe('App', () => {
             </MockedProvider>
           );
     
-          const list = await waitFor(() => screen.getByRole());
+          const list = await waitFor(() => screen.getByRole("student"));
     
           const listItems = within(list).getByRole('Card');
           expect(listItems).toHaveLength(1);

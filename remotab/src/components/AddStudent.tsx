@@ -12,7 +12,7 @@ import { useMutation } from '@apollo/client';
 import Buttons from './Buttons';
 import { useToasts } from 'react-toast-notifications';
 
-import { UPDATE_PROF, ALL_USERS, CREATE_PROF } from "./Queries";
+import { UPDATE_PROF, ALL_USERS, CREATE_PROF } from "../utils/Queries";
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {

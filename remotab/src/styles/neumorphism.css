@@ -163,12 +163,9 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    height: 95%;
+    height: 100%;
     width: 90%;
     border-radius: 10px;
-    background: #F7F7FF;
-    box-shadow: inset 10px 10px 10px #d2d2d9,
-            inset -20px -20px 20px #ffffff;
 }
 
 .myLi{

@@ -5,15 +5,10 @@ import 'ui-neumorphism/dist/index.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { makeStyles } from "@material-ui/core";
 import ProfessorForm from './components/ProfessorForm';
-<<<<<<< Updated upstream
-import HomePage from './components/HomePage';
-import Agenda from './components/Agenda';
-=======
+
 import HomePage from './pages/HomePage';
->>>>>>> Stashed changes
-import StudentPage from './pages/StudentForm';
+import StudentForm from './components/StudentForm';
 import ConnexionPage from './pages/ConnexionPage';
-import AdminPage from './pages/AdminPage';
 import ProfSettings from './components/ProfSettings';
 import { BrowserRouter as BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 

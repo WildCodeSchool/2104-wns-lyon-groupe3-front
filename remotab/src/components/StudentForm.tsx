@@ -12,7 +12,6 @@ import Loading from '../components/Loading';
 import { ToastProvider } from 'react-toast-notifications';
 
 import { ALL_STUDENT } from '../utils/Queries';
-import HeaderAdmin from '../components/HeaderAdmin';
 import { useLocation } from 'react-router-dom';
 
 
@@ -298,7 +297,6 @@ export default function StudentPage() {
 
   return (
     <div data-testid="content">
-      <HeaderAdmin name={location.state.pseudoAdmin} />
       {data &&
         <div className={classes.myBodyCard}>
           <Card className={classes.myCardPrincipal}>

@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         justifyContent: "space-evenly",
         flexWrap: "wrap",
-        width: "100%",
+        width: "100vw",
         position: "absolute",
         top: "10%",
         left: "0"

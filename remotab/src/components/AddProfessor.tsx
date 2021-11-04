@@ -8,7 +8,7 @@ import avatar from '../assets/avatar.jpg';
 import { useToasts } from 'react-toast-notifications';
 import { useMutation } from '@apollo/client';
 import Buttons from './Buttons';
-import { UPDATE_PROF, ALL_PROFS, CREATE_PROF } from "./Queries";
+import { UPDATE_PROF, ALL_PROFS, CREATE_PROF } from "../utils/Queries";
 import shortid from 'shortid';
 
 
