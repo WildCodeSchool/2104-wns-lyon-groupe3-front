@@ -59,7 +59,7 @@ export default function ConnexionPage() {
             pseudo: { value: string };
             password: { value: string };
         };
-
+        //TODO: Mettre en place système d'authentification
         if (target.pseudo.value === "paola") {
             history.push({
                 pathname: "/admin",
