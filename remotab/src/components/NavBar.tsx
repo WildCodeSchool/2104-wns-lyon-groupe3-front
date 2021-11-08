@@ -16,14 +16,11 @@ import { Badge } from 'ui-neumorphism';
 
 
 const useStyles = makeStyles(theme => ({
-
-
     myUL: {
-
     },
     bodyNav: {
         height: "100vh",
-        width: "100vw",
+        width: "30vw",
         background: theme.palette.primary.main,
     },
     footerLogOut: {
@@ -40,11 +37,24 @@ const useStyles = makeStyles(theme => ({
         }
     },
     myHeaderLeftBlock: {
-        
+        margin: "0 auto"
     },
     myHeaderRightBlock: {
         width: "15%",
+        margin: "0 auto"
     },
+    upperNav: {
+        display: "flex",
+        flexDirection: "row",
+        height: "50px",
+        position: "absolute",
+        padding: "50px",
+        alignItems: "center",
+        justifyContent: "space-between"
+    },
+    displayNone: {
+        display: "none"
+    }
 }))
 
 type navProto = {
@@ -121,23 +131,29 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
     return (
         <div className="myBodyNav">
             <div className={classes.bodyNav} id="bodyNav">
-                <div className={classes.myHeaderLeftBlock}>
-                    <input
-                        type="checkbox"
-                        id="toggle-input"
-                    //checked={checked}
-                    />
-                    <label className="myLabel" htmlFor="toggle-input">
-                        <Brightness5Icon className="lu" fontSize="small" />
-                        <span className="mySpan">
-                            <svg width="10px" height="10px">
-                            </svg>
-                        </span>
-                        <Brightness3Icon fontSize="small" className="lo" />
-                    </label>
-                </div>
-                <div className={classes.myHeaderRightBlock}>
-                    <Avatar src={defaultImage} size={70} />
+                <div className={classes.upperNav}>
+                    <div className={classes.myHeaderLeftBlock}>
+                        <Avatar src={defaultImage} size={70} />
+                        <div className={classes.displayNone}>
+                            <ExitToAppIcon className={classes.footerIcon} onClick={() => history.push("/")} />
+                            <span className={classes.footerSpan}>Se déconnecter</span>
+                        </div>
+                    </div>
+                    <div className={classes.myHeaderRightBlock}>
+                        <input
+                            type="checkbox"
+                            id="toggle-input"
+                        //checked={checked}
+                        />
+                        <label className="myLabel" htmlFor="toggle-input">
+                            <Brightness5Icon className="lu" fontSize="small" />
+                            <span className="mySpan">
+                                <svg width="10px" height="10px">
+                                </svg>
+                            </span>
+                            <Brightness3Icon fontSize="small" className="lo" />
+                        </label>
+                    </div>
                 </div>
                 {/* Dynamic mapping */}
                 {/* <ul className={classes.myUL}>
@@ -165,10 +181,6 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
                     </li>
                 </ul>*/
                 }
-            </div>
-            <div className={classes.footerLogOut}>
-                <ExitToAppIcon className={classes.footerIcon} onClick={() => history.push("/")} />
-                <span className={classes.footerSpan}>Se déconnecter</span>
             </div>
         </div>
     )

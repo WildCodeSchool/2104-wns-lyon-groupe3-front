@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
         textTransform: "none"
     },
     titleConnect: {
-        //   marginBottom: "revert"
         marginLeft: "-50px",
         fontWeight: "bold"
     },
@@ -36,8 +35,6 @@ const useStyles = makeStyles(theme => ({
         height: "68%",
         display: "flex",
         flexDirection: "column",
-        //justifyContent: "space-evenly",
-        // marginTop: "-32px"
     },
     textPasswordForget: {
         marginTop: "-25px",
@@ -97,11 +94,7 @@ export default function ConnexionPage() {
                     >
                         <img src={logo} alt="logo" className={classes.logo} />
                     </Grid>
-                    <Grid
-                        item
-                        xs={6}
-                    // className={classes.headerLogo}
-                    >
+                    <Grid item xs={6} >
                         <Box
                             display="flex"
                             flexDirection="column"
@@ -127,7 +120,6 @@ export default function ConnexionPage() {
                                     <Box
                                         display="flex"
                                         flexDirection="column"
-                                    // marginBottom={35}
                                     >
                                         <label htmlFor="pseudo" style={{ marginBottom: 10 }}>Pseudo ou email</label>
                                         <input
