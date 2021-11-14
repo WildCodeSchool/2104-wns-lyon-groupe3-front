@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
 import '../styles/theme';
 import 'ui-neumorphism/dist/index.css';
-import { makeStyles } from "@material-ui/core";
-import { ALL_PROFS } from '../utils/Queries';
-import { useQuery } from "@apollo/client";
-import { Avatar, Button } from 'ui-neumorphism';
-import CameraAltIcon from '@material-ui/icons/CameraAlt';
-import showPwdImg from '../assets/show-password.svg';
-import hidePwdImg from '../assets/hide-password.svg';
 
+import { Avatar, Button } from 'ui-neumorphism';
+import React, { useState } from 'react';
+
+import { ALL_PROFS } from '../utils/Queries';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import hidePwdImg from '../assets/hide-password.svg';
+import { makeStyles } from "@material-ui/core";
+import showPwdImg from '../assets/show-password.svg';
+import { useQuery } from "@apollo/client";
 
 const useStyles = makeStyles(theme => ({
     bigContainer: {

@@ -1,11 +1,11 @@
-import React from 'react';
-import connexionIcon from "../assets/connexionIcon.svg";
 import { Button, Grid, makeStyles } from "@material-ui/core";
-import logo from '../assets/logoRemotab.png';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { useHistory } from "react-router";
 
+import Box from '@material-ui/core/Box';
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import connexionIcon from "../assets/connexionIcon.svg";
+import logo from '../assets/logoRemotab.png';
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles(theme => ({
 

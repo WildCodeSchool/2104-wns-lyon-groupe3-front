@@ -1,14 +1,14 @@
+import '../styles/toggle.scss';
 
-import { useState } from 'react';
+import Agenda from '../components/Agenda';
+import Class from '../components/Classes';
+import Messages from '../components/Messages';
+import NavBar from '../components/NavBar';
+import ProfSettings from '../components/ProfSettings';
+import logo from '../assets/logoRemotab.png';
 import { makeStyles } from "@material-ui/core";
 import { useLocation } from 'react-router';
-import logo from '../assets/logoRemotab.png';
-import '../styles/toggle.scss';
-import NavBar from '../components/NavBar';
-import Agenda from '../components/Agenda';
-import Messages from '../components/Messages';
-import ProfSettings from '../components/ProfSettings';
-import Class from '../components/Classes';
+import { useState } from 'react';
 
 //TODO: introduire context et enlever les states
 const useStyles = makeStyles(theme => ({
@@ -84,12 +84,12 @@ const HomePage = () => {
 
                 </div>
                 {/* TODO: faire un composant pour le contenu qui change dynamiquement en fonction de l'User et du clic sur l'onglet */}
-                {/* <div className={classes.myContent}>
+                <div className={classes.myContent}>
                     {home && <Agenda />}
                     {myClasses && <Class />}
                     {messages && <Messages />}
                     {setting && <ProfSettings/>}
-                </div> */}
+                </div>
             </div>
         </div>
     )

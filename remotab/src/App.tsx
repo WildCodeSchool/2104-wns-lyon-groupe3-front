@@ -1,16 +1,20 @@
 import './App.css';
-import theme from "./styles/theme";
 import './styles/neumorphism.css';
 import 'ui-neumorphism/dist/index.css';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { makeStyles } from "@material-ui/core";
-import ProfessorForm from './components/ProfessorForm';
 
-import HomePage from './pages/HomePage';
-import StudentForm from './components/StudentForm';
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+
 import ConnexionPage from './pages/ConnexionPage';
+import HomePage from './pages/HomePage';
 import ProfSettings from './components/ProfSettings';
-import { BrowserRouter as BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import ProfessorForm from './components/ProfessorForm';
+import StudentForm from './components/StudentForm';
+import { ThemeContext } from './ThemeProvider';
+import { makeStyles } from "@material-ui/core";
+import theme from "./styles/theme";
+import { useContext } from 'react';
+
+// import { ThemeProvider } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
 
@@ -30,7 +34,6 @@ const useStyles = makeStyles(theme => ({
   myNav: {
     display: "flex",
     justifyContent: "center",
-    //marginBottom: "200px"
   },
   exitButton: {
     fontSize: "30px",
@@ -52,10 +55,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function App() {
+const App: React.FC = () => {
+
+  const { theme, toggleTheme } = useContext(ThemeContext)
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {/* <ThemeProvider theme={theme}> */}
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ConnexionPage} />
@@ -67,6 +73,8 @@ export default function App() {
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>
-    </ThemeProvider>
+      {/* </ThemeProvider> */}
+    </ThemeContext.Provider>
   );
 }
+export default App;

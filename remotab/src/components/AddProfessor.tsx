@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
 import '../styles/neumorphism.css';
-import { makeStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
-import { Button, Avatar } from 'ui-neumorphism';
+
+import { ALL_PROFS, CREATE_PROF, UPDATE_PROF } from "../utils/Queries";
+import { Avatar, Button } from 'ui-neumorphism';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles } from "@material-ui/core";
+import React, { useState } from 'react';
+
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import Buttons from './Buttons';
 import CancelIcon from '@material-ui/icons/Cancel';
 import avatar from '../assets/avatar.jpg';
-import { useToasts } from 'react-toast-notifications';
-import { useMutation } from '@apollo/client';
-import Buttons from './Buttons';
-import { UPDATE_PROF, ALL_PROFS, CREATE_PROF } from "../utils/Queries";
 import shortid from 'shortid';
-
+import { useMutation } from '@apollo/client';
+import { useToasts } from 'react-toast-notifications';
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {

@@ -1,19 +1,18 @@
-import React from 'react';
-import { makeStyles } from "@material-ui/core";
-import { Avatar, Badge, Card, Subtitle2, CardContent, H5, TextArea } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
-import AddStudent from '../components/AddStudent';
 import '../styles/neumorphism.css';
-import { Search } from '@material-ui/icons';
 
-import defaultImage from '../assets/defaultImage.png';
-import { useQuery } from '@apollo/client';
-import Loading from '../components/Loading';
-import { ToastProvider } from 'react-toast-notifications';
+import { Avatar, Badge, Card, CardContent, H5, Subtitle2 } from 'ui-neumorphism';
 
 import { ALL_STUDENT } from '../utils/Queries';
+import AddStudent from '../components/AddStudent';
+import Loading from '../components/Loading';
+import React from 'react';
+import { Search } from '@material-ui/icons';
+import { ToastProvider } from 'react-toast-notifications';
+import defaultImage from '../assets/defaultImage.png';
+import { makeStyles } from "@material-ui/core";
 import { useLocation } from 'react-router-dom';
-
+import { useQuery } from '@apollo/client';
 
 const useStyles = makeStyles(theme => ({
 

@@ -1,6 +1,7 @@
-import { makeStyles } from "@material-ui/core";
 import 'ui-neumorphism/dist/index.css';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from "@material-ui/core";
 
 type LoadingProto = {
     setDataResult: any,
@@ -18,14 +19,12 @@ const useStyles = makeStyles(theme => ({
         minHeight: "70vh",
         placeItems: "center"
     },
-
-  }))
-  
+}))
 
 export default function Loading() {
     const classes = useStyles()
     return (
-        <div data-testid="loading-message" className={classes.myBodyCard}>   
+        <div data-testid="loading-message" className={classes.myBodyCard}>
             <CircularProgress />
         </div>
     )

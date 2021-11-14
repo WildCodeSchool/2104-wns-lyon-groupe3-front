@@ -1,14 +1,17 @@
 import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css';
-import { makeStyles } from '@material-ui/core/styles';
-import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'moment/locale/fr'; 
-import events from "../../src/utils/events";
-import * as dates from '../../src/utils/dates';
+import 'moment/locale/fr';
 import "react-big-calendar/lib/css/react-big-calendar.css";
+
+import * as dates from '../../src/utils/dates';
+
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+
 import { Button } from 'ui-neumorphism';
 import GroupIcon from '@material-ui/icons/Group';
+import events from "../../src/utils/events";
+import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 interface Event {
     start: any,

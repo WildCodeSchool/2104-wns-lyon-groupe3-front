@@ -1,18 +1,16 @@
-import React from 'react';
 import '../styles/neumorphism.css';
+
+import { ALL_USERS, CREATE_PROF, UPDATE_PROF } from "../utils/Queries";
 import { Avatar, Button } from 'ui-neumorphism'
-import { makeStyles, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, } from "@material-ui/core";
-import CancelIcon from '@material-ui/icons/Cancel';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, } from "@material-ui/core";
 
-
-import defaultImage from '../assets/defaultImage.png';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import { useMutation } from '@apollo/client';
-
 import Buttons from './Buttons';
+import CancelIcon from '@material-ui/icons/Cancel';
+import React from 'react';
+import defaultImage from '../assets/defaultImage.png';
+import { useMutation } from '@apollo/client';
 import { useToasts } from 'react-toast-notifications';
-
-import { UPDATE_PROF, ALL_USERS, CREATE_PROF } from "../utils/Queries";
 
 const useStyles = makeStyles(theme => ({
     addProfForm: {
@@ -867,7 +865,6 @@ function AddStudent({
                                         </Button>
                                     </div>
                             }
-
                         </form>
                     )
                 }

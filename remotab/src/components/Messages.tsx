@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
         minHeight: "70vh",
         placeItems: "center"
     },
-
 }))
 
 export default function Messages() {

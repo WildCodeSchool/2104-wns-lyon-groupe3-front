@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { makeStyles } from "@material-ui/core";
-
-import teacherIcon from "../assets/teacherClasses.svg";
-import classesIcon from "../assets/cadreClasses.svg";
-
 import '../styles/toggle.scss';
 
-import { data } from "../utils/defaultDataClass";
 import ModalTrombinoscope from './ClassDetails';
+import classesIcon from "../assets/cadreClasses.svg";
+import { data } from "../utils/defaultDataClass";
+import { makeStyles } from "@material-ui/core";
+import teacherIcon from "../assets/teacherClasses.svg";
+import { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
 
@@ -40,7 +38,6 @@ const useStyles = makeStyles(theme => ({
         right: "10%",
         zIndex: 0,
     }
-
 }))
 
 
@@ -95,6 +92,5 @@ export default function Classes(
             }
         </div>
     )
-
 }
 

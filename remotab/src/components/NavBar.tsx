@@ -1,19 +1,22 @@
+import '../styles/toggle.scss';
+
 import React, { useState } from 'react';
-import { makeStyles } from "@material-ui/core";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PeopleIcon from '@material-ui/icons/People';
-import MessageIcon from '@material-ui/icons/Message';
-import SettingsIcon from '@material-ui/icons/Settings';
-import Brightness5Icon from '@material-ui/icons/Brightness5';
-import Brightness3Icon from '@material-ui/icons/Brightness3';
+
 import { Avatar } from 'ui-neumorphism';
+import { Badge } from 'ui-neumorphism';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Brightness5Icon from '@material-ui/icons/Brightness5';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import MessageIcon from '@material-ui/icons/Message';
+import PeopleIcon from '@material-ui/icons/People';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { ThemeContext } from '../ThemeProvider';
 import defaultImage from '../assets/defaultImage.png';
 import logo from '../assets/logoRemotab.png';
+import { makeStyles } from "@material-ui/core";
+import { useContext } from 'react';
 import { useHistory } from 'react-router';
-import HomeIcon from '@material-ui/icons/Home';
-import '../styles/toggle.scss';
-import { Badge } from 'ui-neumorphism';
-
 
 const useStyles = makeStyles(theme => ({
     myUL: {
@@ -77,6 +80,7 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
     const [messageIsActive, setMessageIsActive] = useState(false);
     const [settingIsActive, setSettingIsActive] = useState(false);
     const [userRole, setUserRole] = useState("student");
+    const { theme, toggleTheme } = useContext(ThemeContext)
 
     //TODO:
     // Une fonction dymanique qui gère l'affichage des onglets
@@ -143,7 +147,9 @@ export default function NavBar({ home, myClasses, messages, setting, setHome, se
                         <input
                             type="checkbox"
                             id="toggle-input"
-                        //checked={checked}
+                            // onClick={toggleTheme}
+                            // onChange={() => false}
+                            // checked={window.localStorage.getItem('theme') === 'light'}
                         />
                         <label className="myLabel" htmlFor="toggle-input">
                             <Brightness5Icon className="lu" fontSize="small" />

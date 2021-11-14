@@ -1,15 +1,14 @@
-import { makeStyles } from "@material-ui/core"
-import { ALL_STUDENT } from '../utils/Queries';
-import { useQuery } from '@apollo/client';
 import { Avatar, Badge } from 'ui-neumorphism';
-import Loading from './Loading';
 
+import { ALL_STUDENT } from '../utils/Queries';
+import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';
+import Loading from './Loading';
+import defaultImage from "../assets/defaultImage.png";
+import { makeStyles } from "@material-ui/core"
+import { useQuery } from '@apollo/client';
 
 //TODO: faire un écran et pas une modale. Changer la croix en flêche de retour.
 //Composant à utiliser pour les élèves aussi
-import defaultImage from "../assets/defaultImage.png";
-
-import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';
 
 const useStyles = makeStyles(theme => ({
 

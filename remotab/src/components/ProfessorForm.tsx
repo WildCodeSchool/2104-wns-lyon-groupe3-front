@@ -1,17 +1,18 @@
-import { Card, CardContent, Subtitle2, Button, Badge } from 'ui-neumorphism';
 import 'ui-neumorphism/dist/index.css';
 import '../styles/neumorphism.css';
-import { makeStyles } from '@material-ui/core/styles';
-import logo from '../assets/logoRemotab.png';
-import { ExitToApp } from '@material-ui/icons';
-import AddProfessor from '../components/AddProfessor';
-import { useQuery } from "@apollo/client";
-import React, { useState } from "react";
-import avatar from "../assets/avatar.jpg";
-import { ToastProvider } from 'react-toast-notifications';
-import { PROF } from '../utils/Queries';
-import shortid from 'shortid';
 
+import { Badge, Button, Card, CardContent, Subtitle2 } from 'ui-neumorphism';
+
+import AddProfessor from '../components/AddProfessor';
+import { ExitToApp } from '@material-ui/icons';
+import { PROF } from '../utils/Queries';
+import { ToastProvider } from 'react-toast-notifications';
+import avatar from "../assets/avatar.jpg";
+import logo from '../assets/logoRemotab.png';
+import { makeStyles } from '@material-ui/core/styles';
+import shortid from 'shortid';
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
 
 const useStyles = makeStyles(theme => ({
     page: {
